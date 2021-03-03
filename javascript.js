@@ -1,13 +1,11 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var crowRight = new Image();
-crowRight.src = "images/crowRight.png";
-//crowRight.src = "https://i.imgur.com/GtmOCyP.png";
+var CrowRight = new Image();
+CrowRight.src = "images/crowRight.png";
 
-var crowLeft = new Image();
-crowLeft.src = "images/crowLeft.png";
-//crowLeft.src = "https://i.imgur.com/26kUcd4.png";
+var CrowLeft = new Image();
+CrowLeft.src = "images/crowLeft.png";
 
 //Key event listener
 document.addEventListener("keydown", keyDownHandler, false);
@@ -168,10 +166,10 @@ function copyTouch({ identifier, pageX, pageY }) {
   return { identifier, pageX, pageY };
 }
 
-var crowX = 0.5 * canvas.width;
-var crowY = 0.5 * canvas.height;
+var CrowX = 0.5 * canvas.width;
+var CrowY = 0.5 * canvas.height;
 
-var CrowSide;
+var CrowSide = "right";
 var CrowSpeedX = 0;
 var CrowSpeedY = 0;
 
@@ -181,10 +179,10 @@ function CrowMove() {
 
   if (rightPressed) {
     CrowSpeedX = CrowSpeed;
-    CrowSide = true;
+    CrowSide = "right";
   } else if (leftPressed) {
     CrowSpeedX = -CrowSpeed;
-    CrowSide = false;
+    CrowSide = "left";
   } else {
     CrowSpeedX = 0;
   }
@@ -200,9 +198,10 @@ function CrowMove() {
   }
 }
 
+var wallsY = 40;
+var wallsX = 150;
+
 function DrawWalls() {
-  var distY = 40;
-  var distX = 150;
 
   ctx.beginPath();
 
@@ -212,34 +211,55 @@ function DrawWalls() {
   ctx.lineWidth = 3;
   ctx.lineJoin = "round";
 
-  ctx.moveTo(distX, distY);
-  ctx.lineTo(distX, canvas.height - distY);
-  ctx.lineTo(canvas.width - distX, canvas.height - distY);
-  ctx.lineTo(canvas.width - distX, distY);
-  ctx.lineTo(distX, distY);
+  ctx.moveTo(wallsX, wallsY);
+  ctx.lineTo(wallsX, canvas.height - wallsY);
+  ctx.lineTo(canvas.width - wallsX, canvas.height - wallsY);
+  ctx.lineTo(canvas.width - wallsX, wallsY);
+  ctx.lineTo(wallsX, wallsY);
 
   ctx.stroke();
 }
+console.log(canvas.height - wallsY)
 
-function CollisionWalls() { }
+function CollisionWalls() {
+  if (CrowY + CrowRight.height + CrowSpeedY <= wallsY + 6) {
+    CrowY = wallsY - CrowRight.height + 7;
+    console.log("Up");
+  } else if (CrowY + CrowRight.height + CrowSpeedY >= canvas.height - wallsY) {
+    CrowY = canvas.height - wallsY - 1 - CrowRight.height;
+    console.log("Down");
+  } else { }
+
+  if (CrowX + CrowSpeedX <= wallsX) {
+    CrowX = wallsX + 1;
+    console.log("Left");
+  } else if (CrowX + CrowRight.width + CrowSpeedX >= canvas.width - wallsX) {
+    CrowX = canvas.width - wallsX - CrowRight.width - 1;
+    console.log("Right");
+  } else { }
+
+}
 
 function CrowDraw() {
-  if (CrowSide == true) {
-    ctx.drawImage(crowRight, crowX, crowY);
+  if (CrowSide == "right") {
+    ctx.drawImage(CrowRight, CrowX, CrowY);
+  } else if (CrowSide == "left") {
+    ctx.drawImage(CrowLeft, CrowX, CrowY);
   } else {
-    ctx.drawImage(crowLeft, crowX, crowY);
+    console.log("JOPAJOPA ALERT")
   }
 }
 
 function draw() {
-  // console.log("leftPressed:" + leftPressed + ", rightPressed:" + rightPressed);
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   CrowMove();
 
-  crowX += CrowSpeedX;
-  crowY += CrowSpeedY;
+  CollisionWalls();
+
+  CrowX += CrowSpeedX;
+  CrowY += CrowSpeedY;
 
   DrawWalls();
 
