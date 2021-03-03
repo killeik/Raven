@@ -232,7 +232,7 @@ function CrowDraw() {
 }
 
 function draw() {
-  console.log("leftPressed:" + leftPressed + ", rightPressed:" + rightPressed);
+  // console.log("leftPressed:" + leftPressed + ", rightPressed:" + rightPressed);
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
