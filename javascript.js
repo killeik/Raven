@@ -175,27 +175,57 @@ var CrowSpeedY = 0;
 
 function CrowMove() {
   //right-left axis
-  var CrowSpeed = 2;
+  var CrowSpeed = 3;
 
-  if (rightPressed) {
+  // if (rightPressed) {
+  //   CrowSpeedX = CrowSpeed;
+  //   CrowSide = "right";
+  // } else if (leftPressed) {
+  //   CrowSpeedX = -CrowSpeed;
+  //   CrowSide = "left";
+  // } else {
+  //   CrowSpeedX = 0;
+  // }
+
+  // if (upPressed) {
+  //   CrowSpeedY = -CrowSpeed;
+  // } else if (downPressed) {
+  //   CrowSpeedY = CrowSpeed;
+  // } else {
+  //   CrowSpeedY = 0;
+  // }
+
+  if (rightPressed & !(upPressed || downPressed)) {
     CrowSpeedX = CrowSpeed;
     CrowSide = "right";
-  } else if (leftPressed) {
+  } else if (leftPressed & !(upPressed || downPressed)) {
     CrowSpeedX = -CrowSpeed;
     CrowSide = "left";
+  } else if (upPressed & !(leftPressed || rightPressed)) {
+    CrowSpeedY = -CrowSpeed;
+  } else if (downPressed & !(leftPressed || rightPressed)) {
+    CrowSpeedY = CrowSpeed;
+  } else if (rightPressed & upPressed & !(downPressed || leftPressed)) {
+    CrowSpeedX = 0.8 * CrowSpeed;
+    CrowSpeedY = 0.8 * -CrowSpeed;
+    CrowSide = "right";
+  } else if (rightPressed & downPressed & !(upPressed || leftPressed)) {
+    CrowSpeedX = 0.8 * CrowSpeed;
+    CrowSpeedY = 0.8 * CrowSpeed;
+    CrowSide = "right";
+  } else if (leftPressed & upPressed & !(downPressed || rightPressed)) {
+    CrowSpeedX = 0.8 * -CrowSpeed;
+    CrowSpeedY = 0.8 * -CrowSpeed;
+    CrowSide = "left";
+  } else if (leftPressed & downPressed & !(upPressed || rightPressed)) {
+    CrowSpeedX = 0.8 * -CrowSpeed;
+    CrowSpeedY = 0.8 * CrowSpeed;
+    CrowSide = "left";
   } else {
+    CrowSpeedY = 0;
     CrowSpeedX = 0;
   }
 
-  if (upPressed) {
-    CrowSpeedY = -CrowSpeed;
-    //CrowSide = true;
-  } else if (downPressed) {
-    CrowSpeedY = CrowSpeed;
-    //CrowSide = false;
-  } else {
-    CrowSpeedY = 0;
-  }
 }
 
 var wallsY = 40;
@@ -219,11 +249,10 @@ function DrawWalls() {
 
   ctx.stroke();
 }
-console.log(canvas.height - wallsY)
 
 function CollisionWalls() {
-  if (CrowY + CrowRight.height + CrowSpeedY <= wallsY + 6) {
-    CrowY = wallsY - CrowRight.height + 7;
+  if (CrowY + CrowRight.height + CrowSpeedY <= wallsY + 11) {
+    CrowY = wallsY - CrowRight.height + 12;
     console.log("Up");
   } else if (CrowY + CrowRight.height + CrowSpeedY >= canvas.height - wallsY) {
     CrowY = canvas.height - wallsY - 1 - CrowRight.height;
