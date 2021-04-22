@@ -1,12 +1,6 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var CrowRight = new Image();
-CrowRight.src = "images/crowRight.png";
-
-var CrowLeft = new Image();
-CrowLeft.src = "images/crowLeft.png";
-
 //Key event listener
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -16,29 +10,53 @@ var leftPressed = false;
 var downPressed = false;
 var upPressed = false;
 
+var rightPressedShoot = false;
+var leftPressedShoot = false;
+var downPressedShoot = false;
+var upPressedShoot = false;
+
 function keyDownHandler(e) {
-  if (e.key == "Right" || e.key == "ArrowRight" || e.key == "d") {
+  if (e.code == "KeyD") {
     rightPressed = true;
-  } else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == "a") {
+  } else if (e.code == "KeyA") {
     leftPressed = true;
-  } else if (e.key == "Up" || e.key == "ArrowUp" || e.key == "w") {
+  } else if (e.code == "KeyW") {
     upPressed = true;
-  } else if (e.key == "Down" || e.key == "ArrowDown" || e.key == "s") {
+  } else if (e.code == "KeyS") {
     downPressed = true;
+  }
+  if (e.key == "Right" || e.key == "ArrowRight") {
+    rightPressedShoot = true;
+  } else if (e.key == "Left" || e.key == "ArrowLeft") {
+    leftPressedShoot = true;
+  } else if (e.key == "Up" || e.key == "ArrowUp") {
+    upPressedShoot = true;
+  } else if (e.key == "Down" || e.key == "ArrowDown") {
+    downPressedShoot = true;
   }
 }
 
 function keyUpHandler(e) {
-  if (e.key == "Right" || e.key == "ArrowRight" || e.key == "d") {
+  if (e.code == "KeyD") {
     rightPressed = false;
-  } else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == "a") {
+  } else if (e.code == "KeyA") {
     leftPressed = false;
-  } else if (e.key == "Up" || e.key == "ArrowUp" || e.key == "w") {
+  } else if (e.code == "KeyW") {
     upPressed = false;
-  } else if (e.key == "Down" || e.key == "ArrowDown" || e.key == "s") {
+  } else if (e.code == "KeyS") {
     downPressed = false;
   }
+  if (e.key == "Right" || e.key == "ArrowRight") {
+    rightPressedShoot = false;
+  } else if (e.key == "Left" || e.key == "ArrowLeft") {
+    leftPressedShoot = false;
+  } else if (e.key == "Up" || e.key == "ArrowUp") {
+    upPressedShoot = false;
+  } else if (e.key == "Down" || e.key == "ArrowDown") {
+    downPressedShoot = false;
+  }
 }
+
 
 //touchpad support
 function startup() {
@@ -177,50 +195,40 @@ function CrowMove() {
   //right-left axis
   var CrowSpeed = 3;
 
-  // if (rightPressed) {
-  //   CrowSpeedX = CrowSpeed;
-  //   CrowSide = "right";
-  // } else if (leftPressed) {
-  //   CrowSpeedX = -CrowSpeed;
-  //   CrowSide = "left";
-  // } else {
-  //   CrowSpeedX = 0;
-  // }
+  //console.log("CrowSide =", CrowSide ,"\n rightPressed = ", rightPressed, "leftPressed = ", leftPressed, "\n upPressed = ", upPressed, "downPressed =", downPressed)
 
-  // if (upPressed) {
-  //   CrowSpeedY = -CrowSpeed;
-  // } else if (downPressed) {
-  //   CrowSpeedY = CrowSpeed;
-  // } else {
-  //   CrowSpeedY = 0;
-  // }
-
-  if (rightPressed & !(upPressed || downPressed)) {
+  if (rightPressed & !(upPressed || downPressed || leftPressed)) {
     CrowSpeedX = CrowSpeed;
+    CrowSpeedY = 0;
     CrowSide = "right";
-  } else if (leftPressed & !(upPressed || downPressed)) {
+  } else if (leftPressed & !(upPressed || downPressed || rightPressed)) {
     CrowSpeedX = -CrowSpeed;
+    CrowSpeedY = 0;
     CrowSide = "left";
-  } else if (upPressed & !(leftPressed || rightPressed)) {
+  } else if (upPressed & !(leftPressed || rightPressed || downPressed)) {
+    CrowSide = "up";
     CrowSpeedY = -CrowSpeed;
-  } else if (downPressed & !(leftPressed || rightPressed)) {
+    CrowSpeedX = 0;
+  } else if (downPressed & !(leftPressed || rightPressed || upPressed)) {
+    CrowSide = "down";
     CrowSpeedY = CrowSpeed;
+    CrowSpeedX = 0;
   } else if (rightPressed & upPressed & !(downPressed || leftPressed)) {
     CrowSpeedX = 0.8 * CrowSpeed;
     CrowSpeedY = 0.8 * -CrowSpeed;
-    CrowSide = "right";
+    CrowSide = "right-up";
   } else if (rightPressed & downPressed & !(upPressed || leftPressed)) {
     CrowSpeedX = 0.8 * CrowSpeed;
     CrowSpeedY = 0.8 * CrowSpeed;
-    CrowSide = "right";
+    CrowSide = "right-down";
   } else if (leftPressed & upPressed & !(downPressed || rightPressed)) {
     CrowSpeedX = 0.8 * -CrowSpeed;
     CrowSpeedY = 0.8 * -CrowSpeed;
-    CrowSide = "left";
+    CrowSide = "left-up";
   } else if (leftPressed & downPressed & !(upPressed || rightPressed)) {
     CrowSpeedX = 0.8 * -CrowSpeed;
     CrowSpeedY = 0.8 * CrowSpeed;
-    CrowSide = "left";
+    CrowSide = "left-down";
   } else {
     CrowSpeedY = 0;
     CrowSpeedX = 0;
@@ -234,10 +242,9 @@ var wallsX = 150;
 function DrawWalls() {
 
   ctx.beginPath();
-
-  ctx.setLineDash([9, 13]);
+  // ctx.setLineDash([9, 13]);
   ctx.lineCap = "round";
-  ctx.strokeStyle = "#CCC";
+  ctx.strokeStyle = "#AAA";
   ctx.lineWidth = 3;
   ctx.lineJoin = "round";
 
@@ -246,36 +253,116 @@ function DrawWalls() {
   ctx.lineTo(canvas.width - wallsX, canvas.height - wallsY);
   ctx.lineTo(canvas.width - wallsX, wallsY);
   ctx.lineTo(wallsX, wallsY);
-
   ctx.stroke();
 }
 
 function CollisionWalls() {
-  if (CrowY + CrowRight.height + CrowSpeedY <= wallsY + 11) {
-    CrowY = wallsY - CrowRight.height + 12;
+  if (CrowY + CrowSpeedY <= wallsY) {
+    CrowY = wallsY;
     console.log("Up");
-  } else if (CrowY + CrowRight.height + CrowSpeedY >= canvas.height - wallsY) {
-    CrowY = canvas.height - wallsY - 1 - CrowRight.height;
+  } else if (CrowY + CrowHeight + CrowSpeedY >= canvas.height - wallsY) {
+    CrowY = canvas.height - wallsY - 1 - CrowHeight;
     console.log("Down");
   } else { }
 
   if (CrowX + CrowSpeedX <= wallsX) {
     CrowX = wallsX + 1;
     console.log("Left");
-  } else if (CrowX + CrowRight.width + CrowSpeedX >= canvas.width - wallsX) {
-    CrowX = canvas.width - wallsX - CrowRight.width - 1;
+  } else if (CrowX + CrowWidth + CrowSpeedX >= canvas.width - wallsX) {
+    CrowX = canvas.width - wallsX - CrowWidth - 1;
     console.log("Right");
   } else { }
 
 }
+var CrowWidth = 20;
+var CrowHeight = 40;
 
 function CrowDraw() {
-  if (CrowSide == "right") {
-    ctx.drawImage(CrowRight, CrowX, CrowY);
-  } else if (CrowSide == "left") {
-    ctx.drawImage(CrowLeft, CrowX, CrowY);
+  ctx.beginPath();
+  ctx.lineTo(CrowX, CrowY+CrowHeight)
+  ctx.lineTo(CrowX + CrowWidth, CrowY+CrowHeight)
+  ctx.lineTo(CrowX + (CrowWidth/2), CrowY)
+  ctx.fillStyle = "#CCC";
+  ctx.fill();
+}
+
+
+function CrowShoot(){
+  var bulletDirection;
+
+    if (rightPressedShoot & !(upPressedShoot || downPressedShoot || leftPressedShoot)) {
+    bulletDirection = "right";
+  } else if (leftPressedShoot & !(upPressedShoot || downPressedShoot || rightPressedShoot)) {
+    bulletDirection = "left";
+  } else if (upPressedShoot & !(leftPressedShoot || rightPressedShoot || downPressedShoot)) {
+    bulletDirection = "up";
+  } else if (downPressedShoot & !(leftPressedShoot || rightPressedShoot || upPressedShoot)) {
+    bulletDirection = "down";
+  } else if (rightPressedShoot & upPressedShoot & !(downPressedShoot || leftPressedShoot)) {
+    bulletDirection = "right-up";
+  } else if (rightPressedShoot & downPressedShoot & !(upPressedShoot || leftPressedShoot)) {
+    bulletDirection = "right-down";
+  } else if (leftPressedShoot & upPressedShoot & !(downPressedShoot || rightPressedShoot)) {
+    bulletDirection = "left-up";
+  } else if (leftPressedShoot & downPressedShoot & !(upPressedShoot || rightPressedShoot)) {
+    bulletDirection = "left-down";
   } else {
-    console.log("JOPAJOPA ALERT")
+    bulletDirection = "";
+  }
+
+  createBullet(bulletDirection);
+  bulletLogic ();
+  //bulletDraw ();
+}
+
+  var bulletSpeed = 3; 
+  var bulletRadius = 10;
+  var bulletX = CrowX;
+  var bulletY = CrowY;
+  var bullets = [];
+
+function bulletsAdd(bulletSpeedX, bulletSpeedY) {
+ bullets.push([CrowX, CrowY, bulletSpeedX, bulletSpeedY]);
+}
+
+function createBullet(dir){
+
+  switch (dir) {
+    case "right":
+      bulletsAdd(bulletSpeed, 0)
+      break;
+    case "left":
+      bulletsAdd(-bulletSpeed, 0)
+      break;
+    case "up":
+      bulletsAdd(0, -bulletSpeed)
+      break;
+    case "down":
+      bulletsAdd(0, bulletSpeed)
+      break;
+    case "right-up":
+      bulletsAdd(bulletSpeed, -bulletSpeed)
+      break;
+    case "right-down":
+      bulletsAdd(bulletSpeed, bulletSpeed)
+      break;
+    case "left-up":
+      bulletsAdd(-bulletSpeed, -bulletSpeed)
+      break;  
+    case "left-down":
+      bulletsAdd(-bulletSpeed, bulletSpeed)
+      break;}
+}
+
+function bulletLogic (){
+  for(i=0; i < bullets.length; i++){
+    bullets[i][0]+=bullets[i][2];
+    bullets[i][1]+=bullets[i][3];
+
+    ctx.beginPath();
+    ctx.arc(bullets[i][0], bullets[i][1], bulletRadius, 0, 2 * Math.PI)
+    ctx.fillStyle = "#CCC";
+    ctx.fill();
   }
 }
 
@@ -284,6 +371,8 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   CrowMove();
+
+  CrowShoot();
 
   CollisionWalls();
 
