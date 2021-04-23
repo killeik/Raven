@@ -312,18 +312,11 @@ function CrowShoot(){
 
   createBullet(bulletDirection);
   bulletLogic ();
-  //bulletDraw ();
 }
 
-  var bulletSpeed = 3; 
-  var bulletRadius = 10;
-  var bulletX = CrowX;
-  var bulletY = CrowY;
+  var bulletSpeed = 5 ; 
+  var bulletRadius = 9;
   var bullets = [];
-
-function bulletsAdd(bulletSpeedX, bulletSpeedY) {
- bullets.push([CrowX, CrowY, bulletSpeedX, bulletSpeedY]);
-}
 
 function createBullet(dir){
 
@@ -354,8 +347,17 @@ function createBullet(dir){
       break;}
 }
 
+bulletLastTime = Date.now();
+
+function bulletsAdd(bulletSpeedX, bulletSpeedY) {
+  if(Date.now() - bulletLastTime > 300){
+    bulletLastTime = Date.now()
+     bullets.push([CrowX +(CrowWidth/2), CrowY + (CrowHeight/2), bulletSpeedX, bulletSpeedY]);
+   }
+}
+var i;
 function bulletLogic (){
-  for(i=0; i < bullets.length; i++){
+  for(i=0 ; i < bullets.length; i++){
     bullets[i][0]+=bullets[i][2];
     bullets[i][1]+=bullets[i][3];
 
@@ -363,6 +365,17 @@ function bulletLogic (){
     ctx.arc(bullets[i][0], bullets[i][1], bulletRadius, 0, 2 * Math.PI)
     ctx.fillStyle = "#CCC";
     ctx.fill();
+
+    if(CrowY + CrowSpeedY <= wallsY) {
+  }else if (CrowY + CrowHeight + CrowSpeedY >= canvas.height - wallsY) {
+
+  }else if (CrowX + CrowSpeedX <= wallsX) {
+  }else if (CrowX + CrowWidth + CrowSpeedX >= canvas.width - wallsX) {
+  }
+    if (bullets[i][0] + bulletRadius >= canvas.width - wallsX || bullets[i][0] - bulletRadius<= wallsX ||
+    bullets[i][1] + bulletRadius >= canvas.height - wallsY || bullets[i][1]  - bulletRadius<= wallsY){
+      bullets.splice(i, 1);
+    }
   }
 }
 
