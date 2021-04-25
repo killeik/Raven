@@ -57,7 +57,6 @@ function keyUpHandler(e) {
   }
 }
 
-
 //touchpad support
 function startup() {
   canvas.addEventListener("touchstart", handleStart, false);
@@ -195,8 +194,7 @@ function CrowMove() {
   //right-left axis
   var CrowSpeed = 3;
 
-  //console.log("CrowSide =", CrowSide ,"\n rightPressed = ", rightPressed, "leftPressed = ", leftPressed, "\n upPressed = ", upPressed, "downPressed =", downPressed)
-
+  
   if (rightPressed & !(upPressed || downPressed || leftPressed)) {
     CrowSpeedX = CrowSpeed;
     CrowSpeedY = 0;
@@ -355,28 +353,53 @@ function bulletsAdd(bulletSpeedX, bulletSpeedY) {
      bullets.push([CrowX +(CrowWidth/2), CrowY + (CrowHeight/2), bulletSpeedX, bulletSpeedY]);
    }
 }
-var i;
+
 function bulletLogic (){
   for(i=0 ; i < bullets.length; i++){
     bullets[i][0]+=bullets[i][2];
     bullets[i][1]+=bullets[i][3];
 
+
+    if (bullets[i][0] + bulletRadius >= canvas.width - wallsX || bullets[i][0] - bulletRadius<= wallsX ||
+    bullets[i][1] + bulletRadius >= canvas.height - wallsY || bullets[i][1]  - bulletRadius<= wallsY){
+      bullets.splice(i, 1);
+    }else{
     ctx.beginPath();
     ctx.arc(bullets[i][0], bullets[i][1], bulletRadius, 0, 2 * Math.PI)
     ctx.fillStyle = "#CCC";
     ctx.fill();
-
-    if(CrowY + CrowSpeedY <= wallsY) {
-  }else if (CrowY + CrowHeight + CrowSpeedY >= canvas.height - wallsY) {
-
-  }else if (CrowX + CrowSpeedX <= wallsX) {
-  }else if (CrowX + CrowWidth + CrowSpeedX >= canvas.width - wallsX) {
-  }
-    if (bullets[i][0] + bulletRadius >= canvas.width - wallsX || bullets[i][0] - bulletRadius<= wallsX ||
-    bullets[i][1] + bulletRadius >= canvas.height - wallsY || bullets[i][1]  - bulletRadius<= wallsY){
-      bullets.splice(i, 1);
     }
   }
+}
+
+var enemies = [
+[200, 100, 3],
+[600, 400, 3],
+[200, 300, 3],
+[700, 100, 3],
+[1000, 600, 3]
+];
+var enemiesHeight = 40;
+var enemiesWidth = 20;
+
+var enemiesX = 200;
+var enemiesY = 100;
+
+function enemiesLogic(){
+  for(i=0 ; i < enemies.length; i++){
+    ctx.beginPath();
+    ctx.moveTo(enemies[i][0], enemies[i][1]+(enemiesHeight/2));
+    ctx.lineTo(enemies[i][0] + (enemiesWidth/2), enemies[i][1]);
+    ctx.lineTo(enemies[i][0] + enemiesWidth, enemies[i][1] + (enemiesHeight/2));
+    ctx.lineTo(enemies[i][0] +(enemiesWidth/2), enemies[i][1] + enemiesHeight);
+    ctx.closePath();
+    ctx.fillStyle = "#CCC";
+    ctx.fill();
+  }
+}
+
+function enemiesDraw(){
+ 
 }
 
 function draw() {
@@ -387,10 +410,13 @@ function draw() {
 
   CrowShoot();
 
+  enemiesLogic();
+
   CollisionWalls();
 
   CrowX += CrowSpeedX;
   CrowY += CrowSpeedY;
+
 
   DrawWalls();
 
