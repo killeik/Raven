@@ -1,10 +1,6 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-//Key event listener
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-
 var rightPressed = false;
 var leftPressed = false;
 var downPressed = false;
@@ -15,221 +11,110 @@ var leftPressedShoot = false;
 var downPressedShoot = false;
 var upPressedShoot = false;
 
-function keyDownHandler(e) {
-  if (e.code == "KeyD") {
-    rightPressed = true;
-  } else if (e.code == "KeyA") {
-    leftPressed = true;
-  } else if (e.code == "KeyW") {
-    upPressed = true;
-  } else if (e.code == "KeyS") {
-    downPressed = true;
+class Coordinates{
+  constructor(cordX, cordY){
+    this.x = cordX;
+    this.y = cordY;
   }
-  if (e.key == "Right" || e.key == "ArrowRight") {
-    rightPressedShoot = true;
-  } else if (e.key == "Left" || e.key == "ArrowLeft") {
-    leftPressedShoot = true;
-  } else if (e.key == "Up" || e.key == "ArrowUp") {
-    upPressedShoot = true;
-  } else if (e.key == "Down" || e.key == "ArrowDown") {
-    downPressedShoot = true;
+}
+
+
+class Crow{
+  constructor(cwidth, cheight){
+    this.width = 20;
+    this.height = 40;
+    let crowX = 0.5 * cwidth;
+    let crowY = 0.5 * cheight;
+
+    // Coordinates to drow from
+    this.pos = new Coordinates(crowX,crowY);
+    // Midle Coordinates of figure
+    this.posm = new Coordinates(crowX + 0.5*this.width, crowY + 0.5*this.height)
+
+    this.side = "right";
+    this.speedx = 0;
+    this.speedy = 0;
+  }
+}
+var crow = new Crow(canvas.width, canvas.height);
+
+document.addEventListener("DOMContentLoaded", startup);
+
+function startup() {
+  document.addEventListener("keydown", keyDownHandler, false);
+  document.addEventListener("keyup", keyUpHandler, false);
+  draw();
+}
+
+function keyDownHandler(e) {
+  switch (e.code) {
+    case "KeyD": rightPressed = true; break;
+    case "KeyA": leftPressed = true;  break;
+    case "KeyW": upPressed = true;    break;
+    case "KeyS": downPressed = true;  break;
+    case "Right": case "ArrowRight": rightPressedShoot = true; break;
+    case "Left":  case "ArrowLeft":  leftPressedShoot = true;  break;
+    case "Up":    case "ArrowUp":    upPressedShoot = true;    break;
+    case "Down":  case "ArrowDown":  downPressedShoot = true;  break;
   }
 }
 
 function keyUpHandler(e) {
-  if (e.code == "KeyD") {
-    rightPressed = false;
-  } else if (e.code == "KeyA") {
-    leftPressed = false;
-  } else if (e.code == "KeyW") {
-    upPressed = false;
-  } else if (e.code == "KeyS") {
-    downPressed = false;
-  }
-  if (e.key == "Right" || e.key == "ArrowRight") {
-    rightPressedShoot = false;
-  } else if (e.key == "Left" || e.key == "ArrowLeft") {
-    leftPressedShoot = false;
-  } else if (e.key == "Up" || e.key == "ArrowUp") {
-    upPressedShoot = false;
-  } else if (e.key == "Down" || e.key == "ArrowDown") {
-    downPressedShoot = false;
+  switch (e.code) {
+    case "KeyD": rightPressed = false; break;
+    case "KeyA": leftPressed = false;  break;
+    case "KeyW": upPressed = false;    break;
+    case "KeyS": downPressed = false;  break;
+    case "Right": case "ArrowRight": rightPressedShoot = false; break;
+    case "Left":  case "ArrowLeft":  leftPressedShoot = false;  break;
+    case "Up":    case "ArrowUp":    upPressedShoot = false;    break;
+    case "Down":  case "ArrowDown":  downPressedShoot = false;  break;
   }
 }
 
-//touchpad support
-function startup() {
-  canvas.addEventListener("touchstart", handleStart, false);
-  canvas.addEventListener("touchend", handleEnd, false);
-  canvas.addEventListener("touchcancel", handleCancel, false);
-  canvas.addEventListener("touchmove", handleMove, false);
-}
 
-document.addEventListener("DOMContentLoaded", startup);
 
-var ongoingTouches = [];
 
-function handleStart(evt) {
-  evt.preventDefault();
-  var touches = evt.changedTouches;
-  if (touches[i].pageX < canvas.width * 0.4) {
-    leftPressed = true;
-    rightPressed = false;
-  } else if (touches[i].pageX > canvas.width * 0.6) {
-    rightPressed = true;
-    leftPressed = false;
-  } else {
-    rightPressed = false;
-    leftPressed = false;
-  }
-
-  if (touches[i].pageY < canvas.height * 0.4) {
-    upPressed = true;
-    downPressed = false;
-  } else if (touches[i].pageY > canvas.height * 0.6) {
-    upPressed = false;
-    downPressed = true;
-  } else {
-    upPressed = false;
-    downPressed = false;
-  }
-  for (var i = 0; i < touches.length; i++) {
-    // console.log("touchstart:" + i + ',' + touches[i].pageX + ','  +touches[i].pageY);
-
-    ongoingTouches.push(copyTouch(touches[i]));
-  }
-}
-
-function handleMove(evt) {
-  evt.preventDefault();
-  var touches = evt.changedTouches;
-
-  for (var i = 0; i < touches.length; i++) {
-    var idx = ongoingTouchIndexById(touches[i].identifier);
-    if (touches[i].pageX < canvas.width * 0.3) {
-      leftPressed = true;
-      rightPressed = false;
-    } else if (touches[i].pageX > canvas.width * 0.7) {
-      rightPressed = true;
-      leftPressed = false;
-    } else {
-      rightPressed = false;
-      leftPressed = false;
-    }
-
-    if (touches[i].pageY < canvas.height * 0.3) {
-      upPressed = true;
-      downPressed = false;
-    } else if (touches[i].pageY > canvas.height * 0.7) {
-      upPressed = false;
-      downPressed = true;
-    } else {
-      upPressed = false;
-      downPressed = false;
-    }
-    if (idx >= 0) {
-      // console.log("continuing touch "+ idx + ',' + touches[i].pageX + ','  +touches[i].pageY);
-      ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
-    } else {
-      console.log("can't figure out which touch to continue");
-    }
-  }
-}
-
-function handleEnd(evt) {
-  evt.preventDefault();
-  var touches = evt.changedTouches;
-
-  for (var i = 0; i < touches.length; i++) {
-    var idx = ongoingTouchIndexById(touches[i].identifier);
-    rightPressed = false;
-    leftPressed = false;
-    upPressed = false;
-    downPressed = false;
-    if (idx >= 0) {
-      // console.log('touchend:'+i + ',' + touches[i].pageX + ','  +touches[i].pageY)
-    } else {
-      console.log("can't figure out which touch to end");
-    }
-  }
-}
-
-function handleCancel(evt) {
-  evt.preventDefault();
-  // console.log("touchcancel.");
-  var touches = evt.changedTouches;
-  rightPressed = false;
-  leftPressed = false;
-  upPressed = false;
-  downPressed = false;
-  for (var i = 0; i < touches.length; i++) {
-    var idx = ongoingTouchIndexById(touches[i].identifier);
-    ongoingTouches.splice(idx, 1); // remove it; we're done
-  }
-}
-
-function ongoingTouchIndexById(idToFind) {
-  for (var i = 0; i < ongoingTouches.length; i++) {
-    var id = ongoingTouches[i].identifier;
-
-    if (id == idToFind) {
-      return i;
-    }
-  }
-  return -1; // not found
-}
-
-function copyTouch({ identifier, pageX, pageY }) {
-  return { identifier, pageX, pageY };
-}
-
-var CrowX = 0.5 * canvas.width;
-var CrowY = 0.5 * canvas.height;
-
-var CrowSide = "right";
-var CrowSpeedX = 0;
-var CrowSpeedY = 0;
-
-function CrowMove() {
+function crowMove() {
   //right-left axis
-  var CrowSpeed = 3;
+  var crowSpeed = 3;
+  var fixCoeff = 0.8;
 
-  
   if (rightPressed & !(upPressed || downPressed || leftPressed)) {
-    CrowSpeedX = CrowSpeed;
-    CrowSpeedY = 0;
-    CrowSide = "right";
+    crow.speedx = crowSpeed;
+    crow.speedy = 0;
+    crow.side = "right";
   } else if (leftPressed & !(upPressed || downPressed || rightPressed)) {
-    CrowSpeedX = -CrowSpeed;
-    CrowSpeedY = 0;
-    CrowSide = "left";
+    crow.speedx = -crowSpeed;
+    crow.speedy = 0;
+    crow.side = "left";
   } else if (upPressed & !(leftPressed || rightPressed || downPressed)) {
-    CrowSide = "up";
-    CrowSpeedY = -CrowSpeed;
-    CrowSpeedX = 0;
+    crow.side = "up";
+    crow.speedy = -crowSpeed;
+    crow.speedx = 0;
   } else if (downPressed & !(leftPressed || rightPressed || upPressed)) {
-    CrowSide = "down";
-    CrowSpeedY = CrowSpeed;
-    CrowSpeedX = 0;
+    crow.side = "down";
+    crow.speedy = crowSpeed;
+    crow.speedx = 0;
   } else if (rightPressed & upPressed & !(downPressed || leftPressed)) {
-    CrowSpeedX = 0.8 * CrowSpeed;
-    CrowSpeedY = 0.8 * -CrowSpeed;
-    CrowSide = "right-up";
+    crow.speedx = fixCoeff * crowSpeed;
+    crow.speedy = fixCoeff * -crowSpeed;
+    crow.side = "right-up";
   } else if (rightPressed & downPressed & !(upPressed || leftPressed)) {
-    CrowSpeedX = 0.8 * CrowSpeed;
-    CrowSpeedY = 0.8 * CrowSpeed;
-    CrowSide = "right-down";
+    crow.speedx = fixCoeff * crowSpeed;
+    crow.speedy = fixCoeff * crowSpeed;
+    crow.side = "right-down";
   } else if (leftPressed & upPressed & !(downPressed || rightPressed)) {
-    CrowSpeedX = 0.8 * -CrowSpeed;
-    CrowSpeedY = 0.8 * -CrowSpeed;
-    CrowSide = "left-up";
+    crow.speedx = fixCoeff * -crowSpeed;
+    crow.speedy = fixCoeff * -crowSpeed;
+    crow.side = "left-up";
   } else if (leftPressed & downPressed & !(upPressed || rightPressed)) {
-    CrowSpeedX = 0.8 * -CrowSpeed;
-    CrowSpeedY = 0.8 * CrowSpeed;
-    CrowSide = "left-down";
+    crow.speedx = fixCoeff * -crowSpeed;
+    crow.speedy = fixCoeff * crowSpeed;
+    crow.side = "left-down";
   } else {
-    CrowSpeedY = 0;
-    CrowSpeedX = 0;
+    crow.speedy = 0;
+    crow.speedx = 0;
   }
 
 }
@@ -237,7 +122,7 @@ function CrowMove() {
 var wallsY = 40;
 var wallsX = 150;
 
-function DrawWalls() {
+function drawWalls() {
 
   ctx.beginPath();
   // ctx.setLineDash([9, 13]);
@@ -254,38 +139,37 @@ function DrawWalls() {
   ctx.stroke();
 }
 
-function CollisionWalls() {
-  if (CrowY + CrowSpeedY <= wallsY) {
-    CrowY = wallsY;
+function collisionWalls() {
+  if (crow.pos.y + crow.speedy <= wallsY) {
+    crow.pos.y = wallsY;
     console.log("Up");
-  } else if (CrowY + CrowHeight + CrowSpeedY >= canvas.height - wallsY) {
-    CrowY = canvas.height - wallsY - 1 - CrowHeight;
+  } else if (crow.pos.y + crow.height + crow.speedy >= canvas.height - wallsY) {
+    crow.pos.y = canvas.height - wallsY - 1 - crow.height;
     console.log("Down");
   } else { }
 
-  if (CrowX + CrowSpeedX <= wallsX) {
-    CrowX = wallsX + 1;
+  if (crow.pos.x + crow.speedx <= wallsX) {
+    crow.pos.x = wallsX + 1;
     console.log("Left");
-  } else if (CrowX + CrowWidth + CrowSpeedX >= canvas.width - wallsX) {
-    CrowX = canvas.width - wallsX - CrowWidth - 1;
+  } else if (crow.pos.x + crow.width + crow.speedx >= canvas.width - wallsX) {
+    crow.pos.x = canvas.width - wallsX - crow.width - 1;
     console.log("Right");
   } else { }
 
 }
-var CrowWidth = 20;
-var CrowHeight = 40;
 
-function CrowDraw() {
+
+function crowDraw() {
   ctx.beginPath();
-  ctx.lineTo(CrowX, CrowY+CrowHeight)
-  ctx.lineTo(CrowX + CrowWidth, CrowY+CrowHeight)
-  ctx.lineTo(CrowX + (CrowWidth/2), CrowY)
+  ctx.lineTo(crow.pos.x, crow.pos.y+crow.height)
+  ctx.lineTo(crow.pos.x + crow.width, crow.pos.y+crow.height)
+  ctx.lineTo(crow.posm.x, crow.pos.y)
   ctx.fillStyle = "#CCC";
   ctx.fill();
 }
 
 
-function CrowShoot(){
+function crowShoot(){
   var bulletDirection;
 
     if (rightPressedShoot & !(upPressedShoot || downPressedShoot || leftPressedShoot)) {
@@ -312,7 +196,7 @@ function CrowShoot(){
   bulletLogic ();
 }
 
-  var bulletSpeed = 5 ; 
+  var bulletSpeed = 5 ;
   var bulletRadius = 9;
   var bullets = [];
 
@@ -339,7 +223,7 @@ function createBullet(dir){
       break;
     case "left-up":
       bulletsAdd(-bulletSpeed, -bulletSpeed)
-      break;  
+      break;
     case "left-down":
       bulletsAdd(-bulletSpeed, bulletSpeed)
       break;}
@@ -350,7 +234,7 @@ bulletLastTime = Date.now();
 function bulletsAdd(bulletSpeedX, bulletSpeedY) {
   if(Date.now() - bulletLastTime > 300){
     bulletLastTime = Date.now()
-     bullets.push([CrowX +(CrowWidth/2), CrowY + (CrowHeight/2), bulletSpeedX, bulletSpeedY]);
+     bullets.push([crow.posm.x, crow.posm.y, bulletSpeedX, bulletSpeedY]);
    }
 }
 
@@ -372,23 +256,24 @@ function bulletLogic (){
   }
 }
 
-var enemies = [
-[200, 100, 3],
-[600, 400, 3],
-[200, 300, 3],
-[700, 100, 3],
-[1000, 600, 3]
-];
-var enemiesHeight = 40;
-var enemiesWidth = 20;
 
-var enemiesX = 200;
-var enemiesY = 100;
+function enemiesDraw(){
+  var enemies = [
+    [200, 100, 3],
+    [600, 400, 3],
+    [200, 300, 3],
+    [700, 100, 3],
+    [1000, 600, 3]
+  ];
+  var enemiesHeight = 40;
+  var enemiesWidth = 20;
 
-function enemiesLogic(){
+  var enemiesX = 200;
+  var enemiesY = 100;
+
   for(i=0 ; i < enemies.length; i++){
     ctx.beginPath();
-    ctx.moveTo(enemies[i][0], enemies[i][1]+(enemiesHeight/2));
+    ctx.moveTo(enemies[i][0], enemies[i][1]+ (enemiesHeight/2));
     ctx.lineTo(enemies[i][0] + (enemiesWidth/2), enemies[i][1]);
     ctx.lineTo(enemies[i][0] + enemiesWidth, enemies[i][1] + (enemiesHeight/2));
     ctx.lineTo(enemies[i][0] +(enemiesWidth/2), enemies[i][1] + enemiesHeight);
@@ -398,33 +283,28 @@ function enemiesLogic(){
   }
 }
 
-function enemiesDraw(){
- 
-}
 
 function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  enemiesDraw();
 
-  CrowMove();
+  crowMove();
 
-  CrowShoot();
+  crowShoot();
 
-  enemiesLogic();
+  collisionWalls();
 
-  CollisionWalls();
+  crow.pos.x += crow.speedx;
+  crow.posm.x += crow.speedx;
+  crow.pos.y += crow.speedy;
+  crow.posm.y += crow.speedy;
 
-  CrowX += CrowSpeedX;
-  CrowY += CrowSpeedY;
+  drawWalls();
 
-
-  DrawWalls();
-
-  CrowDraw();
+  crowDraw();
 
   requestAnimationFrame(draw);
 }
-
-draw();
 
 // var interval= setInterval(draw, 100)
