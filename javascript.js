@@ -11,32 +11,22 @@ var leftPressedShoot = false;
 var downPressedShoot = false;
 var upPressedShoot = false;
 
-class Coordinates{
-  constructor(cordX, cordY){
-    this.x = cordX;
-    this.y = cordY;
-  }
-}
-
 
 class Crow{
-  constructor(cwidth, cheight){
+  constructor(){
     this.width = 20;
     this.height = 40;
-    let crowX = 0.5 * cwidth;
-    let crowY = 0.5 * cheight;
 
     // Coordinates to drow from
-    this.pos = new Coordinates(crowX,crowY);
-    // Midle Coordinates of figure
-    this.posm = new Coordinates(crowX + 0.5*this.width, crowY + 0.5*this.height)
+    this.x = 0.5 * canvas.width;
+    this.y = 0.5 * canvas.height;
 
     this.side = "right";
     this.speedx = 0;
     this.speedy = 0;
   }
 }
-var crow = new Crow(canvas.width, canvas.height);
+var crow = new Crow();
 
 document.addEventListener("DOMContentLoaded", startup);
 
@@ -140,19 +130,19 @@ function drawWalls() {
 }
 
 function collisionWalls() {
-  if (crow.pos.y + crow.speedy <= wallsY) {
-    crow.pos.y = wallsY;
+  if (crow.y + crow.speedy <= wallsY) {
+    crow.y = wallsY;
     console.log("Up");
-  } else if (crow.pos.y + crow.height + crow.speedy >= canvas.height - wallsY) {
-    crow.pos.y = canvas.height - wallsY - 1 - crow.height;
+  } else if (crow.y + crow.height + crow.speedy >= canvas.height - wallsY) {
+    crow.y = canvas.height - wallsY - 1 - crow.height;
     console.log("Down");
   } else { }
 
-  if (crow.pos.x + crow.speedx <= wallsX) {
-    crow.pos.x = wallsX + 1;
+  if (crow.x + crow.speedx <= wallsX) {
+    crow.x = wallsX + 1;
     console.log("Left");
-  } else if (crow.pos.x + crow.width + crow.speedx >= canvas.width - wallsX) {
-    crow.pos.x = canvas.width - wallsX - crow.width - 1;
+  } else if (crow.x + crow.width + crow.speedx >= canvas.width - wallsX) {
+    crow.x = canvas.width - wallsX - crow.width - 1;
     console.log("Right");
   } else { }
 
@@ -161,122 +151,118 @@ function collisionWalls() {
 
 function crowDraw() {
   ctx.beginPath();
-  ctx.lineTo(crow.pos.x, crow.pos.y+crow.height)
-  ctx.lineTo(crow.pos.x + crow.width, crow.pos.y+crow.height)
-  ctx.lineTo(crow.posm.x, crow.pos.y)
+  ctx.lineTo(crow.x, crow.y+crow.height)
+  ctx.lineTo(crow.x + crow.width, crow.y+crow.height)
+  ctx.lineTo(crow.x + 0.5*crow.width, crow.y)
   ctx.fillStyle = "#CCC";
   ctx.fill();
 }
 
 
 function crowShoot(){
-  var bulletDirection;
+  // var bulletDirection;
 
     if (rightPressedShoot & !(upPressedShoot || downPressedShoot || leftPressedShoot)) {
-    bulletDirection = "right";
+    // bulletDirection = "right";
+    bulletsAdd(bulletSpeed, 0);
   } else if (leftPressedShoot & !(upPressedShoot || downPressedShoot || rightPressedShoot)) {
-    bulletDirection = "left";
+    // bulletDirection = "left";
+    bulletsAdd(-bulletSpeed, 0);
   } else if (upPressedShoot & !(leftPressedShoot || rightPressedShoot || downPressedShoot)) {
-    bulletDirection = "up";
+    // bulletDirection = "up";
+    bulletsAdd(0, -bulletSpeed);
   } else if (downPressedShoot & !(leftPressedShoot || rightPressedShoot || upPressedShoot)) {
-    bulletDirection = "down";
+    // bulletDirection = "down";
+    bulletsAdd(0, bulletSpeed);
   } else if (rightPressedShoot & upPressedShoot & !(downPressedShoot || leftPressedShoot)) {
-    bulletDirection = "right-up";
+    // bulletDirection = "right-up";
+    bulletsAdd(bulletSpeed, -bulletSpeed);
   } else if (rightPressedShoot & downPressedShoot & !(upPressedShoot || leftPressedShoot)) {
-    bulletDirection = "right-down";
+    // bulletDirection = "right-down";
+    bulletsAdd(bulletSpeed, bulletSpeed);
   } else if (leftPressedShoot & upPressedShoot & !(downPressedShoot || rightPressedShoot)) {
-    bulletDirection = "left-up";
+    // bulletDirection = "left-up";
+    bulletsAdd(-bulletSpeed, -bulletSpeed);
   } else if (leftPressedShoot & downPressedShoot & !(upPressedShoot || rightPressedShoot)) {
-    bulletDirection = "left-down";
-  } else {
-    bulletDirection = "";
+    // bulletDirection = "left-down";
+    bulletsAdd(-bulletSpeed, bulletSpeed);
   }
-
-  createBullet(bulletDirection);
-  bulletLogic ();
+  bulletLogic();
 }
+class Bullet{
+  constructor(bulletx, bullety, speedx, speedy){
+    this.x = bulletx;
+    this.y = bullety;
+    this.speedx = speedx;
+    this.speedy = speedy;
+    this.radius = 9;
 
-  var bulletSpeed = 5 ;
-  var bulletRadius = 9;
+  }
+}
+  var bulletSpeed = 5;
   var bullets = [];
 
-function createBullet(dir){
 
-  switch (dir) {
-    case "right":
-      bulletsAdd(bulletSpeed, 0)
-      break;
-    case "left":
-      bulletsAdd(-bulletSpeed, 0)
-      break;
-    case "up":
-      bulletsAdd(0, -bulletSpeed)
-      break;
-    case "down":
-      bulletsAdd(0, bulletSpeed)
-      break;
-    case "right-up":
-      bulletsAdd(bulletSpeed, -bulletSpeed)
-      break;
-    case "right-down":
-      bulletsAdd(bulletSpeed, bulletSpeed)
-      break;
-    case "left-up":
-      bulletsAdd(-bulletSpeed, -bulletSpeed)
-      break;
-    case "left-down":
-      bulletsAdd(-bulletSpeed, bulletSpeed)
-      break;}
-}
-
-bulletLastTime = Date.now();
+var bulletLastTime = Date.now();
+var bulletCooldown = 300;
 
 function bulletsAdd(bulletSpeedX, bulletSpeedY) {
-  if(Date.now() - bulletLastTime > 300){
+  if(Date.now() - bulletLastTime > bulletCooldown){
     bulletLastTime = Date.now()
-     bullets.push([crow.posm.x, crow.posm.y, bulletSpeedX, bulletSpeedY]);
+     bullets.push(new Bullet(crow.x + 0.5*crow.width, crow.y + 0.5*crow.height, bulletSpeedX, bulletSpeedY));
    }
 }
 
 function bulletLogic (){
   for(i=0 ; i < bullets.length; i++){
-    bullets[i][0]+=bullets[i][2];
-    bullets[i][1]+=bullets[i][3];
+    bullets[i].x+=bullets[i].speedx;
+    bullets[i].y+=bullets[i].speedy;
 
-
-    if (bullets[i][0] + bulletRadius >= canvas.width - wallsX || bullets[i][0] - bulletRadius<= wallsX ||
-    bullets[i][1] + bulletRadius >= canvas.height - wallsY || bullets[i][1]  - bulletRadius<= wallsY){
+    if (bullets[i].x + bullets[i].radius>= canvas.width - wallsX || bullets[i].x - bullets[i].radius<= wallsX ||
+    bullets[i].y + bullets[i].radius >= canvas.height - wallsY || bullets[i].y  - bullets[i].radius<= wallsY){
       bullets.splice(i, 1);
     }else{
     ctx.beginPath();
-    ctx.arc(bullets[i][0], bullets[i][1], bulletRadius, 0, 2 * Math.PI)
+    ctx.arc(bullets[i].x, bullets[i].y, bullets[i].radius, 0, 2 * Math.PI)
     ctx.fillStyle = "#CCC";
     ctx.fill();
     }
   }
 }
 
+class Enemy{
+  constructor(x,y){
+    this.x = x;
+    this.y = y;
+    this.height = 40;
+    this.width = 20;
 
+  }
+}
+
+var enemies = [];
+var enemiesMax = 5;
+
+function enemiesCreate(){
+  if (enemies.length < enemiesMax){
+     enemyX = getRandomArbitrary(wallsX, canvas.width - wallsX);
+     enemyY = getRandomArbitrary(wallsY, canvas.height - wallsY);
+    enemies.push(new Enemy(enemyX, enemyY));
+  }
+};
+
+function getRandomArbitrary(min, max) {
+  return Math.round (Math.random() * (max - min) + min);
+}
+
+console.log(enemies);
 function enemiesDraw(){
-  var enemies = [
-    [200, 100, 3],
-    [600, 400, 3],
-    [200, 300, 3],
-    [700, 100, 3],
-    [1000, 600, 3]
-  ];
-  var enemiesHeight = 40;
-  var enemiesWidth = 20;
-
-  var enemiesX = 200;
-  var enemiesY = 100;
-
   for(i=0 ; i < enemies.length; i++){
     ctx.beginPath();
-    ctx.moveTo(enemies[i][0], enemies[i][1]+ (enemiesHeight/2));
-    ctx.lineTo(enemies[i][0] + (enemiesWidth/2), enemies[i][1]);
-    ctx.lineTo(enemies[i][0] + enemiesWidth, enemies[i][1] + (enemiesHeight/2));
-    ctx.lineTo(enemies[i][0] +(enemiesWidth/2), enemies[i][1] + enemiesHeight);
+    ctx.moveTo(enemies[i].x, enemies[i].y+ (enemies[i].height/2));
+    ctx.lineTo(enemies[i].x + (enemies[i].width/2), enemies[i].y);
+    ctx.lineTo(enemies[i].x + enemies[i].width, enemies[i].y + (enemies[i].height/2));
+    ctx.lineTo(enemies[i].x +(enemies[i].width/2), enemies[i].y + enemies[i].height);
     ctx.closePath();
     ctx.fillStyle = "#CCC";
     ctx.fill();
@@ -287,6 +273,9 @@ function enemiesDraw(){
 function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  enemiesCreate();
+
   enemiesDraw();
 
   crowMove();
@@ -295,10 +284,8 @@ function draw() {
 
   collisionWalls();
 
-  crow.pos.x += crow.speedx;
-  crow.posm.x += crow.speedx;
-  crow.pos.y += crow.speedy;
-  crow.posm.y += crow.speedy;
+  crow.x += crow.speedx;
+  crow.y += crow.speedy;
 
   drawWalls();
 
