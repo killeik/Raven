@@ -67,8 +67,7 @@ function keyUpHandler(e) {
 
 function crowMove() {
   //right-left axis
-  var crowSpeed = 3;
-  var fixCoeff = 0.8;
+  var crowSpeed = 2.4;
 
   if (rightPressed & !(upPressed || downPressed || leftPressed)) {
     crow.speedx = crowSpeed;
@@ -87,20 +86,20 @@ function crowMove() {
     crow.speedy = crowSpeed;
     crow.speedx = 0;
   } else if (rightPressed & upPressed & !(downPressed || leftPressed)) {
-    crow.speedx = fixCoeff * crowSpeed;
-    crow.speedy = fixCoeff * -crowSpeed;
+    crow.speedx =  crowSpeed;
+    crow.speedy =  -crowSpeed;
     crow.side = "right-up";
   } else if (rightPressed & downPressed & !(upPressed || leftPressed)) {
-    crow.speedx = fixCoeff * crowSpeed;
-    crow.speedy = fixCoeff * crowSpeed;
+    crow.speedx =  crowSpeed;
+    crow.speedy =  crowSpeed;
     crow.side = "right-down";
   } else if (leftPressed & upPressed & !(downPressed || rightPressed)) {
-    crow.speedx = fixCoeff * -crowSpeed;
-    crow.speedy = fixCoeff * -crowSpeed;
+    crow.speedx =  -crowSpeed;
+    crow.speedy =  -crowSpeed;
     crow.side = "left-up";
   } else if (leftPressed & downPressed & !(upPressed || rightPressed)) {
-    crow.speedx = fixCoeff * -crowSpeed;
-    crow.speedy = fixCoeff * crowSpeed;
+    crow.speedx =  -crowSpeed;
+    crow.speedy =  crowSpeed;
     crow.side = "left-down";
   } else {
     crow.speedy = 0;
@@ -236,7 +235,6 @@ class Enemy{
     this.y = y;
     this.height = 40;
     this.width = 20;
-
   }
 }
 
@@ -245,8 +243,10 @@ var enemiesMax = 5;
 
 function enemiesCreate(){
   if (enemies.length < enemiesMax){
-     enemyX = getRandomArbitrary(wallsX, canvas.width - wallsX);
-     enemyY = getRandomArbitrary(wallsY, canvas.height - wallsY);
+    enemyWidth = 20;
+    enemyHeight = 40;
+    enemyX = getRandomArbitrary(wallsX + enemyWidth, canvas.width - wallsX - enemyWidth);
+    enemyY = getRandomArbitrary(wallsY + enemyHeight, canvas.height - wallsY - enemyHeight);
     enemies.push(new Enemy(enemyX, enemyY));
   }
 };
@@ -255,7 +255,6 @@ function getRandomArbitrary(min, max) {
   return Math.round (Math.random() * (max - min) + min);
 }
 
-console.log(enemies);
 function enemiesDraw(){
   for(i=0 ; i < enemies.length; i++){
     ctx.beginPath();
@@ -269,14 +268,16 @@ function enemiesDraw(){
   }
 }
 
-
+// function enemyMove(){
+//     for(i=0 ; i < enemies.length; i++){
+//       enemies[i]
+//     }
+// }
 function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   enemiesCreate();
-
-  enemiesDraw();
 
   crowMove();
 
@@ -288,6 +289,8 @@ function draw() {
   crow.y += crow.speedy;
 
   drawWalls();
+
+  enemiesDraw();
 
   crowDraw();
 
