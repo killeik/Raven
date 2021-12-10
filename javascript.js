@@ -68,6 +68,10 @@ function keyUpHandler(e) {
 function crowMove() {
   //right-left axis
   var crowSpeed = 2.4;
+<<<<<<< HEAD
+=======
+  var fixCoeff = 1;
+>>>>>>> 045cab9098f11ed174c6528f9d8ebc37e635904c
 
   if (rightPressed & !(upPressed || downPressed || leftPressed)) {
     crow.speedx = crowSpeed;
