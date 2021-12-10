@@ -67,8 +67,8 @@ function keyUpHandler(e) {
 
 function crowMove() {
   //right-left axis
-  var crowSpeed = 3;
-  var fixCoeff = 0.8;
+  var crowSpeed = 2.4;
+  var fixCoeff = 1;
 
   if (rightPressed & !(upPressed || downPressed || leftPressed)) {
     crow.speedx = crowSpeed;
@@ -236,7 +236,6 @@ class Enemy{
     this.y = y;
     this.height = 40;
     this.width = 20;
-
   }
 }
 
@@ -245,8 +244,10 @@ var enemiesMax = 5;
 
 function enemiesCreate(){
   if (enemies.length < enemiesMax){
-     enemyX = getRandomArbitrary(wallsX, canvas.width - wallsX);
-     enemyY = getRandomArbitrary(wallsY, canvas.height - wallsY);
+    enemyWidth = 20;
+    enemyHeight = 40;
+    enemyX = getRandomArbitrary(wallsX + enemyWidth, canvas.width - wallsX - enemyWidth);
+    enemyY = getRandomArbitrary(wallsY + enemyHeight, canvas.height - wallsY - enemyHeight);
     enemies.push(new Enemy(enemyX, enemyY));
   }
 };
@@ -255,7 +256,6 @@ function getRandomArbitrary(min, max) {
   return Math.round (Math.random() * (max - min) + min);
 }
 
-console.log(enemies);
 function enemiesDraw(){
   for(i=0 ; i < enemies.length; i++){
     ctx.beginPath();
@@ -269,14 +269,16 @@ function enemiesDraw(){
   }
 }
 
-
+// function enemyMove(){
+//     for(i=0 ; i < enemies.length; i++){
+//       enemies[i]
+//     }
+// }
 function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   enemiesCreate();
-
-  enemiesDraw();
 
   crowMove();
 
@@ -288,6 +290,8 @@ function draw() {
   crow.y += crow.speedy;
 
   drawWalls();
+
+  enemiesDraw();
 
   crowDraw();
 
