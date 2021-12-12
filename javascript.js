@@ -66,7 +66,6 @@ function keyUpHandler(e) {
 
 
 function crowMove() {
-  //right-left axis
   var crowSpeed = 2.4;
 
   if (rightPressed & !(upPressed || downPressed || leftPressed)) {
@@ -128,22 +127,18 @@ function drawWalls() {
   ctx.stroke();
 }
 
-function collisionWalls() {
+function crowWallsCollision() {
   if (crow.y + crow.speedy <= wallsY) {
     crow.y = wallsY;
-    console.log("Up");
   } else if (crow.y + crow.height + crow.speedy >= canvas.height - wallsY) {
     crow.y = canvas.height - wallsY - 1 - crow.height;
-    console.log("Down");
-  } else { }
+  }
 
   if (crow.x + crow.speedx <= wallsX) {
     crow.x = wallsX + 1;
-    console.log("Left");
   } else if (crow.x + crow.width + crow.speedx >= canvas.width - wallsX) {
     crow.x = canvas.width - wallsX - crow.width - 1;
-    console.log("Right");
-  } else { }
+  }
 
 }
 
@@ -159,34 +154,23 @@ function crowDraw() {
 
 
 function crowShoot(){
-  // var bulletDirection;
-
     if (rightPressedShoot & !(upPressedShoot || downPressedShoot || leftPressedShoot)) {
-    // bulletDirection = "right";
     bulletsAdd(bulletSpeed, 0);
   } else if (leftPressedShoot & !(upPressedShoot || downPressedShoot || rightPressedShoot)) {
-    // bulletDirection = "left";
     bulletsAdd(-bulletSpeed, 0);
   } else if (upPressedShoot & !(leftPressedShoot || rightPressedShoot || downPressedShoot)) {
-    // bulletDirection = "up";
     bulletsAdd(0, -bulletSpeed);
   } else if (downPressedShoot & !(leftPressedShoot || rightPressedShoot || upPressedShoot)) {
-    // bulletDirection = "down";
     bulletsAdd(0, bulletSpeed);
   } else if (rightPressedShoot & upPressedShoot & !(downPressedShoot || leftPressedShoot)) {
-    // bulletDirection = "right-up";
     bulletsAdd(bulletSpeed, -bulletSpeed);
   } else if (rightPressedShoot & downPressedShoot & !(upPressedShoot || leftPressedShoot)) {
-    // bulletDirection = "right-down";
     bulletsAdd(bulletSpeed, bulletSpeed);
   } else if (leftPressedShoot & upPressedShoot & !(downPressedShoot || rightPressedShoot)) {
-    // bulletDirection = "left-up";
     bulletsAdd(-bulletSpeed, -bulletSpeed);
   } else if (leftPressedShoot & downPressedShoot & !(upPressedShoot || rightPressedShoot)) {
-    // bulletDirection = "left-down";
     bulletsAdd(-bulletSpeed, bulletSpeed);
   }
-  bulletLogic();
 }
 class Bullet{
   constructor(bulletx, bullety, speedx, speedy){
@@ -195,7 +179,7 @@ class Bullet{
     this.speedx = speedx;
     this.speedy = speedy;
     this.radius = 9;
-
+    this.exists = true;
   }
 }
   var bulletSpeed = 5;
@@ -212,42 +196,68 @@ function bulletsAdd(bulletSpeedX, bulletSpeedY) {
    }
 }
 
-function bulletLogic (){
-  for(i=0 ; i < bullets.length; i++){
-    bullets[i].x+=bullets[i].speedx;
-    bullets[i].y+=bullets[i].speedy;
-
-    if (bullets[i].x + bullets[i].radius>= canvas.width - wallsX || bullets[i].x - bullets[i].radius<= wallsX ||
-    bullets[i].y + bullets[i].radius >= canvas.height - wallsY || bullets[i].y  - bullets[i].radius<= wallsY){
-      bullets.splice(i, 1);
-    }else{
-    ctx.beginPath();
-    ctx.arc(bullets[i].x, bullets[i].y, bullets[i].radius, 0, 2 * Math.PI)
-    ctx.fillStyle = "#CCC";
-    ctx.fill();
+function checkBulletWallCollision(){
+  for (let i=0; i < bullets.length; i++){
+    if (bullets[i].x + bullets[i].radius >= canvas.width - wallsX ||
+        bullets[i].x - bullets[i].radius <= wallsX ||
+        bullets[i].y + bullets[i].radius >= canvas.height - wallsY ||
+        bullets[i].y - bullets[i].radius <= wallsY){
+          bullets[i].exists = false;
     }
   }
 }
 
+function checkBulletEnemyCollision(){
+  for(let i=0 ; i < bullets.length-1; i++){
+    for (let j=0; j < enemies.length; j++){
+      if(bullets[i].x + bullets[i].radius >= enemies[j].x &
+         bullets[i].x - bullets[i].radius <= enemies[j].x + enemies[j].width &
+         bullets[i].y + bullets[i].radius >= enemies[j].y  &
+         bullets[i].y - bullets[i].radius <= enemies[j].y + enemies[j].height){
+        enemies[j].health -= 1;
+        bullets[i].exists = false;
+      };
+    }
+  }
+}
+function deleteBullets(){
+  for (let i=0; i < bullets.length; i++){
+    if(! bullets[i].exists){
+      bullets.splice(i, 1);
+    }
+  }
+}
+function bulletsDraw(){
+  for (let i=0; i < bullets.length; i++){
+  ctx.beginPath();
+  ctx.arc(bullets[i].x, bullets[i].y, bullets[i].radius, 0, 2 * Math.PI);
+  ctx.fillStyle = "#CCC";
+  ctx.fill();
+  }
+}
 class Enemy{
-  constructor(x,y){
+  constructor(x, y, health){
     this.x = x;
     this.y = y;
+    this.health = health;
     this.height = 40;
     this.width = 20;
   }
 }
 
 var enemies = [];
-var enemiesMax = 5;
-
+var enemiesAtOnceMax = 3;
+var enemiesAtAllMax = 8;
+var enemiesAlreadySpawned = 0;
 function enemiesCreate(){
-  if (enemies.length < enemiesMax){
+  if (enemies.length < enemiesAtOnceMax & enemiesAlreadySpawned < enemiesAtAllMax){
+    enemiesAlreadySpawned+=1;
     enemyWidth = 20;
     enemyHeight = 40;
-    enemyX = getRandomArbitrary(wallsX + enemyWidth, canvas.width - wallsX - enemyWidth);
-    enemyY = getRandomArbitrary(wallsY + enemyHeight, canvas.height - wallsY - enemyHeight);
-    enemies.push(new Enemy(enemyX, enemyY));
+    enemyHealth = 3;
+    let enemyX = getRandomArbitrary(wallsX + enemyWidth, canvas.width - wallsX - enemyWidth);
+    let enemyY = getRandomArbitrary(wallsY + enemyHeight, canvas.height - wallsY - enemyHeight);
+    enemies.push(new Enemy(enemyX, enemyY, enemyHealth));
   }
 };
 
@@ -256,9 +266,9 @@ function getRandomArbitrary(min, max) {
 }
 
 function enemiesDraw(){
-  for(i=0 ; i < enemies.length; i++){
+  for(let i=0 ; i < enemies.length; i++){
     ctx.beginPath();
-    ctx.moveTo(enemies[i].x, enemies[i].y+ (enemies[i].height/2));
+    ctx.moveTo(enemies[i].x, enemies[i].y + (enemies[i].height/2));
     ctx.lineTo(enemies[i].x + (enemies[i].width/2), enemies[i].y);
     ctx.lineTo(enemies[i].x + enemies[i].width, enemies[i].y + (enemies[i].height/2));
     ctx.lineTo(enemies[i].x +(enemies[i].width/2), enemies[i].y + enemies[i].height);
@@ -268,25 +278,78 @@ function enemiesDraw(){
   }
 }
 
-// function enemyMove(){
-//     for(i=0 ; i < enemies.length; i++){
-//       enemies[i]
-//     }
-// }
-function draw() {
+class Vector{
+  constructor(startx, starty, finishx, finishy){
+    this.startx = startx;
+    this.starty = starty;
+    this.finishx = finishx;
+    this.finishy = finishy;
+    this.x = finishx - startx;
+    this.y = finishy - starty;
+    this.length = Math.sqrt((this.x*this.x) + (this.y*this.y));
+    //normalizing vector
+      this.nx = this.x / this.length;
+      this.ny = this.y / this.length;
+  }
+}
 
+function enemyMove(){
+  var enemySpeed = 1;
+    for(let i=0 ; i < enemies.length; i++){
+      vecEnemyToPlayer = new Vector(enemies[i].x, enemies[i].y, crow.x, crow.y)
+      enemies[i].x += (enemySpeed * vecEnemyToPlayer.nx);
+      enemies[i].y += (enemySpeed * vecEnemyToPlayer.ny);
+    }
+}
+
+function deleteEnemies(){
+  for(let i=0; i < enemies.length; i++){
+    if(enemies[i].health <=0){
+      enemies.splice(i,1);
+    }
+  }
+}
+function draw() {
+  //clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // spawn enemies at random place, with max at once, and max at all restrictions
   enemiesCreate();
 
+  //read (left, up, etc.)Pressed and set crow.speedx/crow.speedy
   crowMove();
 
+  //using vector from enemy to crow, go directly to crow
+  enemyMove();
+
+  //read (left, up, etc.)PressedShoot use bulletsAdd(direction)
   crowShoot();
 
-  collisionWalls();
+  // Move bullets with their speed
+  for(let i=0 ; i < bullets.length; i++){
+    bullets[i].x += bullets[i].speedx;
+    bullets[i].y += bullets[i].speedy;
+  }
+  //set bullets[i].exists=false if collision true
+  checkBulletWallCollision();
 
+  //set bullets[i].exists=false, enemies[j].health-=1 if collision true
+  checkBulletEnemyCollision();
+
+  //delete bullets with .exists=false
+  deleteBullets();
+
+  //delete enemies with health <=0
+  deleteEnemies();
+
+  //if crow is behind the wall, set the coordinates = wall cords
+  crowWallsCollision();
+
+  //move crow with
   crow.x += crow.speedx;
   crow.y += crow.speedy;
+
+  bulletsDraw();
 
   drawWalls();
 
