@@ -11,22 +11,17 @@ var leftPressedShoot = false;
 var downPressedShoot = false;
 var upPressedShoot = false;
 
+var crow ={width : 20,
+  height : 40,
 
-class Crow{
-  constructor(){
-    this.width = 20;
-    this.height = 40;
+  // Coordinates to drow from
+  x : 0.5 * canvas.width,
+  y : 0.5 * canvas.height,
 
-    // Coordinates to drow from
-    this.x = 0.5 * canvas.width;
-    this.y = 0.5 * canvas.height;
-
-    this.side = "right";
-    this.speedx = 0;
-    this.speedy = 0;
-  }
+  side : "right",
+  speedx : 0,
+  speedy : 0,
 }
-var crow = new Crow();
 
 document.addEventListener("DOMContentLoaded", startup);
 
@@ -172,18 +167,8 @@ function crowShoot(){
     bulletsAdd(-bulletSpeed, bulletSpeed);
   }
 }
-class Bullet{
-  constructor(bulletx, bullety, speedx, speedy){
-    this.x = bulletx;
-    this.y = bullety;
-    this.speedx = speedx;
-    this.speedy = speedy;
-    this.radius = 9;
-    this.exists = true;
-  }
-}
-  var bulletSpeed = 5;
-  var bullets = [];
+var bulletSpeed = 5;
+var bullets = [];
 
 
 var bulletLastTime = Date.now();
@@ -192,7 +177,12 @@ var bulletCooldown = 300;
 function bulletsAdd(bulletSpeedX, bulletSpeedY) {
   if(Date.now() - bulletLastTime > bulletCooldown){
     bulletLastTime = Date.now()
-     bullets.push(new Bullet(crow.x + 0.5*crow.width, crow.y + 0.5*crow.height, bulletSpeedX, bulletSpeedY));
+     bullets.push({x:crow.x + 0.5*crow.width,
+       y:crow.y + 0.5*crow.height,
+       speedx: bulletSpeedX,
+       speedy: bulletSpeedY,
+       radius: 9,
+       exists: true});
    }
 }
 
@@ -235,15 +225,6 @@ function bulletsDraw(){
   ctx.fill();
   }
 }
-class Enemy{
-  constructor(x, y, health){
-    this.x = x;
-    this.y = y;
-    this.health = health;
-    this.height = 40;
-    this.width = 20;
-  }
-}
 
 var enemies = [];
 var enemiesAtOnceMax = 3;
@@ -257,7 +238,11 @@ function enemiesCreate(){
     enemyHealth = 3;
     let enemyX = getRandomArbitrary(wallsX + enemyWidth, canvas.width - wallsX - enemyWidth);
     let enemyY = getRandomArbitrary(wallsY + enemyHeight, canvas.height - wallsY - enemyHeight);
-    enemies.push(new Enemy(enemyX, enemyY, enemyHealth));
+    enemies.push({x:enemyX,
+      y:enemyY,
+      health: enemyHealth,
+      height: enemyHeight,
+      width:enemyWidth});
   }
 };
 
@@ -278,25 +263,20 @@ function enemiesDraw(){
   }
 }
 
-class Vector{
-  constructor(startx, starty, finishx, finishy){
-    this.startx = startx;
-    this.starty = starty;
-    this.finishx = finishx;
-    this.finishy = finishy;
-    this.x = finishx - startx;
-    this.y = finishy - starty;
-    this.length = Math.sqrt((this.x*this.x) + (this.y*this.y));
+function vectorNormilize(startx, starty, finishx, finishy){
+    let x = finishx - startx;
+    let y = finishy - starty;
+    let length = Math.sqrt((x*x) + (y*y));
     //normalizing vector
-      this.nx = this.x / this.length;
-      this.ny = this.y / this.length;
+    nx = x / length;
+    ny = y / length;
+    return {nx: nx, ny:ny}
   }
-}
 
 function enemyMove(){
   var enemySpeed = 1;
     for(let i=0 ; i < enemies.length; i++){
-      vecEnemyToPlayer = new Vector(enemies[i].x, enemies[i].y, crow.x, crow.y)
+      vecEnemyToPlayer = vectorNormilize(enemies[i].x, enemies[i].y, crow.x, crow.y)
       enemies[i].x += (enemySpeed * vecEnemyToPlayer.nx);
       enemies[i].y += (enemySpeed * vecEnemyToPlayer.ny);
     }
@@ -312,7 +292,7 @@ function deleteEnemies(){
 function draw() {
   //clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+  
   // spawn enemies at random place, with max at once, and max at all restrictions
   enemiesCreate();
 
