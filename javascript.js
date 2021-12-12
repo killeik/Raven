@@ -208,7 +208,7 @@ function checkBulletWallCollision(){
 }
 
 function checkBulletEnemyCollision(){
-  for(let i=0 ; i < bullets.length-1; i++){
+  for(let i=0 ; i < bullets.length; i++){
     for (let j=0; j < enemies.length; j++){
       if(bullets[i].x + bullets[i].radius >= enemies[j].x &
          bullets[i].x - bullets[i].radius <= enemies[j].x + enemies[j].width &
