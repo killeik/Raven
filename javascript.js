@@ -12,7 +12,6 @@ var downPressedShoot = false;
 var upPressedShoot = false;
 
 
-
 document.addEventListener("DOMContentLoaded", startup);
 
 function startup() {
@@ -91,18 +90,12 @@ function crowMove() {
 function drawWalls() {
 
   ctx.beginPath();
-  // ctx.setLineDash([9, 13]);
   ctx.lineCap = "round";
   ctx.strokeStyle = "#AAA";
   ctx.lineWidth = 3;
   ctx.lineJoin = "round";
-
-  ctx.moveTo(wallsX, wallsY);
-  ctx.lineTo(wallsX, canvas.height - wallsY);
-  ctx.lineTo(canvas.width - wallsX, canvas.height - wallsY);
-  ctx.lineTo(canvas.width - wallsX, wallsY);
-  ctx.lineTo(wallsX, wallsY);
-  ctx.stroke();
+  ctx.strokeRect(wallsX, wallsY, canvas.width - 2*wallsX, canvas.height - 2*wallsY);
+  ctx.closePath();
 }
 
 function crowWallsCollision() {
@@ -121,7 +114,6 @@ function crowWallsCollision() {
 
 }
 
-
 function crowDraw() {
   ctx.beginPath();
   ctx.lineTo(crow.x, crow.y+crow.height)
@@ -130,7 +122,6 @@ function crowDraw() {
   ctx.fillStyle = "#CCC";
   ctx.fill();
 }
-
 
 function crowShoot(){
     if (rightPressedShoot & !(upPressedShoot || downPressedShoot || leftPressedShoot)) {
@@ -224,19 +215,6 @@ function getRandomArbitrary(min, max) {
   return Math.round (Math.random() * (max - min) + min);
 }
 
-function enemiesDraw(){
-  for(let i=0 ; i < enemies.length; i++){
-    ctx.beginPath();
-    ctx.moveTo(enemies[i].x, enemies[i].y + (enemies[i].height/2));
-    ctx.lineTo(enemies[i].x + (enemies[i].width/2), enemies[i].y);
-    ctx.lineTo(enemies[i].x + enemies[i].width, enemies[i].y + (enemies[i].height/2));
-    ctx.lineTo(enemies[i].x +(enemies[i].width/2), enemies[i].y + enemies[i].height);
-    ctx.closePath();
-    ctx.fillStyle = "#CCC";
-    ctx.fill();
-  }
-}
-
 function vectorNormilize(startx, starty, finishx, finishy){
     let x = finishx - startx;
     let y = finishy - starty;
@@ -263,6 +241,45 @@ function deleteEnemies(){
   }
 }
 
+function enemiesDraw(){
+  for(let i=0 ; i < enemies.length; i++){
+    ctx.beginPath();
+    ctx.moveTo(enemies[i].x, enemies[i].y + (enemies[i].height/2));
+    ctx.lineTo(enemies[i].x + (enemies[i].width/2), enemies[i].y);
+    ctx.lineTo(enemies[i].x + enemies[i].width, enemies[i].y + (enemies[i].height/2));
+    ctx.lineTo(enemies[i].x +(enemies[i].width/2), enemies[i].y + enemies[i].height);
+    ctx.closePath();
+    ctx.fillStyle = "#CCC";
+    ctx.fill();
+  }
+}
+
+function drawInterface(){
+  ctx.beginPath();
+  ctx.lineWidth = 5;
+  ctx.strokeRect(5, 40, 135, canvas.height - 80);
+  ctx.closePath();
+
+  ctx.beginPath();
+  ctx.lineWidth = 3;
+  ctx.strokeRect(5, 40, 135, 80);
+  ctx.closePath();
+
+
+  ctx.font = '24px sans-serif';
+  ctx.fillText('HEALTH', 25, 70);
+
+  ctx.beginPath();
+  ctx.lineWidth = 2;
+  ctx.strokeRect(17, 80, 110, 30);
+  ctx.closePath();
+
+  ctx.beginPath();
+  ctx.fillRect(20, 82, 104/crow.healthMax * crow.health, 26);
+  ctx.closePath();
+
+}
+
 var bullets = [];
 var enemies = [];
 
@@ -277,6 +294,9 @@ var crow ={
   side : "right",
   speedx : 0,
   speedy : 0,
+
+  healthMax : 5,
+  health : 5,
 };
 var crowSpeed = 2.4;
 
@@ -343,9 +363,11 @@ function draw() {
   crow.x += crow.speedx;
   crow.y += crow.speedy;
 
-  bulletsDraw();
-
   drawWalls();
+
+  drawInterface();
+
+  bulletsDraw();
 
   enemiesDraw();
 
