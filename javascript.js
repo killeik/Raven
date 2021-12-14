@@ -86,7 +86,6 @@ function crowMove() {
     }
 }
 
-
 function drawWalls() {
 
   ctx.beginPath();
@@ -181,6 +180,21 @@ function checkBulletEnemyCollision(){
   }
 }
 
+var damageLastTime = Date.now();
+function checkCrowEnemyCollision(){
+  for (let j=0; j < enemies.length; j++){
+    if(crow.x + crow.width >= enemies[j].x &
+       crow.x <= enemies[j].x + enemies[j].width &
+       crow.y + crow.height >= enemies[j].y  &
+       crow.y <= enemies[j].y + enemies[j].height){
+      if(Date.now() - damageLastTime > damageCooldown){
+      damageLastTime = Date.now();
+      crow.health-= 1;
+      }
+    }
+  }
+}
+
 function deleteBullets(){
   for (let i=0; i < bullets.length; i++){
     if(! bullets[i].exists){
@@ -255,29 +269,33 @@ function enemiesDraw(){
 }
 
 function drawInterface(){
+
+  //main interface block
   ctx.beginPath();
   ctx.lineWidth = 5;
   ctx.strokeRect(5, 40, 135, canvas.height - 80);
   ctx.closePath();
 
+  //health block
   ctx.beginPath();
   ctx.lineWidth = 3;
   ctx.strokeRect(5, 40, 135, 80);
   ctx.closePath();
 
-
   ctx.font = '24px sans-serif';
   ctx.fillText('HEALTH', 25, 70);
 
+  //health bar outter
   ctx.beginPath();
   ctx.lineWidth = 2;
   ctx.strokeRect(17, 80, 110, 30);
   ctx.closePath();
-
+  //health bar inner
+  if(crow.health > 0){
   ctx.beginPath();
   ctx.fillRect(20, 82, 104/crow.healthMax * crow.health, 26);
   ctx.closePath();
-
+  }
 }
 
 var bullets = [];
@@ -307,6 +325,8 @@ var wallsX = 150;
 var bulletSpeed = 5;
 
 var bulletCooldown = 300;
+
+var damageCooldown = 1000;
 
 var enemiesAtOnceMax = 3;
 
@@ -350,6 +370,8 @@ function draw() {
   //set bullets[i].exists=false, enemies[j].health-=1 if collision true
   checkBulletEnemyCollision();
 
+
+  checkCrowEnemyCollision();
   //delete bullets with .exists=false
   deleteBullets();
 
