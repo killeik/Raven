@@ -1,6 +1,8 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
+var enterPressed = false;
+
 var rightPressed = false;
 var leftPressed = false;
 var downPressed = false;
@@ -22,10 +24,13 @@ function startup() {
 
 function keyDownHandler(e) {
   switch (e.code) {
+    case "Enter": enterPressed = true; break;
+
     case "KeyD": rightPressed = true; break;
     case "KeyA": leftPressed = true;  break;
     case "KeyW": upPressed = true;    break;
     case "KeyS": downPressed = true;  break;
+
     case "Right": case "ArrowRight": rightPressedShoot = true; break;
     case "Left":  case "ArrowLeft":  leftPressedShoot = true;  break;
     case "Up":    case "ArrowUp":    upPressedShoot = true;    break;
@@ -35,10 +40,13 @@ function keyDownHandler(e) {
 
 function keyUpHandler(e) {
   switch (e.code) {
+    case "Enter": enterPressed = false; break;
+
     case "KeyD": rightPressed = false; break;
     case "KeyA": leftPressed = false;  break;
     case "KeyW": upPressed = false;    break;
     case "KeyS": downPressed = false;  break;
+
     case "Right": case "ArrowRight": rightPressedShoot = false; break;
     case "Left":  case "ArrowLeft":  leftPressedShoot = false;  break;
     case "Up":    case "ArrowUp":    upPressedShoot = false;    break;
@@ -142,7 +150,6 @@ function crowShoot(){
   }
 }
 
-var bulletLastTime = Date.now();
 function bulletsAdd(bulletSpeedX, bulletSpeedY) {
   if(Date.now() - bulletLastTime > bulletCooldown){
     bulletLastTime = Date.now()
@@ -180,7 +187,6 @@ function checkBulletEnemyCollision(){
   }
 }
 
-var damageLastTime = Date.now();
 function checkCrowEnemyCollision(){
   for (let j=0; j < enemies.length; j++){
     if(crow.x + crow.width >= enemies[j].x &
@@ -298,6 +304,46 @@ function drawInterface(){
   }
 }
 
+function startGame(){
+  if (enterPressed){
+    gameStarted = true;
+    game = true;
+
+    crow.x = 0.5 * canvas.width;
+    crow.y = 0.5 * canvas.height;
+    crow.health = crow.healthMax;
+
+    enemiesAlreadySpawned = 0;
+    bullets = [];
+    enemies = [];
+  }
+}
+
+function drawTutorial(){
+  ctx.fillStyle = "#BBB";
+  ctx.font = '40px sans-serif';
+  ctx.fillText('WASD - control', 450, 350);
+  ctx.fillText('Arrows - shoot', 450, 400);
+  ctx.fillText('Enter - start', 450, 450);
+}
+
+function drawWelcomeScreen(){
+  ctx.fillStyle = "#BBB";
+  ctx.font = '60px sans-serif';
+  ctx.fillText('Welcome, Friend!', 350, 200);
+
+}
+function drawLooseScreen(){
+  ctx.fillStyle = "#BBB";
+  ctx.font = '60px sans-serif';
+  ctx.fillText('Looser!', 450, 200);
+}
+var bulletLastTime = Date.now();
+var damageLastTime = Date.now();
+
+var game = false;
+var gameStarted = false;
+
 var bullets = [];
 var enemies = [];
 
@@ -347,6 +393,8 @@ function draw() {
   //clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  if (game){
+
   // spawn enemies at random place, with max at once, and max at all restrictions
   enemiesCreate();
 
@@ -370,8 +418,9 @@ function draw() {
   //set bullets[i].exists=false, enemies[j].health-=1 if collision true
   checkBulletEnemyCollision();
 
-
+  //if enemy touch crow, crow.health -=1
   checkCrowEnemyCollision();
+
   //delete bullets with .exists=false
   deleteBullets();
 
@@ -381,6 +430,9 @@ function draw() {
   //if crow is behind the wall, set the coordinates = wall cords
   crowWallsCollision();
 
+  if (crow.health <= 0){
+    game = false;
+  }
   //move crow with
   crow.x += crow.speedx;
   crow.y += crow.speedy;
@@ -394,6 +446,21 @@ function draw() {
   enemiesDraw();
 
   crowDraw();
+
+} else if(! gameStarted){
+  startGame();
+
+  drawTutorial();
+
+  drawWelcomeScreen();
+
+} else {
+  startGame();
+
+  drawLooseScreen();
+
+  drawTutorial();
+}
 
   requestAnimationFrame(draw);
 }
