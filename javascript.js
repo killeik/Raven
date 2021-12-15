@@ -282,11 +282,11 @@ function drawInterface(){
   ctx.strokeRect(5, 40, 135, canvas.height - 80);
   ctx.closePath();
 
-  //health block
-  ctx.beginPath();
-  ctx.lineWidth = 3;
-  ctx.strokeRect(5, 40, 135, 80);
-  ctx.closePath();
+  //health block separation
+  // ctx.beginPath();
+  // ctx.lineWidth = 3;
+  // ctx.strokeRect(5, 40, 135, 80);
+  // ctx.closePath();
 
   ctx.font = '24px sans-serif';
   ctx.fillText('HEALTH', 25, 70);
