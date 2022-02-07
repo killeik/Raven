@@ -95,6 +95,7 @@ function checkBulletEnemyCollision(){
 }
 
 function checkCrowEnemyCollision(){
+if(Date.now() - damageLastTime > config.damageCooldown){
   for (let j=0; j < enemies.length; j++){
     if(Collision.boxToBox(
       Crow.x,
@@ -106,7 +107,6 @@ function checkCrowEnemyCollision(){
       enemies[j].width,
       enemies[j].height)
     ){
-      if(Date.now() - damageLastTime > config.damageCooldown){
       damageLastTime = Date.now();
       Crow.health-= 1;
       }
