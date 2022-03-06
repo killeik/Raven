@@ -18,18 +18,23 @@ var timer = {
 
 var bullet = [];
 
-var crow = new Crow(700, 700, 3, 5);
+var crow;
 var canvas;
+var scl; //scalesize
 
 function setup() {
   canvas = Window.SetCanvas();
   var cnv = createCanvas(canvas.width, canvas.height);
   cnv.style('display', 'block');
+  cnv.style('margin', 'auto');
 
+  scl = Window.SetScale(canvas);
+  crow = new Crow((canvas.width / 2 / scl), (canvas.height / 2 / scl), 3, 5);
 }
 
 function windowResized() {
   canvas = Window.SetCanvas();
+  scl = Window.SetScale(canvas);
   resizeCanvas(canvas.width, canvas.height);
 }
 function keyPressed() {
@@ -59,11 +64,10 @@ function keyHandler(code, value) {
 
 function draw() {
   background('#1a1c1d');
-  scale(Window.SetScale(canvas));
+  scale(scl);
 
   crow.Move(button);
   crow.Draw();
-
   if (Date.now() - timer.bullet > config.bulletCooldown) {
     timer.bullet = Date.now();
     let bulletspeed = Bullet.SetSpeed(button, config.bulletSpeed);
@@ -77,9 +81,7 @@ function draw() {
       bullet.splice(i, 1);
       break;
     }
-    // Move bullets with their speed
     bullet[i].Move();
-
     bullet[i].Draw();
   }
 

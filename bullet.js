@@ -34,6 +34,6 @@ class Bullet {
 
   Draw() {
     fill('#CCC')
-    circle(this.x, this.y, this.radius)
+    circle(this.x, this.y, this.radius * 2)
   }
 }
