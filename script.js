@@ -1,3 +1,5 @@
+import Crow from "./crow.js";
+
 var enterPressed = false;
 
 var rightPressed = false;
@@ -9,6 +11,7 @@ var rightPressedShoot = false;
 var leftPressedShoot = false;
 var downPressedShoot = false;
 var upPressedShoot = false;
+var crow = new Crow(700,700, 3, 5);
 
 function setup() {
     var cnv = createCanvas(windowWidth, windowHeight);
@@ -46,5 +49,6 @@ function keyHandler(code, value) {
 }
 
 function draw() {
-  // put drawing code here
+  crow.Move(rightPressed, leftPressed, upPressed, downPressed);
+
 }
