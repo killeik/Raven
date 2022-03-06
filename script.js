@@ -1,22 +1,22 @@
-import Crow from "./crow.js";
+var button = {
+  enter:false,
 
-var enterPressed = false;
+  d:false,
+  a:false,
+  s:false,
+  w:false,
 
-var rightPressed = false;
-var leftPressed = false;
-var downPressed = false;
-var upPressed = false;
+  right:false,
+  left:false,
+  down:false,
+  up: false
+}
 
-var rightPressedShoot = false;
-var leftPressedShoot = false;
-var downPressedShoot = false;
-var upPressedShoot = false;
 var crow = new Crow(700,700, 3, 5);
 
 function setup() {
     var cnv = createCanvas(windowWidth, windowHeight);
     cnv.style('display', 'block');
-    background('#1a1c1d');
 
 }
 
@@ -34,21 +34,22 @@ function keyReleased() {
 
 function keyHandler(code, value) {
   switch (code) {
-    case 13: enterPressed = value; break;
+    case 13: button.enter = value; break;
 
-    case 68: rightPressed = value; break;
-    case 65: leftPressed = value;  break;
-    case 87: upPressed = value;    break;
-    case 83: downPressed = value;  break;
+    case 68: button.d = value; break;
+    case 65: button.a = value;  break;
+    case 87: button.w = value;    break;
+    case 83: button.s = value;  break;
 
-    case 39: rightPressedShoot = value; break;
-    case 37: leftPressedShoot = value;  break;
-    case 38: upPressedShoot = value;    break;
-    case 40: downPressedShoot = value;  break;
+    case 39: button.right = value; break;
+    case 37: button.left = value;  break;
+    case 38: button.up = value;    break;
+    case 40: button.down = value;  break;
   }
 }
 
 function draw() {
-  crow.Move(rightPressed, leftPressed, upPressed, downPressed);
-
+  background('#1a1c1d');
+  crow.Move(button);
+  crow.Draw();
 }
