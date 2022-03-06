@@ -1,4 +1,4 @@
- const config = {
+const config = {
   crowSpeed: 2.4,
   wallsY: 40,
   wallsX: 150,
@@ -12,4 +12,3 @@
   enemyHealth: 3,
   enemySpeed: 1
 }
-export default config
