@@ -7,7 +7,7 @@ class Crow {
     this.y = centery - (this.height / 2);
 
     this.side = "right";
-    
+
     this.speed = speed;
     this.speedx = 0;
     this.speedy = 0;
@@ -67,7 +67,8 @@ class Crow {
 
 
   Draw(ctx, crow) {
-    fill('#CCC')
-    triangle(this.x, this.y + this.height, this.x + this.width, this.y + this.height, this.x + 0.5 * this.width, this.y)
+    fill('#CCC');
+    stroke("#CCC");
+    triangle(this.x, this.y + this.height, this.x + this.width, this.y + this.height, this.x + 0.5 * this.width, this.y);
   }
 }

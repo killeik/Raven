@@ -7,6 +7,6 @@ class Window {
         }
     }
     static SetScale(canvas) {
-        return (canvas.height / 16 / 40);
+        return (canvas.height / 16 / 50);
     }
 }

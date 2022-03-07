@@ -33,7 +33,8 @@ class Bullet {
   }
 
   Draw() {
-    fill('#CCC')
-    circle(this.x, this.y, this.radius * 2)
+    fill('#CCC');
+    stroke("#CCC");
+    circle(this.x, this.y, this.radius * 2);
   }
 }
