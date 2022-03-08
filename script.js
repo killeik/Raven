@@ -81,6 +81,9 @@ function draw() {
   }
 
   for (let i = 0; i < bullet.length; i++) {
+
+    bullet[i].WallCollision(walls);
+
     if (!bullet[i].exists) {
       bullet.splice(i, 1);
       break;

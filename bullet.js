@@ -35,6 +35,17 @@ class Bullet {
   Draw() {
     fill('#CCC');
     stroke("#CCC");
+    strokeWeight(0);
     circle(this.x, this.y, this.radius * 2);
+  }
+
+  WallCollision(walls) {
+    if (this.x + this.radius >= walls.x2 ||
+      this.x - this.radius <= walls.x1 ||
+      this.y + this.radius >= walls.y2 ||
+      this.y - this.radius <= walls.y1) {
+
+      this.exists = false;
+    }
   }
 }
