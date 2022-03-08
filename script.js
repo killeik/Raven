@@ -81,14 +81,15 @@ function draw() {
   }
 
   for (let i = 0; i < bullet.length; i++) {
-
+    bullet[i].Move();
+    
     bullet[i].WallCollision(walls);
 
     if (!bullet[i].exists) {
       bullet.splice(i, 1);
       break;
     }
-    bullet[i].Move();
+    
     bullet[i].Draw();
   }
 
