@@ -39,6 +39,18 @@ class Bullet {
     circle(this.x, this.y, this.radius * 2);
   }
 
+  enemyCollision(enemy) {
+    if (this.x + this.radius >= enemy.x &
+      this.x - this.radius <= enemy.x + enemy.width &
+      this.y + this.radius >= enemy.y &
+      this.y - this.radius <= enemy.y + enemy.height) {
+
+      this.exists = false;
+
+      enemy.health -= 1;
+    };
+  }
+
   WallCollision(walls) {
     if (this.x + this.radius >= walls.x2 ||
       this.x - this.radius <= walls.x1 ||

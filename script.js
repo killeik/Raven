@@ -90,6 +90,21 @@ function draw() {
     enemy.push(new Enemy(cords.x, cords.y));
   }
 
+  for (let i = 0; i < enemy.length; i++) {
+    enemy[i].moveToCrow(crow);
+
+    if (enemy[i].health <= 0) {
+      enemy.splice(i, 1);
+      break;
+    }
+
+    for (let j = 0; j < bullet.length; j++) {
+      bullet[j].enemyCollision(enemy[i]);
+    }
+
+    enemy[i].Draw();
+  }
+
   for (let i = 0; i < bullet.length; i++) {
     bullet[i].Move();
 
