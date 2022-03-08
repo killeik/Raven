@@ -17,11 +17,13 @@ var timer = {
 }
 
 var bullet = [];
+var enemy = [];
 
 var crow;
 var canvas;
 var scaleSize;
 var walls;
+var enemiesAlreadySpawned = 0;
 
 function setup() {
   canvas = Window.SetCanvas();
@@ -81,6 +83,13 @@ function draw() {
     }
   }
 
+  if (enemy.length < config.enemiesAtOnceMax & enemiesAlreadySpawned < config.enemiesAtAllMax) {
+    enemiesAlreadySpawned += 1;
+
+    let cords = Enemy.randomInWalls(walls);
+    enemy.push(new Enemy(cords.x, cords.y));
+  }
+
   for (let i = 0; i < bullet.length; i++) {
     bullet[i].Move();
 
@@ -90,7 +99,7 @@ function draw() {
       bullet.splice(i, 1);
       break;
     }
-    
+
     bullet[i].Draw();
   }
 

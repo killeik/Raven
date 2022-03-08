@@ -9,6 +9,6 @@ const config = {
   enemiesAtAllMax: 8,
   enemyWidth: 20,
   enemyHeight: 40,
-  enemyHealth: 3,
+  enemyMaxHealth: 3,
   enemySpeed: 1
 }

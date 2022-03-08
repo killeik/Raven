@@ -1,35 +1,24 @@
-export default class Enemy{
-  constructor(startx, starty, enemyMaxHealth, enemyHeight, enemyWidth){
-      this.x=startx;
-      this.y=starty;
-      this.health= enemyMaxHealth;
-      this.height= enemyHeight;
-      this.width= enemyWidth;
-    }
+class Enemy {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.health = 3;
+    this.enemyMaxHealth = 3;
+    this.height = 40;
+    this.width = 20;
+    this.speed = 1;
+  }
 
-    moveToCords(enemySpeed, targetX, targetY){
-            let vecEnemyToPlayer = this.vectorNormilize(this.x, this.y, targetX, targetY)
-            this.x += (enemySpeed * vecEnemyToPlayer.nx);
-            this.y += (enemySpeed * vecEnemyToPlayer.ny);
-          }
+  moveToCrow(crow) {
+    let vectorToCrow = createVector((crow.mid_x - this.x), (crow.mid_y - this.y));
+    let normVecToCrow = vectorToCrow.normalize();
+    this.x += this.speed * normVecToCrow.x;
+    this.y += this.speed * normVecToCrow.y;
+  }
 
-    vectorNormilize(startx, starty, finishx, finishy){
-          let x = finishx - startx;
-          let y = finishy - starty;
-          let length = Math.sqrt((x*x) + (y*y));
-          //normalizing vector
-          let nx = x / length;
-          let ny = y / length;
-          return {nx: nx, ny:ny}
-        }
-        
-  static getRandomArbitrary(min, max) {
-      return Math.round (Math.random() * (max - min) + min);
-    }
-
-  static returnRandomPointsfromPool(startx, endx, starty, endy){
-    let x = this.getRandomArbitrary(startx, endx);
-    let y = this.getRandomArbitrary(starty, endy);
-    return {x:x, y:y}
+  static randomInWalls(walls) {
+    let x = random(walls.x1, walls.x2)
+    let y = random(walls.y1, walls.y2);
+    return { x: x, y: y }
   }
 }
