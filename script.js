@@ -70,6 +70,7 @@ function draw() {
   scale(scaleSize);
 
   crow.Move(button);
+  crow.WallCollision(walls);
   crow.Draw();
 
   if (Date.now() - timer.bullet > config.bulletCooldown) {
@@ -82,7 +83,7 @@ function draw() {
 
   for (let i = 0; i < bullet.length; i++) {
     bullet[i].Move();
-    
+
     bullet[i].WallCollision(walls);
 
     if (!bullet[i].exists) {

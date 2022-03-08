@@ -69,7 +69,21 @@ class Crow {
   Draw() {
     fill('#CCC');
     stroke("#CCC");
-    strokeWeight(7);
+    strokeWeight(5);
     triangle(this.x, this.y + this.height, this.x + this.width, this.y + this.height, this.x + (0.5 * this.width), this.y);
+  }
+
+  WallCollision(walls) {
+    if (this.y + this.speedy <= walls.y1) {
+      this.y = walls.y1;
+    } else if (this.y + this.height + this.speedy >= walls.y2) {
+      this.y = walls.y2 - this.height;
+    }
+
+    if (this.x + this.speedx <= walls.x1) {
+      this.x = walls.x1;
+    } else if (this.x + this.width + this.speedx >= walls.x2) {
+      this.x = walls.x2 - this.width;
+    }
   }
 }
