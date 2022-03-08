@@ -66,10 +66,10 @@ class Crow {
   };
 
 
-  Draw(ctx, crow) {
+  Draw() {
     fill('#CCC');
     stroke("#CCC");
     strokeWeight(7);
-    triangle(this.x, this.y + this.height, this.x + this.width, this.y + this.height, this.x + 0.5 * this.width, this.y);
+    triangle(this.x, this.y + this.height, this.x + this.width, this.y + this.height, this.x + (0.5 * this.width), this.y);
   }
 }
