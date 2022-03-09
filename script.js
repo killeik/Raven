@@ -13,7 +13,8 @@ var button = {
 }
 
 var timer = {
-  bullet: Date.now()
+  bullet: Date.now(),
+  lastHit: Date.now()
 }
 
 var bullet = [];
@@ -102,6 +103,14 @@ function draw() {
       bullet[j].enemyCollision(enemy[i]);
     }
 
+    if (Date.now() - timer.lastHit > config.damageCooldown) {
+      if (enemy[i].crowCollision(crow)) {
+        crow.health -= 1;
+        timer.lastHit = Date.now();
+        console.log(crow.health);
+      }
+    }
+
     enemy[i].Draw();
   }
 
@@ -118,6 +127,6 @@ function draw() {
     bullet[i].Draw();
   }
   Interface.mainBlock(walls);
-  Interface.crowHealthBlock(walls,crow.healthMax, crow.health);
+  Interface.crowHealthBlock(walls, crow.healthMax, crow.health);
   walls.Draw();
 }

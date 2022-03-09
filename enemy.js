@@ -37,4 +37,15 @@ class Enemy {
       this.x + this.width, this.y + (this.height / 2),
       this.x + (this.width / 2), this.y + this.height)
   }
+
+  crowCollision(crow) {
+    if (this.x + this.width >= crow.x &
+      this.x <= crow.x + crow.width &
+      this.y + this.height >= crow.y &
+      this.y <= crow.y + crow.height) {
+      return true;
+    } else {
+      return false
+    }
+  }
 }

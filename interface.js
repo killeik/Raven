@@ -22,7 +22,7 @@ class Interface {
         stroke("#CCC");
         strokeWeight(3);
         strokeJoin(ROUND);
-        rect(walls.x1 / 6, walls.y1*2, walls.x1/1.3, walls.y1*0.8);
+        rect(walls.x1 / 6, walls.y1 * 2, walls.x1 / 1.3, walls.y1 * 0.8);
 
         // //health bar inner
         if (health > 0) {
@@ -30,7 +30,7 @@ class Interface {
             stroke("#CCC");
             strokeWeight(3);
             strokeJoin(ROUND);
-            rect(walls.x1 /5, walls.y1*2.1, walls.x1/1.42, walls.y1*0.6)
+            rect(walls.x1 / 5, walls.y1 * 2.1, walls.x1 / 1.42 / healthMax * health, walls.y1 * 0.6)
         }
     }
 }
