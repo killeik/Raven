@@ -1,30 +1,36 @@
 class Interface {
-    static mainInterfaceBlock(ctx) {
-        ctx.beginPath();
-        ctx.lineWidth = 5;
-        ctx.strokeRect(5, 40, 135, canvas.height - 80);
-        ctx.closePath();
+    static mainBlock(walls) {
+        noFill();
+        stroke("#CCC");
+        strokeWeight(5);
+        strokeJoin(ROUND);
+        rect(walls.x1 / 10, walls.y1, walls.x1 - (walls.x1 / 10), walls.y2 - walls.y1);
     }
-    static crowHealthBlock(ctx, healthMax, health) { //health block separation
-        ctx.beginPath();
-        ctx.lineWidth = 3;
-        ctx.strokeRect(5, 40, 135, 80);
-        ctx.closePath();
+    static crowHealthBlock(walls, healthMax, health) {
+        //health block separation
+        stroke("#CCC");
+        strokeWeight(3);
+        line(walls.x1 / 10, walls.y1 * 3, walls.x1, walls.y1 * 3);
 
-        ctx.font = '24px sans-serif';
-        ctx.fillText('HEALTH', 25, 70);
+        fill("#CCC");
+        textSize(30);
+        strokeWeight(0);
+        text('HEALTH', walls.x1 / 5.4, walls.y1 * 1.8);
 
         //health bar outter
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.strokeRect(17, 80, 110, 30);
-        ctx.closePath();
+        noFill();
+        stroke("#CCC");
+        strokeWeight(3);
+        strokeJoin(ROUND);
+        rect(walls.x1 / 6, walls.y1*2, walls.x1/1.3, walls.y1*0.8);
 
-        //health bar inner
+        // //health bar inner
         if (health > 0) {
-            ctx.beginPath();
-            ctx.fillRect(20, 82, 104 / healthMax * health, 26);
-            ctx.closePath();
+            fill("#CCC")
+            stroke("#CCC");
+            strokeWeight(3);
+            strokeJoin(ROUND);
+            rect(walls.x1 /5, walls.y1*2.1, walls.x1/1.42, walls.y1*0.6)
         }
     }
 }

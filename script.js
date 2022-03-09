@@ -117,6 +117,7 @@ function draw() {
 
     bullet[i].Draw();
   }
-
+  Interface.mainBlock(walls);
+  Interface.crowHealthBlock(walls,crow.healthMax, crow.health);
   walls.Draw();
 }
