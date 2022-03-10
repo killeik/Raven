@@ -12,30 +12,24 @@ var button = {
   up: false
 }
 
-var timer = {
-  bullet: Date.now(),
-  lastHit: Date.now()
-}
+var timer;
+var bullet;
+var enemy;
 
-var bullet = [];
-var enemy = [];
 
 var crow;
 var canvas;
 var scaleSize;
 var walls;
-var enemiesAlreadySpawned = 0;
+var enemiesAlreadySpawned;
+var gameCondition;
 
 function setup() {
   canvas = Window.SetCanvas();
   var cnv = createCanvas(canvas.width, canvas.height);
   cnv.style('display', 'block');
   cnv.style('margin', 'auto');
-
   scaleSize = Window.SetScale(canvas);
-  crow = new Crow((canvas.width / 2 / scaleSize), (canvas.height / 2 / scaleSize), 3, 5);
-
-  walls = new Walls(canvas, scaleSize);
 }
 
 function windowResized() {
@@ -68,7 +62,22 @@ function keyHandler(code, value) {
   }
 }
 
-function draw() {
+function prepareGameLoop() {
+  crow = new Crow((canvas.width / 2 / scaleSize), (canvas.height / 2 / scaleSize), 3, 5);
+  walls = new Walls(canvas, scaleSize);
+  timer = {
+    bullet: Date.now(),
+    lastHit: Date.now()
+  }
+  enemiesAlreadySpawned = 0;
+  bullet = [];
+  enemy = [];
+
+  gameCondition = "game";
+}
+
+
+function gameLoop() {
   background('#1a1c1d');
   scale(scaleSize);
 
@@ -129,4 +138,23 @@ function draw() {
   Interface.mainBlock(walls);
   Interface.crowHealthBlock(walls, crow.healthMax, crow.health);
   walls.Draw();
+
+  if (crow.health <= 0) {
+    gameCondition = "menu";
+  }
+}
+
+
+function mainMenu() {
+  gameCondition = "prepare";
+}
+
+function draw() {
+  switch (gameCondition) {
+    case "prepare": prepareGameLoop(); break;
+    case "game": gameLoop(); break;
+    case "menu": mainMenu(); break;
+    default: mainMenu(); break;
+  }
+
 }
