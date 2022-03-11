@@ -1,35 +1,51 @@
-export default class Enemy{
-  constructor(startx, starty, enemyMaxHealth, enemyHeight, enemyWidth){
-      this.x=startx;
-      this.y=starty;
-      this.health= enemyMaxHealth;
-      this.height= enemyHeight;
-      this.width= enemyWidth;
+class Enemy {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.health = 3;
+    this.enemyMaxHealth = 3;
+    this.height = 40;
+    this.width = 20;
+    this.speed = 1;
+  }
+  get mid_x() {
+    return this.x + (this.width / 2)
+  }
+  get mid_y() {
+    return this.y + (this.height / 2)
+  }
+
+  moveToCrow(crow) {
+    let vectorToCrow = createVector((crow.mid_x - this.mid_x), (crow.mid_y - this.mid_y));
+    let normVecToCrow = vectorToCrow.normalize();
+    this.x += this.speed * normVecToCrow.x;
+    this.y += this.speed * normVecToCrow.y;
+  }
+
+  static randomInWalls(walls) {
+    let x = random(walls.x1, walls.x2 - 25); //25 = width + strokeweight
+    let y = random(walls.y1, walls.y2 - 45); //45 = height + strokeweight
+    return { x: x, y: y }
+  }
+
+  Draw() {
+    fill('#CCC');
+    stroke("#CCC");
+    strokeWeight(5);
+    quad(this.x, this.y + (this.height / 2),
+      this.x + (this.width / 2), this.y,
+      this.x + this.width, this.y + (this.height / 2),
+      this.x + (this.width / 2), this.y + this.height)
+  }
+
+  crowCollision(crow) {
+    if (this.x + this.width >= crow.x &
+      this.x <= crow.x + crow.width &
+      this.y + this.height >= crow.y &
+      this.y <= crow.y + crow.height) {
+      return true;
+    } else {
+      return false
     }
-
-    moveToCords(enemySpeed, targetX, targetY){
-            let vecEnemyToPlayer = this.vectorNormilize(this.x, this.y, targetX, targetY)
-            this.x += (enemySpeed * vecEnemyToPlayer.nx);
-            this.y += (enemySpeed * vecEnemyToPlayer.ny);
-          }
-
-    vectorNormilize(startx, starty, finishx, finishy){
-          let x = finishx - startx;
-          let y = finishy - starty;
-          let length = Math.sqrt((x*x) + (y*y));
-          //normalizing vector
-          let nx = x / length;
-          let ny = y / length;
-          return {nx: nx, ny:ny}
-        }
-        
-  static getRandomArbitrary(min, max) {
-      return Math.round (Math.random() * (max - min) + min);
-    }
-
-  static returnRandomPointsfromPool(startx, endx, starty, endy){
-    let x = this.getRandomArbitrary(startx, endx);
-    let y = this.getRandomArbitrary(starty, endy);
-    return {x:x, y:y}
   }
 }

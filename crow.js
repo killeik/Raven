@@ -1,65 +1,89 @@
-export default class Crow {
-  // constructor(initial_x, initial_y, healthMax){
-  //   this.x = initial_x;
-  //   this.y = initial_y;
-  constructor(){
-    this.x = 0;
-    this.y = 0;
-
+class Crow {
+  constructor(centerx, centery, speed, health) {
     this.width = 20;
     this.height = 40;
 
+    this.x = centerx - (this.width / 2);
+    this.y = centery - (this.height / 2);
+
     this.side = "right";
+
+    this.speed = speed;
     this.speedx = 0;
     this.speedy = 0;
 
-    this.healthMax = 0;
-    this.health = 0;
+    this.healthMax = health;
+    this.health = health;
   }
-  get mid_x(){
-    return this.x + (this.width/2)
+  get mid_x() {
+    return this.x + (this.width / 2)
   }
-  get mid_y(){
-    return this.y + (this.height/2)
+  get mid_y() {
+    return this.y + (this.height / 2)
   }
 
-static Move(crowSpeed, rightPressed, leftPressed, upPressed, downPressed){
-    if (rightPressed & !(upPressed || downPressed || leftPressed)) {
-      this.speedx = crowSpeed;
+  Move(button) {
+    if (button.d & !(button.w || button.s || button.a)) {
+      this.speedx = this.speed;
       this.speedy = 0;
       this.side = "right";
-    } else if (leftPressed & !(upPressed || downPressed || rightPressed)) {
-      this.speedx = -crowSpeed;
+    } else if (button.a & !(button.w || button.s || button.d)) {
+      this.speedx = -this.speed;
       this.speedy = 0;
       this.side = "left";
-    } else if (upPressed & !(leftPressed || rightPressed || downPressed)) {
+    } else if (button.w & !(button.a || button.d || button.s)) {
       this.side = "up";
-      this.speedy = -crowSpeed;
+      this.speedy = -this.speed;
       this.speedx = 0;
-    } else if (downPressed & !(leftPressed || rightPressed || upPressed)) {
+    } else if (button.s & !(button.a || button.d || button.w)) {
       this.side = "down";
-      this.speedy = crowSpeed;
+      this.speedy = this.speed;
       this.speedx = 0;
-    } else if (rightPressed & upPressed & !(downPressed || leftPressed)) {
-      this.speedx =  crowSpeed;
-      this.speedy =  -crowSpeed;
+    } else if (button.d & button.w & !(button.s || button.a)) {
+      this.speedx = this.speed;
+      this.speedy = -this.speed;
       this.side = "right-up";
-    } else if (rightPressed & downPressed & !(upPressed || leftPressed)) {
-      this.speedx =  crowSpeed;
-      this.speedy =  crowSpeed;
+    } else if (button.d & button.s & !(button.w || button.a)) {
+      this.speedx = this.speed;
+      this.speedy = this.speed;
       this.side = "right-down";
-    } else if (leftPressed & upPressed & !(downPressed || rightPressed)) {
-      this.speedx =  -crowSpeed;
-      this.speedy =  -crowSpeed;
+    } else if (button.a & button.w & !(button.s || button.d)) {
+      this.speedx = -this.speed;
+      this.speedy = -this.speed;
       this.side = "left-up";
-    } else if (leftPressed & downPressed & !(upPressed || rightPressed)) {
-      this.speedx =  -crowSpeed;
-      this.speedy =  crowSpeed;
+    } else if (button.a & button.s & !(button.w || button.d)) {
+      this.speedx = -this.speed;
+      this.speedy = this.speed;
       this.side = "left-down";
     } else {
       this.speedy = 0;
       this.speedx = 0;
     }
+
+    this.x += this.speedx;
+    this.y += this.speedy;
     return
   };
+
+
+  Draw() {
+    fill('#CCC');
+    stroke("#CCC");
+    strokeWeight(5);
+    triangle(this.x, this.y + this.height, this.x + this.width, this.y + this.height, this.x + (0.5 * this.width), this.y);
+  }
+
+  WallCollision(walls) {
+    if (this.y + this.speedy <= walls.y1) {
+      this.y = walls.y1;
+    } else if (this.y + this.height + this.speedy >= walls.y2) {
+      this.y = walls.y2 - this.height;
+    }
+
+    if (this.x + this.speedx <= walls.x1) {
+      this.x = walls.x1;
+    } else if (this.x + this.width + this.speedx >= walls.x2) {
+      this.x = walls.x2 - this.width;
+    }
+  }
 }
