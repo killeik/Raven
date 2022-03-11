@@ -23,6 +23,7 @@ var scaleSize;
 var walls;
 var enemiesAlreadySpawned;
 var gameCondition;
+var menu;
 
 function setup() {
   canvas = Window.SetCanvas();
@@ -30,12 +31,14 @@ function setup() {
   cnv.style('display', 'block');
   cnv.style('margin', 'auto');
   scaleSize = Window.SetScale(canvas);
+  menu = new Menu(canvas);
 }
 
 function windowResized() {
   canvas = Window.SetCanvas();
   scaleSize = Window.SetScale(canvas);
   resizeCanvas(canvas.width, canvas.height);
+  menu = new Menu(canvas);
 }
 function keyPressed() {
   keyHandler(keyCode, true)
@@ -116,7 +119,6 @@ function gameLoop() {
       if (enemy[i].crowCollision(crow)) {
         crow.health -= 1;
         timer.lastHit = Date.now();
-        console.log(crow.health);
       }
     }
 
@@ -142,11 +144,16 @@ function gameLoop() {
   if (crow.health <= 0) {
     gameCondition = "menu";
   }
+  if (enemy.length === 0) {
+    gameCondition = "menu";
+  }
 }
 
 
 function mainMenu() {
-  gameCondition = "prepare";
+  background('#1a1c1d');
+  menu.buttons();
+  // gameCondition = "prepare";
 }
 
 function draw() {

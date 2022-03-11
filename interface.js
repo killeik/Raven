@@ -15,7 +15,8 @@ class Interface {
         fill("#CCC");
         textSize(30);
         strokeWeight(0);
-        text('HEALTH', walls.x1 / 5.4, walls.y1 * 1.8);
+        textAlign(CENTER, CENTER)
+        text('HEALTH', walls.x1 / 1.9, walls.y1 * 1.5);
 
         //health bar outter
         noFill();
