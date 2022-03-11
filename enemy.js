@@ -23,8 +23,8 @@ class Enemy {
   }
 
   static randomInWalls(walls) {
-    let x = random(walls.x1, walls.x2)
-    let y = random(walls.y1, walls.y2);
+    let x = random(walls.x1, walls.x2 - 25); //25 = width + strokeweight
+    let y = random(walls.y1, walls.y2 - 45); //45 = height + strokeweight
     return { x: x, y: y }
   }
 
