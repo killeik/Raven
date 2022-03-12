@@ -25,7 +25,11 @@ var enemiesAlreadySpawned;
 var gameCondition;
 var menu;
 
+var fredoka_medium;
+
 function setup() {
+  fredoka_medium = loadFont("fonts/Fredoka/Fredoka-Medium.ttf")
+
   canvas = Window.SetCanvas();
   var cnv = createCanvas(canvas.width, canvas.height);
   cnv.style('display', 'block');
@@ -137,8 +141,9 @@ function gameLoop() {
 
     bullet[i].Draw();
   }
-  Interface.mainBlock(walls);
-  Interface.crowHealthBlock(walls, crow.healthMax, crow.health);
+  Interface.leftBlock(walls);
+  Interface.rightBlock(walls);
+  Interface.crowHealth(walls, crow.healthMax, crow.health);
   walls.Draw();
 
   if (crow.health <= 0) {
