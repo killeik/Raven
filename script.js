@@ -23,6 +23,8 @@ var scaleSize;
 var walls;
 var enemiesAlreadySpawned;
 var gameCondition;
+
+var tutorial;
 var menu;
 
 var fredoka_medium;
@@ -35,6 +37,8 @@ function setup() {
   cnv.style('display', 'block');
   cnv.style('margin', 'auto');
   scaleSize = Window.SetScale(canvas);
+
+  tutorial = new Tutorial(canvas);
   menu_btns = new MenuButtons(canvas);
 }
 
@@ -42,6 +46,8 @@ function windowResized() {
   canvas = Window.SetCanvas();
   scaleSize = Window.SetScale(canvas);
   resizeCanvas(canvas.width, canvas.height);
+
+  tutorial = new Tutorial(canvas);
   menu_btns = new MenuButtons(canvas);
 }
 function keyPressed() {
@@ -158,6 +164,7 @@ function gameLoop() {
 function mainMenu() {
   background('#1a1c1d');
   menu_btns.draw();
+  tutorial.draw();
   // gameCondition = "prepare";
 }
 
