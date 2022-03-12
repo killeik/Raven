@@ -35,14 +35,14 @@ function setup() {
   cnv.style('display', 'block');
   cnv.style('margin', 'auto');
   scaleSize = Window.SetScale(canvas);
-  menu = new Menu(canvas);
+  menu_btns = new MenuButtons(canvas);
 }
 
 function windowResized() {
   canvas = Window.SetCanvas();
   scaleSize = Window.SetScale(canvas);
   resizeCanvas(canvas.width, canvas.height);
-  menu = new Menu(canvas);
+  menu_btns = new MenuButtons(canvas);
 }
 function keyPressed() {
   keyHandler(keyCode, true)
@@ -157,7 +157,7 @@ function gameLoop() {
 
 function mainMenu() {
   background('#1a1c1d');
-  menu.buttons();
+  menu_btns.draw();
   // gameCondition = "prepare";
 }
 

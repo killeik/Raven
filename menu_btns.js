@@ -1,4 +1,4 @@
-class Menu {
+class MenuButtons {
     constructor(canvas) {
         this.x1 = canvas.width / 40;
         this.y1 = canvas.height / 18;
@@ -8,7 +8,7 @@ class Menu {
         this.width = this.x2 - this.x1;
         this.height = this.y2 - this.y1;
     }
-    buttons(gameCondition) {
+    draw(gameCondition) {
         this.buttonsBorder();
         this.buttonStart(gameCondition);
         this.buttonOption();
@@ -38,7 +38,7 @@ class Menu {
         }
 
         fill("#CCC");
-        textSize(this.width / 5);
+        textFont(fredoka_medium, this.width / 5);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Start', this.x1 + (this.width / 2), this.y1 + (this.height / 6));
@@ -57,7 +57,7 @@ class Menu {
             rect(this.x1, this.y1 + this.height / 3, this.width, this.height / 3, this.width / 4);
         }
         fill("#CCC");
-        textSize(this.width / 5);
+        textFont(fredoka_medium, this.width / 5);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Options', this.x1 + (this.width / 2), this.y1 + (this.height / 2));
@@ -76,10 +76,9 @@ class Menu {
             rect(this.x1, this.y1 + this.height / 1.5, this.width, this.height / 3, this.width / 4);
         }
         fill("#CCC");
-        textSize(this.width / 5);
+        textFont(fredoka_medium, this.width / 5);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Credits', this.x1 + (this.width / 2), this.y1 + (this.height / 6 * 5));
     }
-
 }
