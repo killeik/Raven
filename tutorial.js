@@ -8,11 +8,11 @@ class Tutorial {
         this.width = this.x2 - this.x1;
         this.height = this.y2 - this.y1;
     }
-    draw(gameCondition) {
+    draw(button) {
         this.Border();
         this.Tutorial();
-        this.WASD();
-        this.Arrows();
+        this.WASD(button);
+        this.Arrows(button);
     }
     Border() {
         fill('#1a1c1d');
@@ -30,11 +30,11 @@ class Tutorial {
         text('How to play:', this.x1 + (this.width / 2), this.y1 + (this.height / 15));
 
     }
-    WASD() {
-        this.W();
-        this.A();
-        this.S();
-        this.D();
+    WASD(button) {
+        this.W(button.w);
+        this.A(button.a);
+        this.S(button.s);
+        this.D(button.d);
 
         fill("#CCC");
         textFont(fredoka_medium, this.width / 13);
@@ -42,8 +42,12 @@ class Tutorial {
         textAlign(CENTER, CENTER)
         text('move', this.x1 + (this.width / 2), this.y1 * 7.5);
     }
-    W() {
-        fill('#1a1c1d');
+    W(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
@@ -56,8 +60,12 @@ class Tutorial {
         text('w', this.x1 * 1.55 + this.width / 24, this.y1 * 5 + this.width / 36)
 
     }
-    A() {
-        fill('#1a1c1d');
+    A(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
@@ -69,8 +77,12 @@ class Tutorial {
         textAlign(CENTER, CENTER)
         text('a', this.x1 * 1.75 + this.width / 24, this.y1 * 5 + this.width / 36)
     }
-    S() {
-        fill('#1a1c1d');
+    S(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
@@ -82,8 +94,12 @@ class Tutorial {
         textAlign(CENTER, CENTER)
         text('s', this.x1 * 1.95 + this.width / 24, this.y1 * 5 + this.width / 36)
     }
-    D() {
-        fill('#1a1c1d');
+    D(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
@@ -96,11 +112,11 @@ class Tutorial {
         text('d', this.x1 * 2.15 + this.width / 24, this.y1 * 5 + this.width / 36)
     }
 
-    Arrows() {
-        this.Left();
-        this.Up();
-        this.Down();
-        this.Right();
+    Arrows(button) {
+        this.Left(button.left);
+        this.Up(button.up);
+        this.Down(button.down);
+        this.Right(button.right);
 
         fill("#CCC");
         textFont(fredoka_medium, this.width / 13);
@@ -108,8 +124,12 @@ class Tutorial {
         textAlign(CENTER, CENTER)
         text('shoot', this.x1 + (this.width / 2), this.y1 * 12.5);
     }
-    Left() {
-        fill('#1a1c1d');
+    Left(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
@@ -121,8 +141,12 @@ class Tutorial {
         textAlign(CENTER, CENTER)
         text('⭠', this.x1 * 1.55 + this.width / 24, this.y1 * 10 + this.width / 22)
     }
-    Up() {
-        fill('#1a1c1d');
+    Up(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
@@ -135,8 +159,12 @@ class Tutorial {
         text('⭡', this.x1 * 1.75 + this.width / 24, this.y1 * 10 + this.width / 22)
 
     }
-    Down() {
-        fill('#1a1c1d');
+    Down(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
@@ -148,8 +176,12 @@ class Tutorial {
         textAlign(CENTER, CENTER)
         text('⭣', this.x1 * 1.95 + this.width / 24, this.y1 * 10 + this.width / 22)
     }
-    Right() {
-        fill('#1a1c1d');
+    Right(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);

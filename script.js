@@ -164,7 +164,7 @@ function gameLoop() {
 function mainMenu() {
   background('#1a1c1d');
   menu_btns.draw();
-  tutorial.draw();
+  tutorial.draw(button);
   // gameCondition = "prepare";
 }
 
