@@ -28,9 +28,11 @@ var tutorial;
 var menu;
 
 var fredoka_medium;
+var noto_sans_bold;
 
 function setup() {
   fredoka_medium = loadFont("fonts/Fredoka/Fredoka-Medium.ttf")
+  noto_sans_bold = loadFont("fonts/Noto_Sans/NotoSans-Bold.ttf")
 
   canvas = Window.SetCanvas();
   var cnv = createCanvas(canvas.width, canvas.height);

@@ -136,10 +136,10 @@ class Tutorial {
         rect(this.x1 * 1.55, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont("Source Sans Pro", this.width / 12);
-        strokeWeight(3);
+        textFont(noto_sans_bold, this.width / 12);
+        strokeWeight(7);
         textAlign(CENTER, CENTER)
-        text('⭠', this.x1 * 1.55 + this.width / 24, this.y1 * 10 + this.width / 22)
+        text('←', this.x1 * 1.55 + this.width / 24, this.y1 * 10 + this.width / 80)
     }
     Up(pressed) {
         if (pressed) {
@@ -153,10 +153,10 @@ class Tutorial {
         rect(this.x1 * 1.75, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont("Source Sans Pro", this.width / 12);
-        strokeWeight(3);
+        textFont(noto_sans_bold, this.width / 12);
+        strokeWeight(7);
         textAlign(CENTER, CENTER)
-        text('⭡', this.x1 * 1.75 + this.width / 24, this.y1 * 10 + this.width / 22)
+        text('↑', this.x1 * 1.75 + this.width / 24, this.y1 * 10 + this.width / 50)
 
     }
     Down(pressed) {
@@ -171,10 +171,10 @@ class Tutorial {
         rect(this.x1 * 1.95, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont("Source Sans Pro", this.width / 12);
-        strokeWeight(3);
+        textFont(noto_sans_bold, this.width / 12);
+        strokeWeight(7);
         textAlign(CENTER, CENTER)
-        text('⭣', this.x1 * 1.95 + this.width / 24, this.y1 * 10 + this.width / 22)
+        text('↓', this.x1 * 1.95 + this.width / 24, this.y1 * 10 + this.width / 50)
     }
     Right(pressed) {
         if (pressed) {
@@ -188,9 +188,9 @@ class Tutorial {
         rect(this.x1 * 2.15, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont("Source Sans Pro", this.width / 12);
-        strokeWeight(3);
+        textFont(noto_sans_bold, this.width / 12);
+        strokeWeight(7);
         textAlign(CENTER, CENTER)
-        text('⭢', this.x1 * 2.15 + this.width / 24, this.y1 * 10 + this.width / 22)
+        text('→', this.x1 * 2.15 + this.width / 24, this.y1 * 10 + this.width / 80)
     }
 }
