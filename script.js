@@ -25,7 +25,9 @@ var enemiesAlreadySpawned;
 var gameCondition;
 
 var tutorial;
-var menu;
+var menu_btns;
+var win;
+var loose;
 
 var fredoka_medium;
 var noto_sans_bold;
@@ -40,6 +42,8 @@ function setup() {
   cnv.style('margin', 'auto');
   scaleSize = Window.SetScale(canvas);
 
+  win = new WinScreen(canvas);
+  loose = new LoseScreen(canvas);
   tutorial = new Tutorial(canvas);
   menu_btns = new MenuButtons(canvas);
 }
@@ -49,13 +53,17 @@ function windowResized() {
   scaleSize = Window.SetScale(canvas);
   resizeCanvas(canvas.width, canvas.height);
 
+  win = new WinScreen(canvas);
+  loose = new LoseScreen(canvas);
   tutorial = new Tutorial(canvas);
   menu_btns = new MenuButtons(canvas);
 }
+
 function keyPressed() {
   keyHandler(keyCode, true)
   return false; // prevent any default behaviour
 }
+
 function keyReleased() {
   keyHandler(keyCode, false)
   return false; // prevent any default behavior
@@ -158,7 +166,7 @@ function gameLoop() {
     gameCondition = "menu";
   }
   if (enemy.length === 0) {
-    gameCondition = "menu";
+    gameCondition = "win";
   }
 }
 
@@ -170,11 +178,23 @@ function mainMenu() {
   // gameCondition = "prepare";
 }
 
+function loseScreen() {
+
+}
+
+
+function winScreen() {
+  background('#1a1c1d');
+  win.draw(button, config.enemiesAtAllMax, crow);
+}
+
 function draw() {
   switch (gameCondition) {
     case "prepare": prepareGameLoop(); break;
     case "game": gameLoop(); break;
     case "menu": mainMenu(); break;
+    case "lose": loseScren(); break;
+    case "win": winScreen(); break;
     default: mainMenu(); break;
   }
 
