@@ -137,7 +137,7 @@ class Tutorial {
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
-        strokeWeight(7);
+        strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('←', this.x1 * 1.55 + this.width / 24, this.y1 * 10 + this.width / 80)
     }
@@ -154,7 +154,7 @@ class Tutorial {
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
-        strokeWeight(7);
+        strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('↑', this.x1 * 1.75 + this.width / 24, this.y1 * 10 + this.width / 50)
 
@@ -172,7 +172,7 @@ class Tutorial {
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
-        strokeWeight(7);
+        strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('↓', this.x1 * 1.95 + this.width / 24, this.y1 * 10 + this.width / 50)
     }
@@ -189,7 +189,7 @@ class Tutorial {
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
-        strokeWeight(7);
+        strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('→', this.x1 * 2.15 + this.width / 24, this.y1 * 10 + this.width / 80)
     }
