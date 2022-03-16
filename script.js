@@ -15,13 +15,13 @@ var button = {
 var timer;
 var bullet;
 var enemy;
-
-
 var crow;
+
 var canvas;
 var scaleSize;
 var walls;
 var enemiesAlreadySpawned;
+
 var gameCondition;
 
 var tutorial;
@@ -157,13 +157,14 @@ function gameLoop() {
 
     bullet[i].Draw();
   }
+
   Interface.leftBlock(walls);
   Interface.rightBlock(walls);
   Interface.crowHealth(walls, crow.healthMax, crow.health);
   walls.Draw();
 
   if (crow.health <= 0) {
-    gameCondition = "menu";
+    gameCondition = "lose";
   }
   if (enemy.length === 0) {
     gameCondition = "win";

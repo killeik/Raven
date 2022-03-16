@@ -13,8 +13,9 @@ class WinScreen {
         this.border();
         this.you_win();
         this.enemies_killed(killed);
-        this.your_health(crow);
-        this.buttonPressed(button);
+        this.crow_health(crow);
+        this.total_score(killed);
+        this.press_enter(button);
 
     }
 
@@ -39,20 +40,36 @@ class WinScreen {
         textFont(fredoka_medium, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
-        text('Enemies killed:', this.x1 + (this.width / 4), this.y1 * 5);
-        text(killed.toString() + "/" + killed.toString(), this.x1 + (this.width / 4), this.y1 * 6.3);
+        text('Enemies killed:', this.x1 + (this.width / 4), this.y1 * 6);
+        text(killed.toString() + "/" + killed.toString(), this.x1 + (this.width / 4), this.y1 * 7.5);
     }
 
-    your_health() {
+    crow_health() {
         fill("#CCC");
         textFont(fredoka_medium, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
-        text('Your health:', this.x1 + (this.width / 4), this.y1 * 8);
-        text(crow.health.toString() + "/" + crow.healthMax.toString(), this.x1 + (this.width / 4), this.y1 * 9);
+        text('Crow health:', this.x1 + (this.width / 4), this.y1 * 11);
+        text(crow.health.toString() + "/" + crow.healthMax.toString(), this.x1 + (this.width / 4), this.y1 * 12.5);
     }
 
-    buttonPressed(button) {
+    total_score(killed) {
+        fill("#CCC");
+        textFont(fredoka_medium, this.width / 20);
+        strokeWeight(0);
+        textAlign(CENTER, CENTER)
+        text('Total score:', this.x1 + (this.width / 1.5), this.y1 * 8);
+        let score = ((crow.health + killed) / (crow.healthMax + killed)) * 100;
+        score = Math.round(score);
+        text(score.toString() + "%/100%", this.x1 + (this.width / 1.5), this.y1 * 9.5);
+    }
+
+    press_enter(button) {
+        fill("#CCC");
+        textFont(fredoka_medium, this.width / 20);
+        strokeWeight(0);
+        textAlign(CENTER, CENTER)
+        text('Press Enter to return', this.x1 + (this.width / 2), this.height*0.95);
         if (button.enter) {
             gameCondition = "menu";
         }
