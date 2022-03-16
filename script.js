@@ -43,7 +43,7 @@ function setup() {
   scaleSize = Window.SetScale(canvas);
 
   win = new WinScreen(canvas);
-  loose = new LoseScreen(canvas);
+  lose = new LoseScreen(canvas);
   tutorial = new Tutorial(canvas);
   menu_btns = new MenuButtons(canvas);
 }
@@ -54,7 +54,7 @@ function windowResized() {
   resizeCanvas(canvas.width, canvas.height);
 
   win = new WinScreen(canvas);
-  loose = new LoseScreen(canvas);
+  lose = new LoseScreen(canvas);
   tutorial = new Tutorial(canvas);
   menu_btns = new MenuButtons(canvas);
 }
@@ -180,9 +180,10 @@ function mainMenu() {
 }
 
 function loseScreen() {
-
+  background('#1a1c1d');
+  let killed_enemies = enemiesAlreadySpawned - enemy.length;
+  lose.draw(button, killed_enemies, config.enemiesAtAllMax);
 }
-
 
 function winScreen() {
   background('#1a1c1d');
@@ -194,7 +195,7 @@ function draw() {
     case "prepare": prepareGameLoop(); break;
     case "game": gameLoop(); break;
     case "menu": mainMenu(); break;
-    case "lose": loseScren(); break;
+    case "lose": loseScreen(); break;
     case "win": winScreen(); break;
     default: mainMenu(); break;
   }
