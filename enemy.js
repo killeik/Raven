@@ -1,12 +1,12 @@
 class Enemy {
-  constructor(x, y) {
+  constructor(x, y, health, speed) {
     this.x = x;
     this.y = y;
-    this.health = 3;
-    this.enemyMaxHealth = 3;
+    this.health = health;
+    this.enemyMaxHealth = health;
     this.height = 40;
     this.width = 20;
-    this.speed = 1;
+    this.speed = speed;
   }
   get mid_x() {
     return this.x + (this.width / 2)

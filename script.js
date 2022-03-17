@@ -32,6 +32,8 @@ var loose;
 var fredoka_medium;
 var noto_sans_bold;
 
+var config_current;
+
 function setup() {
   fredoka_medium = loadFont("fonts/Fredoka/Fredoka-Medium.ttf")
   noto_sans_bold = loadFont("fonts/Noto_Sans/NotoSans-Bold.ttf")
@@ -96,6 +98,12 @@ function prepareGameLoop() {
   bullet = [];
   enemy = [];
 
+  config_current = {
+    enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
+    enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
+  }
+  console.log(config_current)
+
   gameCondition = "game";
 }
 
@@ -116,11 +124,13 @@ function gameLoop() {
     }
   }
 
-  if (enemy.length < config.enemiesAtOnceMax & enemiesAlreadySpawned < config.enemiesAtAllMax) {
+  if (enemy.length < config_current.enemiesAtOnce & enemiesAlreadySpawned < config_current.enemiesAtAll) {
     enemiesAlreadySpawned += 1;
+    let enemyHealth = random(config.l1.enemyHealthMin, config.l1.enemyHealthMax);
+    let enemySpeed = random(config.l1.enemySpeedMin, config.l1.enemySpeedMax);
 
     let cords = Enemy.randomInWalls(walls);
-    enemy.push(new Enemy(cords.x, cords.y));
+    enemy.push(new Enemy(cords.x, cords.y, enemyHealth, enemySpeed));
   }
 
   for (let i = 0; i < enemy.length; i++) {
@@ -187,7 +197,7 @@ function loseScreen() {
 
 function winScreen() {
   background('#1a1c1d');
-  win.draw(button, config.enemiesAtAllMax, crow);
+  win.draw(button, config_current.enemiesAtAll, crow);
 }
 
 function draw() {
@@ -201,3 +211,4 @@ function draw() {
   }
 
 }
+``
