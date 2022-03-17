@@ -4,6 +4,9 @@ class Walls {
         this.y1 = canvas.height / 18 / scl;
         this.x2 = canvas.width / 9 * 8 / scl;
         this.y2 = canvas.height / 18 * 17 / scl;
+
+        this.width = this.x2 - this.x1;
+        this.height = this.y2 - this.y1;
     }
 
     Draw() {

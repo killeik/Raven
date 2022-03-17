@@ -33,13 +33,13 @@ class LoseScreen {
         text('You Lose', this.x1 + (this.width / 2), this.y1 + (this.height / 10));
     }
 
-    enemies_killed(killed, enemiesAtAllMax) {
+    enemies_killed(killed, enemiesAtAll) {
         fill("#CCC");
         textFont(fredoka_medium, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Enemies killed:', this.x1 + (this.width / 2), this.y1 * 6);
-        text(killed.toString() + "/" + enemiesAtAllMax.toString(), this.x1 + (this.width / 2), this.y1 * 7.5);
+        text(killed.toString() + "/" + enemiesAtAll.toString(), this.x1 + (this.width / 2), this.y1 * 7.5);
     }
 
     press_enter(button) {

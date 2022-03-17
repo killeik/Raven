@@ -20,6 +20,7 @@ var crow;
 var canvas;
 var scaleSize;
 var walls;
+var gates;
 var enemiesAlreadySpawned;
 
 var gameCondition;
@@ -90,6 +91,7 @@ function keyHandler(code, value) {
 function prepareGameLoop() {
   crow = new Crow((canvas.width / 2 / scaleSize), (canvas.height / 2 / scaleSize), 3, 5);
   walls = new Walls(canvas, scaleSize);
+  gates = new Gates(walls);
   timer = {
     bullet: Date.now(),
     lastHit: Date.now()
@@ -102,7 +104,6 @@ function prepareGameLoop() {
     enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
     enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
   }
-  console.log(config_current)
 
   gameCondition = "game";
 }
@@ -172,7 +173,7 @@ function gameLoop() {
   Interface.rightBlock(walls);
   Interface.crowHealth(walls, crow.healthMax, crow.health);
   walls.Draw();
-
+  gates.draw();
   if (crow.health <= 0) {
     gameCondition = "lose";
   }
@@ -192,7 +193,7 @@ function mainMenu() {
 function loseScreen() {
   background('#1a1c1d');
   let killed_enemies = enemiesAlreadySpawned - enemy.length;
-  lose.draw(button, killed_enemies, config.enemiesAtAllMax);
+  lose.draw(button, killed_enemies, config_current.enemiesAtAll);
 }
 
 function winScreen() {
