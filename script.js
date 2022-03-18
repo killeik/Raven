@@ -108,6 +108,16 @@ function prepareGameLoop() {
   gameCondition = "game";
 }
 
+function prepareLevel() {
+  enemiesAlreadySpawned = 0;
+  bullet = [];
+  enemy = [];
+  config_current = {
+    enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
+    enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
+  }
+  gameCondition = "game";
+}
 
 function gameLoop() {
   background('#1a1c1d');
@@ -173,12 +183,14 @@ function gameLoop() {
   Interface.rightBlock(walls);
   Interface.crowHealth(walls, crow.healthMax, crow.health);
   walls.Draw();
-  gates.draw();
+
   if (crow.health <= 0) {
     gameCondition = "lose";
   }
   if (enemy.length === 0) {
-    gameCondition = "win";
+    gates.draw();
+    gates.move(crow);
+    // gameCondition = "win";
   }
 }
 
@@ -204,6 +216,7 @@ function winScreen() {
 function draw() {
   switch (gameCondition) {
     case "prepare": prepareGameLoop(); break;
+    case "prepare_lvl": prepareLevel(); break;
     case "game": gameLoop(); break;
     case "menu": mainMenu(); break;
     case "lose": loseScreen(); break;
