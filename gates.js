@@ -35,11 +35,22 @@ class Gates {
         this.d_height = this.d_y2 - this.d_y1;
     }
 
-    draw() {
-        this.draw_left();
-        this.draw_up();
-        this.draw_right();
-        this.draw_down();
+    draw(map) {
+        if (map.left_room_exists()) {
+            this.draw_left();
+        }
+
+        if (map.up_room_exists()) {
+            this.draw_up();
+        }
+
+        if (map.down_room_exists()) {
+            this.draw_down();
+        }
+
+        if (map.right_room_exists()) {
+            this.draw_right();
+        }
     }
 
     draw_left() {
@@ -73,11 +84,24 @@ class Gates {
 
     }
 
-    move(crow) {
-        this.collision_left(crow);
-        this.collision_up(crow);
-        this.collision_down(crow);
-        this.collision_right(crow);
+    move(map, crow) {
+        if (map.left_room_exists()) {
+            this.collision_left(crow);
+        }
+
+        if (map.up_room_exists()) {
+            this.collision_up(crow);
+        }
+
+        if (map.down_room_exists()) {
+            this.collision_down(crow);
+
+        }
+
+        if (map.right_room_exists()) {
+            this.collision_right(crow);
+
+        }
     }
     collision_left(crow) {
         if (this.l_x2 >= crow.x &
@@ -115,20 +139,26 @@ class Gates {
         crow.x = this.r_x1 + (this.r_width * 0.5) - (crow.width * 0.5);
         crow.y = this.r_y1 + (this.r_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
+        map.crow_moved_left();
     }
     move_up() {
         crow.x = this.d_x1 + (this.d_width * 0.5) - (crow.width * 0.5);
         crow.y = this.d_y1 + (this.d_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
+        map.crow_moved_up();
+
     }
     move_down() {
         crow.x = this.u_x1 + (this.u_width * 0.5) - (crow.width * 0.5);
         crow.y = this.u_y1 + (this.u_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
+        map.crow_moved_down();
     }
     move_right() {
         crow.x = this.l_x1 + (this.l_width * 0.5) - (crow.width * 0.5);
         crow.y = this.l_y1 + (this.l_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
+        map.crow_moved_right();
+
     }
 }

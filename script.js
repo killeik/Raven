@@ -20,7 +20,9 @@ var crow;
 var canvas;
 var scaleSize;
 var walls;
+
 var gates;
+var map;
 var enemiesAlreadySpawned;
 
 var gameCondition;
@@ -106,6 +108,9 @@ function prepareGameLoop() {
   }
 
   gameCondition = "game";
+
+  map = new Map(4, 4);
+  map.generate();
 }
 
 function prepareLevel() {
@@ -188,8 +193,8 @@ function gameLoop() {
     gameCondition = "lose";
   }
   if (enemy.length === 0) {
-    gates.draw();
-    gates.move(crow);
+    gates.draw(map);
+    gates.move(map, crow);
     // gameCondition = "win";
   }
 }
