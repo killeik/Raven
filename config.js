@@ -5,16 +5,16 @@ const config = {
   damageCooldown: 1000,
 
   l1: {
-    enemiesAtOnceMin: 2,
-    enemiesAtOnceMax: 4,
+    enemiesAtOnceMin: 5,
+    enemiesAtOnceMax: 7,
 
-    enemiesAtAllMin: 6,
-    enemiesAtAllMax: 10,
+    enemiesAtAllMin: 10,
+    enemiesAtAllMax: 15,
 
-    enemyHealthMin: 2,
-    enemyHealthMax: 4,
+    enemyHealthMin: 1,
+    enemyHealthMax: 2,
 
-    enemySpeedMin: 0.8,
-    enemySpeedMax: 1.3
+    enemySpeedMin: 1,
+    enemySpeedMax: 2.5
   }
 }
