@@ -129,26 +129,26 @@ class Gates {
     }
 
     move_left() {
-        crow.x = this.r_x1 + (this.r_width * 0.5) - (crow.width * 0.5);
+        crow.x = this.r_x1 - (this.r_width * 0.5) - (crow.width * 0.5);
         crow.y = this.r_y1 + (this.r_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
         map_l1.crow_moved_left()
     }
     move_up() {
         crow.x = this.d_x1 + (this.d_width * 0.5) - (crow.width * 0.5);
-        crow.y = this.d_y1 + (this.d_height * 0.5) - (crow.height * 0.5);
+        crow.y = this.d_y1 - (this.d_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
         map_l1.crow_moved_up();
 
     }
     move_down() {
         crow.x = this.u_x1 + (this.u_width * 0.5) - (crow.width * 0.5);
-        crow.y = this.u_y1 + (this.u_height * 0.5) - (crow.height * 0.5);
+        crow.y = this.u_y2 + (this.u_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
         map_l1.crow_moved_down();
     }
     move_right() {
-        crow.x = this.l_x1 + (this.l_width * 0.5) - (crow.width * 0.5);
+        crow.x = this.l_x2 + (this.l_width * 0.5) - (crow.width * 0.5);
         crow.y = this.l_y1 + (this.l_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
         map_l1.crow_moved_right();

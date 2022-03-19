@@ -139,8 +139,7 @@ function gameLoop() {
       bullet.push(new Bullet(crow.mid_x, crow.mid_y, bulletspeed));
     }
   }
-
-  if (enemy.length < config_room.enemiesAtOnce & enemiesAlreadySpawned < config_room.enemiesAtAll) {
+  if ((!map_l1.this_room_empty()) & enemy.length < config_room.enemiesAtOnce & enemiesAlreadySpawned < config_room.enemiesAtAll) {
     enemiesAlreadySpawned += 1;
     let enemyHealth = random(config.l1.enemyHealthMin, config.l1.enemyHealthMax);
     let enemySpeed = random(config.l1.enemySpeedMin, config.l1.enemySpeedMax);
@@ -194,6 +193,7 @@ function gameLoop() {
     gameCondition = "lose";
   }
   if (enemy.length === 0) {
+    map_l1.set_this_room_empty();
     gates.draw(map_l1);
     gates.move(map_l1, crow);
     // gameCondition = "win";

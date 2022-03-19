@@ -67,4 +67,16 @@ class Map {
     crow_moved_right() {
         this.crow_column += 1;
     }
+
+    set_this_room_empty() {
+        this.table[this.crow_raw][this.crow_column].empty = true;
+    }
+
+    this_room_empty() {
+        if (this.table[this.crow_raw][this.crow_column].empty) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
