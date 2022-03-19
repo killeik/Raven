@@ -30,12 +30,12 @@ var gameCondition;
 var tutorial;
 var menu_btns;
 var win;
-var loose;
+var lose;
 
 var fredoka_medium;
 var noto_sans_bold;
 
-var config_current;
+var config_room;
 
 function setup() {
   fredoka_medium = loadFont("fonts/Fredoka/Fredoka-Medium.ttf")
@@ -91,7 +91,7 @@ function keyHandler(code, value) {
 }
 
 function prepareGameLoop() {
-  crow = new Crow((canvas.width / 2 / scaleSize), (canvas.height / 2 / scaleSize), 3, 5);
+  crow = new Crow((canvas.width / 2 / scaleSize), (canvas.height / 2 / scaleSize), config.crowSpeed, config.crowHealth);
   walls = new Walls(canvas, scaleSize);
   gates = new Gates(walls);
   timer = {
@@ -102,7 +102,7 @@ function prepareGameLoop() {
   bullet = [];
   enemy = [];
 
-  config_current = {
+  config_room = {
     enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
     enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
   }
@@ -117,7 +117,7 @@ function prepareLevel() {
   enemiesAlreadySpawned = 0;
   bullet = [];
   enemy = [];
-  config_current = {
+  config_room = {
     enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
     enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
   }
@@ -140,12 +140,12 @@ function gameLoop() {
     }
   }
 
-  if (enemy.length < config_current.enemiesAtOnce & enemiesAlreadySpawned < config_current.enemiesAtAll) {
+  if (enemy.length < config_room.enemiesAtOnce & enemiesAlreadySpawned < config_room.enemiesAtAll) {
     enemiesAlreadySpawned += 1;
     let enemyHealth = random(config.l1.enemyHealthMin, config.l1.enemyHealthMax);
     let enemySpeed = random(config.l1.enemySpeedMin, config.l1.enemySpeedMax);
 
-    let cords = Enemy.randomInWalls(walls);
+    let cords = Enemy.randomInWalls(walls, crow);
     enemy.push(new Enemy(cords.x, cords.y, enemyHealth, enemySpeed));
   }
 
@@ -154,6 +154,7 @@ function gameLoop() {
 
     if (enemy[i].health <= 0) {
       enemy.splice(i, 1);
+      crow.killed_enemies += 1;
       break;
     }
 
@@ -209,13 +210,13 @@ function mainMenu() {
 
 function loseScreen() {
   background('#1a1c1d');
-  let killed_enemies = enemiesAlreadySpawned - enemy.length;
-  lose.draw(button, killed_enemies, config_current.enemiesAtAll);
+  let enemiesAtAll = crow.killed_enemies - (enemiesAlreadySpawned - enemy.length) + config_room.enemiesAtAll;
+  lose.draw(button, crow.killed_enemies, enemiesAtAll);
 }
 
 function winScreen() {
   background('#1a1c1d');
-  win.draw(button, config_current.enemiesAtAll, crow);
+  win.draw(button, config_room.enemiesAtAll, crow);
 }
 
 function draw() {

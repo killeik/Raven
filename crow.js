@@ -14,6 +14,8 @@ class Crow {
 
     this.healthMax = health;
     this.health = health;
+
+    this.killed_enemies = 0;
   }
   get mid_x() {
     return this.x + (this.width / 2)

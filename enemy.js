@@ -22,9 +22,15 @@ class Enemy {
     this.y += this.speed * normVecToCrow.y;
   }
 
-  static randomInWalls(walls) {
-    let x = random(walls.x1, walls.x2 - 25); //25 = width + strokeweight
-    let y = random(walls.y1, walls.y2 - 45); //45 = height + strokeweight
+  static randomInWalls(walls, crow) {
+    let x = random(walls.x1, walls.x2 - 25);
+    let y = random(walls.y1, walls.y2 - 45);
+    for (; ;) {
+      if (dist(x, y, crow.mid_x, crow.mid_y) > 300) break;
+      x = random(walls.x1, walls.x2 - 25); //25 = width + strokeweight
+      y = random(walls.y1, walls.y2 - 45); //45 = height + strokeweight
+    }
+
     return { x: x, y: y }
   }
 
