@@ -86,79 +86,72 @@ class Gates {
 
     move(map, crow) {
         if (map.left_room_exists()) {
-            this.collision_left(crow);
+            if (this.l_x2 >= crow.x &
+                this.l_x1 <= crow.x + crow.width &
+                this.l_y2 >= crow.y &
+                this.l_y1 <= crow.y + crow.height) {
+                this.move_left(crow);
+                return;
+            }
         }
 
         if (map.up_room_exists()) {
-            this.collision_up(crow);
+            if (this.u_x2 >= crow.x &
+                this.u_x1 <= crow.x + crow.width &
+                this.u_y2 >= crow.y &
+                this.u_y1 <= crow.y + crow.height) {
+                this.move_up(crow);
+                return;
+            }
         }
 
         if (map.down_room_exists()) {
-            this.collision_down(crow);
+            if (this.d_x2 >= crow.x &
+                this.d_x1 <= crow.x + crow.width &
+                this.d_y2 >= crow.y &
+                this.d_y1 <= crow.y + crow.height) {
+                this.move_down(crow);
+                return;
+            }
 
         }
 
         if (map.right_room_exists()) {
-            this.collision_right(crow);
+            if (this.r_x2 >= crow.x &
+                this.r_x1 <= crow.x + crow.width &
+                this.r_y2 >= crow.y &
+                this.r_y1 <= crow.y + crow.height) {
+                this.move_right(crow);
+                return;
+            }
 
         }
     }
-    collision_left(crow) {
-        if (this.l_x2 >= crow.x &
-            this.l_x1 <= crow.x + crow.width &
-            this.l_y2 >= crow.y &
-            this.l_y1 <= crow.y + crow.height) {
-            this.move_left(crow);
-        }
-    }
-    collision_up(crow) {
-        if (this.u_x2 >= crow.x &
-            this.u_x1 <= crow.x + crow.width &
-            this.u_y2 >= crow.y &
-            this.u_y1 <= crow.y + crow.height) {
-            this.move_up(crow);
-        }
-    }
-    collision_down(crow) {
-        if (this.d_x2 >= crow.x &
-            this.d_x1 <= crow.x + crow.width &
-            this.d_y2 >= crow.y &
-            this.d_y1 <= crow.y + crow.height) {
-            this.move_down(crow);
-        }
-    }
-    collision_right(crow) {
-        if (this.r_x2 >= crow.x &
-            this.r_x1 <= crow.x + crow.width &
-            this.r_y2 >= crow.y &
-            this.r_y1 <= crow.y + crow.height) {
-            this.move_right(crow);
-        }
-    }
+
     move_left() {
         crow.x = this.r_x1 + (this.r_width * 0.5) - (crow.width * 0.5);
         crow.y = this.r_y1 + (this.r_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
-        map.crow_moved_left();
+        map_l1.crow_moved_left()
     }
     move_up() {
         crow.x = this.d_x1 + (this.d_width * 0.5) - (crow.width * 0.5);
         crow.y = this.d_y1 + (this.d_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
-        map.crow_moved_up();
+        map_l1.crow_moved_up();
 
     }
     move_down() {
         crow.x = this.u_x1 + (this.u_width * 0.5) - (crow.width * 0.5);
         crow.y = this.u_y1 + (this.u_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
-        map.crow_moved_down();
+        map_l1.crow_moved_down();
     }
     move_right() {
         crow.x = this.l_x1 + (this.l_width * 0.5) - (crow.width * 0.5);
         crow.y = this.l_y1 + (this.l_height * 0.5) - (crow.height * 0.5);
         gameCondition = "prepare_lvl";
-        map.crow_moved_right();
+        map_l1.crow_moved_right();
 
     }
 }
