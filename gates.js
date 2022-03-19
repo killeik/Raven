@@ -35,57 +35,86 @@ class Gates {
         this.d_height = this.d_y2 - this.d_y1;
     }
 
-    draw(map) {
-        if (map.left_room_exists()) {
-            this.draw_left();
+    draw(map_l1) {
+        if (map_l1.left_room_exists()) {
+            this.draw_left(map_l1);
         }
 
-        if (map.up_room_exists()) {
-            this.draw_up();
+        if (map_l1.up_room_exists()) {
+            this.draw_up(map_l1);
         }
 
-        if (map.down_room_exists()) {
-            this.draw_down();
+        if (map_l1.down_room_exists()) {
+            this.draw_down(map_l1);
         }
 
-        if (map.right_room_exists()) {
-            this.draw_right();
+        if (map_l1.right_room_exists()) {
+            this.draw_right(map_l1);
         }
     }
 
-    draw_left() {
+    draw_left(map_l1) {
         noFill();
         stroke("#CCC");
         strokeWeight(this.l_height / 10);
         strokeJoin(ROUND);
         rect(this.l_x1, this.l_y1, this.l_width, this.l_height, 0, this.l_height / 3, this.l_height / 3, 0);
+
+        if (!map_l1.left_room_empty()) {
+            quad(this.l_x1, this.l_y1 + (this.l_height / 2),
+                this.l_x1 + (this.l_width / 2), this.l_y1,
+                this.l_x1 + this.l_width, this.l_y1 + (this.l_height / 2),
+                this.l_x1 + (this.l_width / 2), this.l_y1 + this.l_height);
+        }
     }
-    draw_up() {
+
+    draw_up(map_l1) {
         noFill();
         stroke("#CCC");
         strokeWeight(this.u_height / 10);
         strokeJoin(ROUND);
         rect(this.u_x1, this.u_y1, this.u_width, this.u_height, 0, 0, this.u_height / 3, this.u_height / 3);
+
+        if (!map_l1.up_room_empty()) {
+            quad(this.u_x1, this.u_y1 + (this.u_height / 2),
+                this.u_x1 + (this.u_width / 2), this.u_y1,
+                this.u_x1 + this.u_width, this.u_y1 + (this.u_height / 2),
+                this.u_x1 + (this.u_width / 2), this.u_y1 + this.u_height);
+        }
     }
-    draw_right() {
+    draw_right(map_l1) {
         noFill();
         stroke("#CCC");
         strokeWeight(this.r_height / 10);
         strokeJoin(ROUND);
         rect(this.r_x1, this.r_y1, this.r_width, this.r_height, this.r_height / 3, 0, 0, this.r_height / 3);
 
+        if (!map_l1.right_room_empty()) {
+            quad(this.r_x1, this.r_y1 + (this.r_height / 2),
+                this.r_x1 + (this.r_width / 2), this.r_y1,
+                this.r_x1 + this.r_width, this.r_y1 + (this.r_height / 2),
+                this.r_x1 + (this.r_width / 2), this.r_y1 + this.r_height);
+        }
+
     }
-    draw_down() {
+    draw_down(map_l1) {
         noFill();
         stroke("#CCC");
         strokeWeight(this.d_height / 10);
         strokeJoin(ROUND);
         rect(this.d_x1, this.d_y1, this.d_width, this.d_height, this.d_height / 3, this.d_height / 3, 0, 0);
 
+        if (!map_l1.down_room_empty()) {
+            quad(this.d_x1, this.d_y1 + (this.d_height / 2),
+                this.d_x1 + (this.d_width / 2), this.d_y1,
+                this.d_x1 + this.d_width, this.d_y1 + (this.d_height / 2),
+                this.d_x1 + (this.d_width / 2), this.d_y1 + this.d_height);
+        }
+
     }
 
-    move(map, crow) {
-        if (map.left_room_exists()) {
+    move(map_l1, crow) {
+        if (map_l1.left_room_exists()) {
             if (this.l_x2 >= crow.x &
                 this.l_x1 <= crow.x + crow.width &
                 this.l_y2 >= crow.y &
@@ -95,7 +124,7 @@ class Gates {
             }
         }
 
-        if (map.up_room_exists()) {
+        if (map_l1.up_room_exists()) {
             if (this.u_x2 >= crow.x &
                 this.u_x1 <= crow.x + crow.width &
                 this.u_y2 >= crow.y &
@@ -105,7 +134,7 @@ class Gates {
             }
         }
 
-        if (map.down_room_exists()) {
+        if (map_l1.down_room_exists()) {
             if (this.d_x2 >= crow.x &
                 this.d_x1 <= crow.x + crow.width &
                 this.d_y2 >= crow.y &
@@ -116,7 +145,7 @@ class Gates {
 
         }
 
-        if (map.right_room_exists()) {
+        if (map_l1.right_room_exists()) {
             if (this.r_x2 >= crow.x &
                 this.r_x1 <= crow.x + crow.width &
                 this.r_y2 >= crow.y &

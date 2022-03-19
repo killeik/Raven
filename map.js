@@ -79,4 +79,17 @@ class Map {
             return false
         }
     }
+
+    left_room_empty() {
+        return this.table[this.crow_raw][this.crow_column - 1].empty;
+    }
+    up_room_empty() {
+        return this.table[this.crow_raw - 1][this.crow_column].empty
+    }
+    down_room_empty() {
+        return this.table[this.crow_raw + 1][this.crow_column].empty
+    }
+    right_room_empty() {
+        return this.table[this.crow_raw][this.crow_column + 1].empty
+    }
 }
