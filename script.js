@@ -106,11 +106,9 @@ function prepareGameLoop() {
     enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
     enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
   }
-
-  gameCondition = "game";
-
-  map_l1 = new Map(4, 4);
+  map_l1 = new Map(5, 5);
   map_l1.generate();
+  gameCondition = "game";
 }
 
 function prepareLevel() {
@@ -208,6 +206,10 @@ function mainMenu() {
   // gameCondition = "prepare";
 }
 
+function mapDraw() {
+  background('#1a1c1d');
+  map_l1.draw();
+}
 function loseScreen() {
   background('#1a1c1d');
   let enemiesAtAll = crow.killed_enemies - (enemiesAlreadySpawned - enemy.length) + config_room.enemiesAtAll;
@@ -225,6 +227,7 @@ function draw() {
     case "prepare_lvl": prepareLevel(); break;
     case "game": gameLoop(); break;
     case "menu": mainMenu(); break;
+    case "map": mapDraw(); break;
     case "lose": loseScreen(); break;
     case "win": winScreen(); break;
     default: mainMenu(); break;

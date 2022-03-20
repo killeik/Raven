@@ -3,6 +3,7 @@ class Room {
         this.type;
         this.difficulty;
         this.empty = false;
-        this.exists = true;
+        this.exists = false;
+        this.boss_room = false;
     }
 } 
