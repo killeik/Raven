@@ -1,5 +1,6 @@
 var button = {
   enter: false,
+  m: false,
 
   d: false,
   a: false,
@@ -77,6 +78,7 @@ function keyReleased() {
 function keyHandler(code, value) {
   switch (code) {
     case 13: button.enter = value; break;
+    case 77: button.m = value; break;
 
     case 68: button.d = value; break;
     case 65: button.a = value; break;
@@ -196,6 +198,9 @@ function gameLoop() {
     gates.move(map_l1, crow);
     // gameCondition = "win";
   }
+  if (button.m){
+    gameCondition = "map";
+  }
 }
 
 
@@ -209,6 +214,9 @@ function mainMenu() {
 function mapDraw() {
   background('#1a1c1d');
   map_l1.draw();
+  if (button.enter){
+    gameCondition = "game";
+  }
 }
 function loseScreen() {
   background('#1a1c1d');
