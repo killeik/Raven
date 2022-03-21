@@ -6,6 +6,14 @@ class Map {
         this.crow_raw = Math.round((this.raws - 1) / 2);
         this.crow_column = Math.round((this.columns - 1) / 2);
         this.table = [];
+
+        this.border_x1;
+        this.border_x2;
+        this.border_y1;
+        this.border_y2;
+
+        this.border_width;
+        this.border_height;
     }
 
 
@@ -125,28 +133,62 @@ class Map {
         return counter;
     }
 
+    set_border(walls) {
+        this.border_x1 = (walls.x1 + 0.5 * walls.width) - 0.5 * walls.height;
+        this.border_x2 = (walls.x1 + 0.5 * walls.width) + 0.5 * walls.height;
+        this.border_y1 = walls.y1;
+        this.border_y2 = walls.y2;
+
+        this.border_width = walls.height;
+        this.border_height = walls.height;
+    }
+
     draw() {
-        let column_width = width / this.columns;
-        let raw_height = height / this.raws;
+        this.draw_border();
+        this.draw_rooms();
+    }
+
+    draw_border() {
+        fill('#1a1c1d');
+        stroke("#CCC");
+        strokeWeight(this.border_height / 130);
+        strokeJoin(ROUND);
+        rect(this.border_x1, this.border_y1, this.border_width, this.border_height, this.border_height / 6);
+    }
+
+    draw_rooms() {
+        let column_width = this.border_width / this.columns;
+        let raw_height = this.border_height / this.raws;
+
         for (let i = 0; i < this.columns; i++) {
             for (let j = 0; j < this.raws; j++) {
-                if (this.table[i][j].exists) {
-                    fill('white');
-                    stroke("black");
-                    strokeWeight(3);
-                    strokeJoin(ROUND);
-                    rect(column_width * i, raw_height * j, column_width, raw_height)
-                }
+
                 if (this.table[i][j].boss_room) {
-                    fill('red');
-                    stroke("black");
-                    strokeWeight(3);
+                    fill('#63000b');
+                    stroke("#CCC");
+                    strokeWeight(this.border_height / 130);
                     strokeJoin(ROUND);
-                    rect(column_width * i, raw_height * j, column_width, raw_height)
+                    rect(this.border_x1 + column_width * i, this.border_y1 + raw_height * j, column_width, raw_height, column_width / 6);
+                } else if (this.crow_column === i && this.crow_raw === j) {
+                    fill('#7f7f7f');
+                    stroke("#CCC");
+                    strokeWeight(this.border_height / 130);
+                    strokeJoin(ROUND);
+                    rect(this.border_x1 + column_width * i, this.border_y1 + raw_height * j, column_width, raw_height, column_width / 6);
+
+
+                } else if (this.table[i][j].exists) {
+                    fill('#303233');
+                    stroke("#CCC");
+                    strokeWeight(this.border_height / 130);
+                    strokeJoin(ROUND);
+                    rect(this.border_x1 + column_width * i, this.border_y1 + raw_height * j, column_width, raw_height, column_width / 6);
                 }
+
             }
         }
     }
+
     up_room_exists() {
         if (!this.table[this.crow_column][this.crow_raw - 1]) {
             return false;

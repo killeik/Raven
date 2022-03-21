@@ -63,6 +63,7 @@ function windowResized() {
   lose = new LoseScreen(canvas);
   tutorial = new Tutorial(canvas);
   menu_btns = new MenuButtons(canvas);
+  if (map_l1) { map_l1.set_border(walls) };
 }
 
 function keyPressed() {
@@ -110,6 +111,7 @@ function prepareGameLoop() {
   }
   map_l1 = new Map(5, 5);
   map_l1.generate();
+  map_l1.set_border(walls);
   gameCondition = "game";
 }
 
@@ -198,7 +200,7 @@ function gameLoop() {
     gates.move(map_l1, crow);
     // gameCondition = "win";
   }
-  if (button.m){
+  if (button.m) {
     gameCondition = "map";
   }
 }
@@ -213,8 +215,9 @@ function mainMenu() {
 
 function mapDraw() {
   background('#1a1c1d');
+  scale(scaleSize);
   map_l1.draw();
-  if (button.enter){
+  if (button.enter) {
     gameCondition = "game";
   }
 }
