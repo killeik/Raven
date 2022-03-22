@@ -8,6 +8,12 @@ class Walls {
         this.width = this.x2 - this.x1;
         this.height = this.y2 - this.y1;
     }
+    get mid_x() {
+        return this.x + (this.width / 2)
+    }
+    get mid_y() {
+        return this.y + (this.height / 2)
+    }
 
     Draw() {
         noFill();
