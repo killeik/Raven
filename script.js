@@ -98,8 +98,8 @@ function prepareGameLoop() {
   walls = new Walls(canvas, scaleSize);
   gates = new Gates(walls);
   timer = {
-    bullet: Date.now(),
-    lastHit: Date.now()
+    bullet: 0,
+    lastHit: 0
   }
   enemiesAlreadySpawned = 0;
   bullet = [];
@@ -133,9 +133,11 @@ function gameLoop() {
   crow.Move(button);
   crow.WallCollision(walls);
   crow.Draw();
+  timer.bullet += 1;
+  timer.lastHit += 1;
 
-  if (Date.now() - timer.bullet > config.bulletCooldown) {
-    timer.bullet = Date.now();
+  if (timer.bullet > config.bulletCooldown) {
+    timer.bullet = 0;
     let bulletspeed = Bullet.SetSpeed(button, config.bulletSpeed);
     if (bulletspeed) {
       bullet.push(new Bullet(crow.mid_x, crow.mid_y, bulletspeed));
@@ -163,10 +165,10 @@ function gameLoop() {
       bullet[j].enemyCollision(enemy[i]);
     }
 
-    if (Date.now() - timer.lastHit > config.damageCooldown) {
+    if (timer.lastHit > config.damageCooldown) {
       if (enemy[i].crowCollision(crow)) {
         crow.health -= 1;
-        timer.lastHit = Date.now();
+        timer.lastHit = 0;
       }
     }
 

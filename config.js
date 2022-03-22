@@ -2,12 +2,12 @@ const config = {
   crowSpeed: 4,
   crowHealth: 5,
   bulletSpeed: 5,
-  bulletCooldown: 300,
-  damageCooldown: 500,
+  bulletCooldown: 15,
+  damageCooldown: 25,
 
   l1: {
-    enemiesAtOnceMin: 5,
-    enemiesAtOnceMax: 7,
+    enemiesAtOnceMin: 7,
+    enemiesAtOnceMax: 10,
 
     enemiesAtAllMin: 10,
     enemiesAtAllMax: 15,
