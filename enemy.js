@@ -3,7 +3,7 @@ class Enemy {
     this.x = x;
     this.y = y;
     this.health = health;
-    this.enemyMaxHealth = health;
+    this.maxHealth = health;
     this.height = 40;
     this.width = 20;
     this.speed = speed;
