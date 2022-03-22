@@ -170,7 +170,7 @@ function gameLoop() {
       }
     }
 
-    enemy[i].Draw();
+    enemy[i].draw();
   }
 
   for (let i = 0; i < bullet.length; i++) {

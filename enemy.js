@@ -34,7 +34,7 @@ class Enemy {
     return { x: x, y: y }
   }
 
-  Draw() {
+  draw() {
     fill('#CCC');
     stroke("#CCC");
     strokeWeight(5);
