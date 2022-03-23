@@ -9,12 +9,12 @@ class WinScreen {
         this.height = this.y2 - this.y1;
     }
 
-    draw(button, killed, crow) {
+    draw(button, killed, enemiesAtAll, crow) {
         this.border();
         this.you_win();
-        this.enemies_killed(killed);
+        this.enemies_killed(killed, enemiesAtAll);
         this.crow_health(crow);
-        this.total_score(killed);
+        this.total_score(crow, killed, enemiesAtAll);
         this.press_enter(button);
 
     }
@@ -35,13 +35,13 @@ class WinScreen {
         text('You Win!', this.x1 + (this.width / 2), this.y1 + (this.height / 10));
     }
 
-    enemies_killed(killed) {
+    enemies_killed(killed, enemiesAtAll) {
         fill("#CCC");
         textFont(fredoka_medium, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Enemies killed:', this.x1 + (this.width / 4), this.y1 * 6);
-        text(killed.toString() + "/" + killed.toString(), this.x1 + (this.width / 4), this.y1 * 7.5);
+        text(killed.toString() + "/" + enemiesAtAll.toString(), this.x1 + (this.width / 4), this.y1 * 7.5);
     }
 
     crow_health() {
@@ -53,13 +53,15 @@ class WinScreen {
         text(crow.health.toString() + "/" + crow.healthMax.toString(), this.x1 + (this.width / 4), this.y1 * 12.5);
     }
 
-    total_score(killed) {
+    total_score(crow, killed, enemiesAtAll) {
         fill("#CCC");
         textFont(fredoka_medium, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Total score:', this.x1 + (this.width / 1.5), this.y1 * 8);
-        let score = ((crow.health + killed) / (crow.healthMax + killed)) * 100;
+        let killed_score = killed / enemiesAtAll;
+        let crow_score = crow.health / crow.healthMax;
+        let score = ((killed_score * 0.5) + (crow_score * 0.5))*100
         score = Math.round(score);
         text(score.toString() + "%/100%", this.x1 + (this.width / 1.5), this.y1 * 9.5);
     }
@@ -69,7 +71,7 @@ class WinScreen {
         textFont(fredoka_medium, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
-        text('Press Enter to return', this.x1 + (this.width / 2), this.height*0.95);
+        text('Press Enter to return', this.x1 + (this.width / 2), this.height * 0.95);
         if (button.enter) {
             gameCondition = "menu";
         }

@@ -126,7 +126,7 @@ function prepareLevel() {
   }
 
   if (map_l1.this_room_boss()) {
-    boss = new Boss(walls, 10, 4);
+    boss = new Boss(walls, 20, 4);
   }
 
   gameCondition = "game";
@@ -261,7 +261,8 @@ function loseScreen() {
 
 function winScreen() {
   background('#1a1c1d');
-  win.draw(button, config_room.enemiesAtAll, crow);
+  let enemiesAtAll = crow.killed_enemies - (enemiesAlreadySpawned - enemy.length) + config_room.enemiesAtAll;
+  win.draw(button, crow.killed_enemies, enemiesAtAll, crow);
 }
 
 function draw() {
