@@ -251,6 +251,13 @@ class Map {
             return false
         }
     }
+    this_room_boss(){
+        if (this.table[this.crow_column][this.crow_raw].boss_room) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     up_room_empty() {
         return this.table[this.crow_column][this.crow_raw - 1].empty;
