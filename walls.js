@@ -9,10 +9,10 @@ class Walls {
         this.height = this.y2 - this.y1;
     }
     get mid_x() {
-        return this.x + (this.width / 2)
+        return this.x1 + (this.width / 2)
     }
     get mid_y() {
-        return this.y + (this.height / 2)
+        return this.y1 + (this.height / 2)
     }
 
     Draw() {
