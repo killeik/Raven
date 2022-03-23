@@ -50,6 +50,17 @@ class Bullet {
       enemy.health -= 1;
     };
   }
+  bossCollision(boss) {
+    if (this.x + this.radius >= boss.x &
+      this.x - this.radius <= boss.x + boss.width &
+      this.y + this.radius >= boss.y &
+      this.y - this.radius <= boss.y + boss.height) {
+
+      this.exists = false;
+
+      boss.health -= 1;
+    };
+  }
 
   WallCollision(walls) {
     if (this.x + this.radius >= walls.x2 ||
