@@ -9,10 +9,10 @@ class LoseScreen {
         this.height = this.y2 - this.y1;
     }
 
-    draw(button, killed, enemiesAtAllMax) {
+    draw(button, killed, enemiesAtAll) {
         this.border();
         this.you_lose();
-        this.enemies_killed(killed, enemiesAtAllMax);
+        this.enemies_killed(killed, enemiesAtAll);
         this.press_enter(button);
 
     }
