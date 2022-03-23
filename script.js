@@ -17,6 +17,7 @@ var timer;
 var bullet;
 var enemy;
 var crow;
+var boss;
 
 var canvas;
 var scaleSize;
@@ -123,6 +124,11 @@ function prepareLevel() {
     enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
     enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
   }
+
+  if (map_l1.this_room_boss()) {
+  boss = new Boss(walls, 10, 2);
+  }
+
   gameCondition = "game";
 }
 
@@ -135,6 +141,8 @@ function gameLoop() {
   crow.Draw();
   timer.bullet += 1;
   timer.lastHit += 1;
+
+
 
   if (timer.bullet > config.bulletCooldown) {
     timer.bullet = 0;
@@ -175,6 +183,27 @@ function gameLoop() {
     enemy[i].draw();
   }
 
+  if (boss && boss.alive) {
+    boss.moveToCrow(crow);
+
+    if (timer.lastHit > config.damageCooldown) {
+      if (boss.crowCollision(crow)) {
+        crow.health -= 1;
+        timer.lastHit = 0;
+      }
+    }
+    for (let i = 0; i < bullet.length; i++) {
+      bullet[i].bossCollision(boss);
+    }
+
+    if (boss.health <= 0) {
+      boss.alive = false;
+    }
+
+    boss.draw();
+
+  }
+
   for (let i = 0; i < bullet.length; i++) {
     bullet[i].Move();
 
@@ -196,7 +225,7 @@ function gameLoop() {
   if (crow.health <= 0) {
     gameCondition = "lose";
   }
-  if (enemy.length === 0) {
+  if (enemy.length === 0 && (!boss || boss.health <= 0)) {
     map_l1.set_this_room_empty();
     gates.draw(map_l1);
     gates.move(map_l1, crow);
