@@ -126,7 +126,7 @@ function prepareLevel() {
   }
 
   if (map_l1.this_room_boss()) {
-  boss = new Boss(walls, 10, 2);
+    boss = new Boss(walls, 10, 4);
   }
 
   gameCondition = "game";
@@ -229,7 +229,9 @@ function gameLoop() {
     map_l1.set_this_room_empty();
     gates.draw(map_l1);
     gates.move(map_l1, crow);
-    // gameCondition = "win";
+    if (boss && boss.health <= 0) {
+      gameCondition = "win";
+    }
   }
   if (button.m) {
     gameCondition = "map";
@@ -241,7 +243,6 @@ function mainMenu() {
   background('#1a1c1d');
   menu_btns.draw();
   tutorial.draw(button);
-  // gameCondition = "prepare";
 }
 
 function mapDraw() {
