@@ -13,6 +13,8 @@ class Tutorial {
         this.Tutorial();
         this.WASD(button);
         this.Arrows(button);
+        this.Map(button);
+        this.Return(button);
     }
     Border() {
         fill('#1a1c1d');
@@ -40,7 +42,7 @@ class Tutorial {
         textFont(fredoka_medium, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
-        text('move', this.x1 + (this.width / 2), this.y1 * 7.5);
+        text('move', this.x1 + (this.width / 2), this.y1 * 7.2);
     }
     W(pressed) {
         if (pressed) {
@@ -122,7 +124,7 @@ class Tutorial {
         textFont(fredoka_medium, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
-        text('shoot', this.x1 + (this.width / 2), this.y1 * 12.5);
+        text('shoot', this.x1 + (this.width / 2), this.y1 * 11.3);
     }
     Left(pressed) {
         if (pressed) {
@@ -133,13 +135,13 @@ class Tutorial {
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
-        rect(this.x1 * 1.55, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
+        rect(this.x1 * 1.55, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
-        text('←', this.x1 * 1.55 + this.width / 24, this.y1 * 10 + this.width / 80)
+        text('←', this.x1 * 1.55 + this.width / 24, this.y1 * 9 + this.width / 80)
     }
     Up(pressed) {
         if (pressed) {
@@ -150,13 +152,13 @@ class Tutorial {
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
-        rect(this.x1 * 1.75, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
+        rect(this.x1 * 1.75, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
-        text('↑', this.x1 * 1.75 + this.width / 24, this.y1 * 10 + this.width / 50)
+        text('↑', this.x1 * 1.75 + this.width / 24, this.y1 * 9 + this.width / 50)
 
     }
     Down(pressed) {
@@ -168,13 +170,13 @@ class Tutorial {
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
-        rect(this.x1 * 1.95, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
+        rect(this.x1 * 1.95, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
-        text('↓', this.x1 * 1.95 + this.width / 24, this.y1 * 10 + this.width / 50)
+        text('↓', this.x1 * 1.95 + this.width / 24, this.y1 * 9 + this.width / 50)
     }
     Right(pressed) {
         if (pressed) {
@@ -185,12 +187,67 @@ class Tutorial {
         stroke("#CCC");
         strokeWeight(this.width / 170);
         strokeJoin(ROUND);
-        rect(this.x1 * 2.15, this.y1 * 10, this.width / 12, this.width / 12, this.width / 40);
+        rect(this.x1 * 2.15, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
         textFont(noto_sans_bold, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
-        text('→', this.x1 * 2.15 + this.width / 24, this.y1 * 10 + this.width / 80)
+        text('→', this.x1 * 2.15 + this.width / 24, this.y1 * 9 + this.width / 80)
+    }
+    Map(button) {
+        fill("#CCC");
+        textFont(fredoka_medium, this.width / 13);
+        strokeWeight(0);
+        textAlign(CENTER, CENTER)
+        text('map', this.x1 + (this.width / 3), this.y1 * 15.2);
+
+        this.M(button.m);
+    }
+
+    M(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
+        stroke("#CCC");
+        strokeWeight(this.width / 170);
+        strokeJoin(ROUND);
+        rect(this.x1 * 1.55, this.y1 * 13, this.width / 12, this.width / 12, this.width / 40)
+
+        fill("#CCC");
+        textFont(fredoka_medium, this.width / 13);
+        strokeWeight(0);
+        textAlign(CENTER, CENTER)
+        text('m', this.x1 * 1.55 + this.width / 24, this.y1 * 13 + this.width / 40)
+    }
+
+    Return(button) {
+        fill("#CCC");
+        textFont(fredoka_medium, this.width / 13);
+        strokeWeight(0);
+        textAlign(CENTER, CENTER)
+        text('return', this.x1 + (this.width / 1.5), this.y1 * 15.2);
+
+        this.Enter(button.enter)
+    }
+
+    Enter(pressed) {
+        if (pressed) {
+            fill('#5b6266');
+        } else {
+            fill('#1a1c1d');
+        }
+        stroke("#CCC");
+        strokeWeight(this.width / 170);
+        strokeJoin(ROUND);
+        rect(this.x1 * 2, this.y1 * 13, this.width / 4.2, this.width / 12, this.width / 40)
+
+        fill("#CCC");
+        textFont(fredoka_medium, this.width / 13);
+        strokeWeight(0);
+        textAlign(CENTER, CENTER)
+        text('Enter', this.x1 * 2.15 + this.width / 24, this.y1 * 13 + this.width / 36)
     }
 }
