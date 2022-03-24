@@ -110,6 +110,7 @@ function prepareGameLoop() {
     enemiesAtOnce: Math.round(random(config.l1.enemiesAtOnceMin, config.l1.enemiesAtOnceMax)),
     enemiesAtAll: Math.round(random(config.l1.enemiesAtAllMin, config.l1.enemiesAtAllMax))
   }
+  boss = undefined;
   map_l1 = new Map(5, 5);
   map_l1.generate();
   map_l1.set_border(walls);
