@@ -235,6 +235,7 @@ function gameLoop() {
     }
   }
   if (button.m) {
+    button.m = false; //stoping cycling through conditions map/game without pressing up button
     gameCondition = "map";
   }
 }
@@ -250,9 +251,10 @@ function mapDraw() {
   background('#1a1c1d');
   scale(scaleSize);
   map_l1.draw();
-  if (button.enter) {
-    gameCondition = "game";
-  }
+  if (button.enter || button.m) {
+      button.m = false; //stoping cycling through conditions map/game without pressing up button
+      gameCondition = "game";
+    }
 }
 function loseScreen() {
   background('#1a1c1d');
