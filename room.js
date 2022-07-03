@@ -5,5 +5,6 @@ class Room {
         this.empty = false;
         this.exists = false;
         this.boss_room = false;
+        this.difficulty = 1;
     }
 } 
