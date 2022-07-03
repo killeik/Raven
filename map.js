@@ -18,6 +18,9 @@ class Map {
 
 
     generate() {
+        // generate table of this.colunns and this.raws
+        // every element in table = Room
+        // then, by left/right/up branch functuons set the room as existing
         for (let i = 0; i < this.columns; i++) {
             this.table.push([]);
             for (let j = 0; j < this.raws; j++) {
@@ -25,10 +28,13 @@ class Map {
                 this.table[i][j] = new Room;
             }
         }
+        // set center (spawn) room as existing
         this.table[Math.round((this.columns - 1) / 2)][Math.round((this.raws - 1) / 2)].exists = true;
 
+        // go left and right to set existings room
         this.left_branch();
         this.right_branch();
+
         let room_exists = this.count_rooms_exists();
         if (room_exists < 7) {
             this.up_branch();
@@ -36,6 +42,10 @@ class Map {
     }
 
     left_branch() {
+        //set left room from center as existing
+        //from left room randomly select one of direction - "left", "up", "down"
+        //if room in this direction created in this.table, then set it exists
+        //if this room doesn't creaated, go to previosly activated room, and set it as boss_room
         let current_room = {
             raw: (Math.round((this.raws - 1) / 2)),
             column: Math.round((this.columns - 1) / 2) - 1
