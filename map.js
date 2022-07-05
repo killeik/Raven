@@ -53,7 +53,11 @@ class Map {
         let dir;
         this.table[current_room.column][current_room.raw].exists = true;
 
+        let difficulty_counter = 1;
+
         for (; ;) {
+
+            difficulty_counter += 1;
 
             dir = random(["left", "up", "down"]);
             switch (dir) {
@@ -65,6 +69,7 @@ class Map {
             if (!this.table[current_room.column][current_room.raw]) break;
 
             this.table[current_room.column][current_room.raw].exists = true;
+            this.table[current_room.column][current_room.raw].difficulty = difficulty_counter;
         }
         switch (dir) {
             case "left": current_room.column += 1; break;
@@ -81,8 +86,11 @@ class Map {
         let dir;
         this.table[current_room.column][current_room.raw].exists = true;
 
-        for (; ;) {
+        let difficulty_counter = 1;
 
+        for (; ;) {
+            
+            difficulty_counter += 1;
             dir = random(["right", "up", "down"]);
             switch (dir) {
                 case "right": current_room.column += 1; break;
@@ -93,6 +101,8 @@ class Map {
             if (!this.table[current_room.column][current_room.raw]) break; 7
 
             this.table[current_room.column][current_room.raw].exists = true;
+            this.table[current_room.column][current_room.raw].difficulty = difficulty_counter;
+
         }
         switch (dir) {
             case "right": current_room.column -= 1; break;
@@ -109,8 +119,12 @@ class Map {
         let dir;
         this.table[current_room.column][current_room.raw].exists = true;
 
+       
+        let difficulty_counter = 1;
+
         for (; ;) {
 
+            difficulty_counter += 1;
             dir = random(["right", "up", "left"]);
             switch (dir) {
                 case "right": current_room.column += 1; break;
@@ -121,6 +135,8 @@ class Map {
             if (!this.table[current_room.column][current_room.raw]) break;
 
             this.table[current_room.column][current_room.raw].exists = true;
+            this.table[current_room.column][current_room.raw].difficulty = difficulty_counter;
+
         }
         switch (dir) {
             case "right": current_room.column -= 1; break;
