@@ -1,18 +1,4 @@
-var button = {
-  enter: false,
-  m: false,
-
-  d: false,
-  a: false,
-  s: false,
-  w: false,
-
-  right: false,
-  left: false,
-  down: false,
-  up: false
-}
-
+var button = new Button; 
 var timer;
 var bullet;
 var enemy;
@@ -68,31 +54,16 @@ function windowResized() {
 }
 
 function keyPressed() {
-  keyHandler(keyCode, true)
+  button.handler(keyCode, true)
   return false; // prevent any default behaviour
 }
 
 function keyReleased() {
-  keyHandler(keyCode, false)
+  button.handler(keyCode, false)
   return false; // prevent any default behavior
 }
 
-function keyHandler(code, value) {
-  switch (code) {
-    case 13: button.enter = value; break;
-    case 77: button.m = value; break;
 
-    case 68: button.d = value; break;
-    case 65: button.a = value; break;
-    case 87: button.w = value; break;
-    case 83: button.s = value; break;
-
-    case 39: button.right = value; break;
-    case 37: button.left = value; break;
-    case 38: button.up = value; break;
-    case 40: button.down = value; break;
-  }
-}
 
 function prepareGameLoop() {
   crow = new Crow((canvas.width / 2 / scaleSize), (canvas.height / 2 / scaleSize), config.crowSpeed, config.crowHealth);
@@ -281,4 +252,3 @@ function draw() {
   }
 
 }
-``
