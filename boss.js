@@ -1,20 +1,12 @@
-class Boss {
+class Boss extends Enemy {
     constructor(walls, health, speed) {
-        this.health = health;
-        this.MaxHealth = health;
+        super(0, 0, health, speed);
         this.alive = true;
         this.height = 100;
         this.width = 50;
-        this.speed = speed;
         this.x = walls.mid_x - (this.width / 2);
         this.y = walls.mid_y - (this.height / 2);
-    }
-    get mid_x() {
-        return this.x + (this.width / 2)
-    }
-    get mid_y() {
-        return this.y + (this.height / 2)
-    }
+      }
 
     moveToCrow(crow) {
         let vectorToCrow = createVector((crow.mid_x - this.mid_x), (crow.mid_y - this.mid_y));
@@ -40,14 +32,4 @@ class Boss {
 
     }
 
-    crowCollision(crow) {
-        if (this.x + this.width >= crow.x &
-            this.x <= crow.x + crow.width &
-            this.y + this.height >= crow.y &
-            this.y <= crow.y + crow.height) {
-            return true;
-        } else {
-            return false
-        }
-    }
 }
