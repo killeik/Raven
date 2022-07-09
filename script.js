@@ -120,7 +120,7 @@ function gameLoop() {
     let enemySpeed = random(config.l1.enemySpeedMin, config.l1.enemySpeedMax);
 
     let cords = Enemy.randomInWalls(walls, crow);
-    enemy.push(new Enemy(cords.x, cords.y, enemyHealth, enemySpeed));
+    enemy.push(new Rhombus(cords.x, cords.y, enemyHealth, enemySpeed));
   }
 
   for (let i = 0; i < enemy.length; i++) {
