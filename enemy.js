@@ -28,7 +28,6 @@ class Enemy {
 
     static upgrade_chance(diffuculty_gate, diffuculty) {
       let random_seed = random() * diffuculty_gate;
-      console.log(random_seed)
       if (random_seed <= diffuculty) {
         return true
       } else {
