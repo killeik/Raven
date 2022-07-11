@@ -15,6 +15,9 @@ class Map {
         this.border_width;
         this.border_height;
     }
+    get crow_room() {
+        return this.table[this.crow_column][this.crow_raw];
+    }
 
 
     generate() {
