@@ -1,7 +1,6 @@
 class Room {
     constructor() {
         this.type;
-        this.difficulty;
         this.empty = false;
         this.exists = false;
         this.boss_room = false;
