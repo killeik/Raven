@@ -119,8 +119,12 @@ function gameLoop() {
     let enemyHealth = random(config.l1.enemyHealthMin, config.l1.enemyHealthMax);
     let enemySpeed = random(config.l1.enemySpeedMin, config.l1.enemySpeedMax);
 
-    let cords = Enemy.randomInWalls(walls, crow);
-    enemy.push(new Rhombus(cords.x, cords.y, enemyHealth, enemySpeed));
+    let cords = Enemy.randomInWalls(walls, crow);    
+    if (Enemy.upgrade_chance(10, map_l1.crow_room.difficulty)){
+      enemy.push(new Rhombus_2(cords.x, cords.y, enemyHealth, enemySpeed));
+    }else{
+      enemy.push(new Rhombus(cords.x, cords.y, enemyHealth, enemySpeed));
+    }
   }
 
   for (let i = 0; i < enemy.length; i++) {
