@@ -4,7 +4,7 @@ class Rhombus extends Enemy {
     this.height = 40;
     this.width = 20;
   }
-  
+
   moveToCrow(crow) {
     let vectorToCrow = createVector((crow.mid_x - this.mid_x), (crow.mid_y - this.mid_y));
     let normVecToCrow = vectorToCrow.normalize();

@@ -92,7 +92,7 @@ class Map {
         let difficulty_counter = 1;
 
         for (; ;) {
-            
+
             difficulty_counter += 1;
             dir = random(["right", "up", "down"]);
             switch (dir) {
@@ -122,7 +122,7 @@ class Map {
         let dir;
         this.table[current_room.column][current_room.raw].exists = true;
 
-       
+
         let difficulty_counter = 1;
 
         for (; ;) {
@@ -280,7 +280,7 @@ class Map {
             return false
         }
     }
-    this_room_boss(){
+    this_room_boss() {
         if (this.table[this.crow_column][this.crow_raw].boss_room) {
             return true
         } else {

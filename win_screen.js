@@ -61,7 +61,7 @@ class WinScreen {
         text('Total score:', this.x1 + (this.width / 1.5), this.y1 * 8);
         let killed_score = killed / enemiesAtAll;
         let crow_score = crow.health / crow.healthMax;
-        let score = ((killed_score * 0.5) + (crow_score * 0.5))*100
+        let score = ((killed_score * 0.5) + (crow_score * 0.5)) * 100
         score = Math.round(score);
         text(score.toString() + "%/100%", this.x1 + (this.width / 1.5), this.y1 * 9.5);
     }

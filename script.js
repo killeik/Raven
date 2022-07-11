@@ -1,4 +1,4 @@
-var button = new Button; 
+var button = new Button;
 var timer;
 var bullet;
 var enemy;
@@ -119,10 +119,10 @@ function gameLoop() {
     let enemyHealth = random(config.l1.enemyHealthMin, config.l1.enemyHealthMax);
     let enemySpeed = random(config.l1.enemySpeedMin, config.l1.enemySpeedMax);
 
-    let cords = Enemy.randomInWalls(walls, crow);    
-    if (Enemy.upgrade_chance(10, map_l1.crow_room.difficulty)){
+    let cords = Enemy.randomInWalls(walls, crow);
+    if (Enemy.upgrade_chance(10, map_l1.crow_room.difficulty)) {
       enemy.push(new Rhombus_2(cords.x, cords.y, enemyHealth, enemySpeed));
-    }else{
+    } else {
       enemy.push(new Rhombus(cords.x, cords.y, enemyHealth, enemySpeed));
     }
   }
@@ -218,9 +218,9 @@ function mapDraw() {
   scale(scaleSize);
   map_l1.draw();
   if (button.enter || button.m) {
-      button.m = false; //stoping cycling through conditions map/game without pressing up button
-      gameCondition = "game";
-    }
+    button.m = false; //stoping cycling through conditions map/game without pressing up button
+    gameCondition = "game";
+  }
 }
 function loseScreen() {
   background('#1a1c1d');

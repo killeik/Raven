@@ -7,12 +7,12 @@ class Rhombus_2 extends Enemy {
     this.timerStart = 70;
     this.timerEnd = 90;
   }
-  
+
   moveToCrow(crow) {
-    this.timer +=1;
+    this.timer += 1;
     let vectorToCrow = createVector((crow.mid_x - this.mid_x), (crow.mid_y - this.mid_y));
     let normVecToCrow = vectorToCrow.normalize();
-    
+
     this.x += this.speed * 0.3 * normVecToCrow.x;
     this.y += this.speed * 0.3 * normVecToCrow.y;
 
@@ -20,22 +20,22 @@ class Rhombus_2 extends Enemy {
       this.x += this.speed * 3 * normVecToCrow.x;
       this.y += this.speed * 3 * normVecToCrow.y;
 
-      if (this.timer > this.timerEnd){
+      if (this.timer > this.timerEnd) {
         this.timer = 0;
       }
     }
-   
+
   }
 
 
   draw() {
     let dashing = color('#1a1c1d');
-    let default_color = color ("#CCC");
+    let default_color = color("#CCC");
 
     let blender_coefficient;
-    if(this.timer < this.timerStart){
-      blender_coefficient = this.timer/this.timerStart *0.5;
-    }else{
+    if (this.timer < this.timerStart) {
+      blender_coefficient = this.timer / this.timerStart * 0.5;
+    } else {
       blender_coefficient = 1;
     }
 
