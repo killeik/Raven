@@ -26,6 +26,16 @@ class Enemy {
         return { x: x, y: y }
     }
 
+    static upgrade_chance(diffuculty_gate, diffuculty) {
+      let random_seed = random() * diffuculty_gate;
+      console.log(random_seed)
+      if (random_seed <= diffuculty) {
+        return true
+      } else {
+        return false
+      }
+    }
+
     crowCollision(crow) {
         if (this.x + this.width >= crow.x &
           this.x <= crow.x + crow.width &
