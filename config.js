@@ -16,6 +16,9 @@ const config = {
     enemyHealthMax: 2,
 
     enemySpeedMin: 2,
-    enemySpeedMax: 4
+    enemySpeedMax: 4,
+
+    bossHealth: 20,
+    bossSpeed: 4
   }
 }

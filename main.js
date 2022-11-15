@@ -89,7 +89,9 @@ function prepareLevel() {
   }
 
   if (map_l1.this_room_boss()) {
-    boss = new Boss(walls, 20, 4);
+    boss = new Boss(walls, config.l1.bossHealth, config.l1.bossSpeed);
+  } else {
+    boss = NaN;
   }
 
   gameCondition = "game";
