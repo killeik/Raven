@@ -187,6 +187,7 @@ function gameLoop() {
   Interface.leftBlock(walls);
   Interface.rightBlock(walls);
   Interface.crowHealth(walls, crow.healthMax, crow.health);
+  Interface.MapHint(walls)
   walls.Draw();
 
   if (crow.health <= 0) {

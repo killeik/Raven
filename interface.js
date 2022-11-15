@@ -35,6 +35,19 @@ class Interface {
         }
     }
 
+    static MapHint(walls) {
+        //mapHint block separation
+        stroke("#CCC");
+        strokeWeight(3);
+        line(walls.x1 / 10, walls.y2 * 0.88, walls.x1, walls.y2 * 0.88);
+
+        fill("#CCC");
+        textFont(fredoka_medium, 26)
+        strokeWeight(0);
+        textAlign(CENTER, CENTER)
+        text('press m to\n open map ', walls.x1 / 1.8, walls.y2 * 0.93);
+    }
+
     static rightBlock(walls) {
         noFill();
         stroke("#CCC");
