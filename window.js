@@ -1,4 +1,4 @@
-class Window {
+export default class Window {
     static SetCanvas() {
         if ((windowWidth / windowHeight) <= (16 / 9)) {
             return { width: windowWidth, height: windowWidth * 9 / 16 }

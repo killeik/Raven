@@ -1,4 +1,4 @@
-class Crow {
+export default class Crow {
   constructor(centerx, centery, speed, health) {
     this.width = 20;
     this.height = 40;

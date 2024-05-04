@@ -1,4 +1,4 @@
-const config = {
+export const config = {
   crowSpeed: 4,
   crowHealth: 5,
   bulletSpeed: 5,

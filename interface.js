@@ -1,4 +1,4 @@
-class Interface {
+export default class Interface {
     static leftBlock(walls) {
         noFill();
         stroke("#CCC");
@@ -6,7 +6,7 @@ class Interface {
         strokeJoin(ROUND);
         rect(walls.x1 / 10, walls.y1, walls.x1 - (walls.x1 / 10), walls.y2 - walls.y1, walls.x1 / 5, 0, 0, walls.x1 / 5);
     }
-    static crowHealth(walls, healthMax, health) {
+    static crowHealth(walls, healthMax, health, fredoka_medium) {
         //health block separation
         stroke("#CCC");
         strokeWeight(3);
@@ -35,7 +35,7 @@ class Interface {
         }
     }
 
-    static MapHint(walls) {
+    static MapHint(walls, fredoka_medium) {
         //mapHint block separation
         stroke("#CCC");
         strokeWeight(3);

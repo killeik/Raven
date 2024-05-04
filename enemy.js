@@ -1,4 +1,4 @@
-class Enemy {
+export default class Enemy {
   constructor(x, y, health, speed) {
     this.x = x;
     this.y = y;

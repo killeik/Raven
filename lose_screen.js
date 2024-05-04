@@ -1,5 +1,5 @@
-class LoseScreen {
-    constructor(canvas) {
+export default class LoseScreen {
+    constructor(canvas, font_fredoka) {
         this.x1 = canvas.width / 10;
         this.y1 = canvas.height / 18;
         this.x2 = canvas.width * 0.9;
@@ -7,14 +7,15 @@ class LoseScreen {
 
         this.width = this.x2 - this.x1;
         this.height = this.y2 - this.y1;
+        this.font_fredoka = font_fredoka;
     }
 
-    draw(button, killed, enemiesAtAll) {
+    draw(button, killed, enemiesAtAll, gameCondition) {
         this.border();
         this.you_lose();
         this.enemies_killed(killed, enemiesAtAll);
-        this.press_enter(button);
-
+        gameCondition = this.press_enter(button, gameCondition );
+        return gameCondition
     }
 
     border() {
@@ -27,7 +28,7 @@ class LoseScreen {
 
     you_lose() {
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 10);
+        textFont(this.font_fredoka, this.width / 10);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('You Lose', this.x1 + (this.width / 2), this.y1 + (this.height / 10));
@@ -35,21 +36,22 @@ class LoseScreen {
 
     enemies_killed(killed, enemiesAtAll) {
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 20);
+        textFont(this.font_fredoka, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Enemies killed:', this.x1 + (this.width / 2), this.y1 * 6);
         text(killed.toString() + "/" + enemiesAtAll.toString(), this.x1 + (this.width / 2), this.y1 * 7.5);
     }
 
-    press_enter(button) {
+    press_enter(button, gameCondition) {
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 20);
+        textFont(this.font_fredoka, this.width / 20);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Press Enter to return', this.x1 + (this.width / 2), this.height * 0.95);
         if (button.enter) {
             gameCondition = "menu";
         }
+        return gameCondition
     }
 }

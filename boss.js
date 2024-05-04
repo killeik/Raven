@@ -1,4 +1,6 @@
-class Boss extends Enemy {
+import Enemy from "./enemy.js";
+
+export default class Boss extends Enemy {
     constructor(walls, health, speed) {
         super(0, 0, health, speed);
         this.alive = true;

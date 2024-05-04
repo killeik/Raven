@@ -1,4 +1,4 @@
-class Walls {
+export default class Walls {
     constructor(canvas, scl) {
         this.x1 = canvas.width / 9 / scl;
         this.y1 = canvas.height / 18 / scl;

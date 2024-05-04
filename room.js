@@ -1,4 +1,4 @@
-class Room {
+export default class Room {
     constructor() {
         this.type;
         this.empty = false;

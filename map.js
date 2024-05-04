@@ -1,4 +1,5 @@
-class Map {
+import Room from "./room.js"
+export default class Map {
     constructor(raws, columns) {
         this.raws = raws;
         this.columns = columns;

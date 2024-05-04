@@ -1,5 +1,5 @@
-class MenuButtons {
-    constructor(canvas) {
+export default class MenuButtons {
+    constructor(canvas, font_fredoka) {
         this.x1 = canvas.width / 40;
         this.y1 = canvas.height / 18;
         this.x2 = canvas.width / 4;
@@ -7,12 +7,15 @@ class MenuButtons {
 
         this.width = this.x2 - this.x1;
         this.height = this.y2 - this.y1;
+
+        this.font = font_fredoka;
     }
     draw(gameCondition) {
         this.buttonsBorder();
-        this.buttonStart(gameCondition);
+        gameCondition = this.buttonStart(gameCondition);
         this.buttonOption();
         this.buttonCredits();
+        return gameCondition
     }
     buttonsBorder() {
         fill('#1a1c1d');
@@ -21,7 +24,7 @@ class MenuButtons {
         strokeJoin(ROUND);
         rect(this.x1, this.y1, this.width, this.height, this.width / 4);
     }
-    buttonStart() {
+    buttonStart(gameCondition) {
         if (mouseX > this.x1 &&
             mouseX < this.x2 &&
             mouseY > this.y1 &&
@@ -33,12 +36,12 @@ class MenuButtons {
             strokeJoin(ROUND);
             rect(this.x1, this.y1, this.width, this.height / 3, this.width / 4);
             if (mouseIsPressed === true) {
-                gameCondition = "prepare";
+                return gameCondition = "prepare";
             }
         }
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 5);
+        textFont(this.font, this.width / 5);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Start', this.x1 + (this.width / 2), this.y1 + (this.height / 6));
@@ -57,7 +60,7 @@ class MenuButtons {
             rect(this.x1, this.y1 + this.height / 3, this.width, this.height / 3, this.width / 4);
         }
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 5);
+        textFont(this.font, this.width / 5);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Options', this.x1 + (this.width / 2), this.y1 + (this.height / 2));
@@ -76,7 +79,7 @@ class MenuButtons {
             rect(this.x1, this.y1 + this.height / 1.5, this.width, this.height / 3, this.width / 4);
         }
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 5);
+        textFont(this.font, this.width / 5);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Credits', this.x1 + (this.width / 2), this.y1 + (this.height / 6 * 5));

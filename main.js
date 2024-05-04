@@ -1,3 +1,22 @@
+// import * from "./libs/p5.js";
+import {config} from "./config.js";
+import Crow from "./crow.js";
+import Bullet from "./bullet.js";
+import Window from "./window.js";
+import Walls from "./walls.js";
+import Enemy from "./enemy.js";
+import Rhombus from "./rhombus.js";
+import Rhombus_2 from "./rhombus_2.js";
+import Interface from "./interface.js";
+import MenuButtons from "./menu_btns.js";
+import Tutorial from "./tutorial.js";
+import LoseScreen from "./lose_screen.js";
+import WinScreen from "./win_screen.js";
+import Gates from "./gates.js";
+import Map from "./map.js";
+import Boss from "./boss.js";
+import Button from "./buttons.js";
+
 var button = new Button;
 var timer;
 var bullet;
@@ -25,7 +44,7 @@ var noto_sans_bold;
 
 var config_room;
 
-function setup() {
+window.setup = function() {
   fredoka_medium = loadFont("fonts/Fredoka/Fredoka-Medium.ttf")
   noto_sans_bold = loadFont("fonts/Noto_Sans/NotoSans-Bold.ttf")
 
@@ -35,10 +54,10 @@ function setup() {
   cnv.style('margin', 'auto');
   scaleSize = Window.SetScale(canvas);
 
-  win = new WinScreen(canvas);
-  lose = new LoseScreen(canvas);
-  tutorial = new Tutorial(canvas);
-  menu_btns = new MenuButtons(canvas);
+  win = new WinScreen(canvas, fredoka_medium);
+  lose = new LoseScreen(canvas, fredoka_medium);
+  tutorial = new Tutorial(canvas, fredoka_medium, noto_sans_bold);
+  menu_btns = new MenuButtons(canvas, fredoka_medium);
 }
 
 function windowResized() {
@@ -53,12 +72,12 @@ function windowResized() {
   if (map_l1) { map_l1.set_border(walls) };
 }
 
-function keyPressed() {
+window.keyPressed = function() {
   button.handler(keyCode, true)
   return false; // prevent any default behaviour
 }
 
-function keyReleased() {
+window.keyReleased = function() {
   button.handler(keyCode, false)
   return false; // prevent any default behavior
 }
@@ -188,8 +207,8 @@ function gameLoop() {
 
   Interface.leftBlock(walls);
   Interface.rightBlock(walls);
-  Interface.crowHealth(walls, crow.healthMax, crow.health);
-  Interface.MapHint(walls)
+  Interface.crowHealth(walls, crow.healthMax, crow.health, fredoka_medium);
+  Interface.MapHint(walls, fredoka_medium)
   walls.Draw();
 
   if (crow.health <= 0) {
@@ -198,7 +217,7 @@ function gameLoop() {
   if (enemy.length === 0 && (!boss || boss.health <= 0)) {
     map_l1.set_this_room_empty();
     gates.draw(map_l1);
-    gates.move(map_l1, crow);
+    crow, gameCondition = gates.move(map_l1, crow, gameCondition);
     if (boss && boss.health <= 0) {
       gameCondition = "win";
     }
@@ -212,7 +231,7 @@ function gameLoop() {
 
 function mainMenu() {
   background('#1a1c1d');
-  menu_btns.draw();
+  gameCondition = menu_btns.draw(gameCondition);
   tutorial.draw(button);
 }
 
@@ -228,16 +247,16 @@ function mapDraw() {
 function loseScreen() {
   background('#1a1c1d');
   let enemiesAtAll = crow.killed_enemies - (enemiesAlreadySpawned - enemy.length) + config_room.enemiesAtAll;
-  lose.draw(button, crow.killed_enemies, enemiesAtAll);
+  gameCondition = lose.draw(button, crow.killed_enemies, enemiesAtAll, gameCondition);
 }
 
 function winScreen() {
   background('#1a1c1d');
   let enemiesAtAll = crow.killed_enemies - (enemiesAlreadySpawned - enemy.length) + config_room.enemiesAtAll;
-  win.draw(button, crow.killed_enemies, enemiesAtAll, crow);
+  gameCondition = win.draw(button, crow.killed_enemies, enemiesAtAll, crow, gameCondition);
 }
 
-function draw() {
+window.draw= function() {
   switch (gameCondition) {
     case "prepare": prepareGameLoop(); break;
     case "prepare_lvl": prepareLevel(); break;

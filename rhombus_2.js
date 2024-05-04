@@ -1,4 +1,6 @@
-class Rhombus_2 extends Enemy {
+import Enemy from "./enemy.js";
+
+export default class Rhombus_2 extends Enemy {
   constructor(x, y, health, speed) {
     super(x, y, health, speed);
     this.height = 40;

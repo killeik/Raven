@@ -1,5 +1,5 @@
-class Tutorial {
-    constructor(canvas) {
+export default class Tutorial {
+    constructor(canvas, font_fredoka, font_noto) {
         this.x1 = canvas.width / 3;
         this.y1 = canvas.height / 18;
         this.x2 = canvas.width / 20 * 19;
@@ -7,6 +7,9 @@ class Tutorial {
 
         this.width = this.x2 - this.x1;
         this.height = this.y2 - this.y1;
+
+        this.font_fredoka = font_fredoka;
+        this.font_noto = font_noto;
     }
     draw(button) {
         this.Border();
@@ -26,7 +29,7 @@ class Tutorial {
 
     Tutorial() {
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 10);
+        textFont(this.font_fredoka, this.width / 10);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('How to play:', this.x1 + (this.width / 2), this.y1 + (this.height / 15));
@@ -38,8 +41,9 @@ class Tutorial {
         this.S(button.s);
         this.D(button.d);
 
+        
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('move', this.x1 + (this.width / 2), this.y1 * 7.2);
@@ -56,7 +60,7 @@ class Tutorial {
         rect(this.x1 * 1.55, this.y1 * 5, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('w', this.x1 * 1.55 + this.width / 24, this.y1 * 5 + this.width / 36)
@@ -74,7 +78,7 @@ class Tutorial {
         rect(this.x1 * 1.75, this.y1 * 5, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('a', this.x1 * 1.75 + this.width / 24, this.y1 * 5 + this.width / 36)
@@ -91,7 +95,7 @@ class Tutorial {
         rect(this.x1 * 1.95, this.y1 * 5, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('s', this.x1 * 1.95 + this.width / 24, this.y1 * 5 + this.width / 36)
@@ -108,7 +112,7 @@ class Tutorial {
         rect(this.x1 * 2.15, this.y1 * 5, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('d', this.x1 * 2.15 + this.width / 24, this.y1 * 5 + this.width / 36)
@@ -121,7 +125,7 @@ class Tutorial {
         this.Right(button.right);
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('shoot', this.x1 + (this.width / 2), this.y1 * 11.3);
@@ -138,7 +142,7 @@ class Tutorial {
         rect(this.x1 * 1.55, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(noto_sans_bold, this.width / 12);
+        textFont(this.font_noto, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('←', this.x1 * 1.55 + this.width / 24, this.y1 * 9 + this.width / 80)
@@ -155,7 +159,7 @@ class Tutorial {
         rect(this.x1 * 1.75, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(noto_sans_bold, this.width / 12);
+        textFont(this.font_noto, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('↑', this.x1 * 1.75 + this.width / 24, this.y1 * 9 + this.width / 50)
@@ -173,7 +177,7 @@ class Tutorial {
         rect(this.x1 * 1.95, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(noto_sans_bold, this.width / 12);
+        textFont(this.font_noto, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('↓', this.x1 * 1.95 + this.width / 24, this.y1 * 9 + this.width / 50)
@@ -190,14 +194,14 @@ class Tutorial {
         rect(this.x1 * 2.15, this.y1 * 9, this.width / 12, this.width / 12, this.width / 40);
 
         fill("#CCC");
-        textFont(noto_sans_bold, this.width / 12);
+        textFont(this.font_noto, this.width / 12);
         strokeWeight(this.width / 150);
         textAlign(CENTER, CENTER)
         text('→', this.x1 * 2.15 + this.width / 24, this.y1 * 9 + this.width / 80)
     }
     Map(button) {
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('map', this.x1 + (this.width / 3), this.y1 * 15.2);
@@ -217,7 +221,7 @@ class Tutorial {
         rect(this.x1 * 1.55, this.y1 * 13, this.width / 12, this.width / 12, this.width / 40)
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('m', this.x1 * 1.55 + this.width / 24, this.y1 * 13 + this.width / 40)
@@ -225,7 +229,7 @@ class Tutorial {
 
     Return(button) {
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('return', this.x1 + (this.width / 1.5), this.y1 * 15.2);
@@ -245,7 +249,7 @@ class Tutorial {
         rect(this.x1 * 2, this.y1 * 13, this.width / 4.2, this.width / 12, this.width / 40)
 
         fill("#CCC");
-        textFont(fredoka_medium, this.width / 13);
+        textFont(this.font_fredoka, this.width / 13);
         strokeWeight(0);
         textAlign(CENTER, CENTER)
         text('Enter', this.x1 * 2.15 + this.width / 24, this.y1 * 13 + this.width / 36)
